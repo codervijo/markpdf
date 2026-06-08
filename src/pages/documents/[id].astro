@@ -1,0 +1,14 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { DocEditor } from "@/components/DocEditor";
+
+// Maps the source's dynamic route "/documents/$id". Under static output Astro
+// needs at least one concrete path; the editor reads the real id from the URL
+// at runtime (client-only). See src/lib/server-todo.md for the hosting caveat.
+export function getStaticPaths() {
+  return [{ params: { id: "preview" } }];
+}
+---
+<Layout title="Edit document — Markpdf">
+  <DocEditor client:only="react" />
+</Layout>

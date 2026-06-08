@@ -1,8 +1,21 @@
 ---
 // src/pages/index.astro
+// Standalone <head> (not via Layout) so src/__tests__/seo.test.js can read the
+// SEO baseline tags directly from this file. Body is the ported Landing island.
+import "../styles/global.css";
+import { Landing } from "@/components/Landing";
+
 const site = "https://markpdf.dev";
-const title = "markpdf.dev";
-const description = "<fill in: 1-2 sentence value prop for SEO description>";
+const title = "Markpdf — Markdown to branded client PDFs";
+const description = "Markpdf turns plain markdown proposals into polished, branded client PDFs in seconds. Write in markdown, send like a design agency.";
+
+const themeScript = `
+  (function() {
+    var t = localStorage.getItem("markpdf-theme") || "system";
+    var d = t === "system" ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : t;
+    if (d === "dark") document.documentElement.classList.add("dark");
+  })();
+`;
 ---
 <!doctype html>
 <html lang="en">
@@ -17,7 +30,7 @@ const description = "<fill in: 1-2 sentence value prop for SEO description>";
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content="Write in markdown. Send like a design agency." />
     <meta property="og:url" content={site} />
     <meta property="og:site_name" content="markpdf.dev" />
 
@@ -26,8 +39,15 @@ const description = "<fill in: 1-2 sentence value prop for SEO description>";
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
 
-    <!-- JSON-LD structured data: Organization + WebSite (static; domain
-         is known at scaffold time. Update description by hand if needed.) -->
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+
+    <!-- JSON-LD structured data: Organization + WebSite -->
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -48,11 +68,9 @@ const description = "<fill in: 1-2 sentence value prop for SEO description>";
   ]
 }
     </script>
+    <script is:inline set:html={themeScript} />
   </head>
   <body>
-    <main>
-      <h1>{title}</h1>
-      <p>Scaffolded via <code>portfolio new bootstrap</code>.</p>
-    </main>
+    <Landing client:load />
   </body>
 </html>
