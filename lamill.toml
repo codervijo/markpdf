@@ -1,0 +1,57 @@
+# lamill.toml — per-site config consumed by lamill (portfolio/ops) and rankmill (content/audits).
+# [content] = stable identity, authored by hand. [todo] = volatile work state.
+# rankmill output lives in sites/<domain>/rankmill-output/, not here.
+
+schema = "lamill-toml-v1"
+
+[deploy]
+platform = "cf-pages"
+production_branch = "main"
+custom_domains = [
+    "markpdf.dev",
+]
+
+[index]
+indexnow_key = "eab8da0ca6bf68fcc44584646a605651"
+indexnow_enabled = true
+
+[stack]
+framework = "astro"
+
+# Tracked todos for markpdf.dev. status: "done" | "open".
+[[todo]]
+status = "open"
+priority = "medium"
+task = "Check SEO: GSC indexation + coverage (revisit ~2026-06-21)"
+
+[[todo]]
+status = "open"
+priority = "medium"
+task = "Verify GA4 is receiving data (check Realtime after first traffic)"
+
+[[todo]]
+status = "open"
+priority = "low"
+task = "Confirm GSC verification + sitemap submitted (re-run deploy if it timed out)"
+
+[content]
+# Declarative content identity for this site.
+# Authored by the human; consumed by rankmill to generate drafts and run audits.
+# Leave fields empty until you have a deliberate answer. Empty is better than wrong.
+site_type = "tool"
+primary_keyword = "markdown proposal templates"
+secondary_keywords = [
+    "SOW examples in markdown",
+    "freelancer proposal workflows",
+    "client-ready PDF generation from markdown",
+    "Google Docs vs markdown for proposals",
+    "Canva vs markdown for proposals",
+    "Notion vs markdown for proposals",
+    "Pandoc comparisons for markdown-to-PDF",
+    "Typst comparisons for markdown-to-PDF",
+]
+icp = "The ideal customer is a solo technical consultant or small dev agency that writes proposals, SOWs, audits, or project briefs in markdown but wastes time making them look professional in Canva, Google Docs, Notion, or PDF tools. They care about speed, polish, consistency, and repeatability. They are comfortable with markdown, value CLI/editor-friendly workflows, and will pay to remove formatting work from every client document."
+urgency_trigger = "ongoing time wasted formatting client documents"
+penalty = "wasted time and inconsistent, non‑professional client documents"
+tone = "direct, developer-focused, no-fluff"
+law = ""                  # statute or regulation if applicable, else empty
