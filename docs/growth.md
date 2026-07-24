@@ -64,3 +64,11 @@ https://search.google.com/search-console directly.
 - **Action:** project scaffolded via `portfolio new bootstrap`; first deploy pending. After deploy: verify in GSC as `sc-domain:markpdf.dev` and submit the sitemap.
 - **Result:** TBD — review 2026-07-05
 - **Learning:** TBD
+
+## 2026-07-23 — submitted child sitemap directly to nudge GSC crawl
+- **Status:** active
+- **KPI:** GSC "Discovered pages" on the `sitemap-0.xml` row (and, downstream, indexed-page count)
+- **Baseline:** GSC Sitemaps report — `sitemap-index.xml` submitted Jun 18, last read Jun 21, status Success, **0 discovered pages**. Sitemap chain verified healthy: index → `sitemap-0.xml` → 8 valid URLs, all HTTP 200, only robots meta is `index, follow` (no `noindex`). So the 0 is GSC reporting lag on a fresh domain, not a broken sitemap.
+- **Action:** submitted the child sitemap directly via `lamill settings gsc submit-sitemap --site markpdf.dev --url https://markpdf.dev/sitemap-0.xml` (Webmasters API PUT). The child row's discovered count tends to populate faster than the index row. No site change — GSC-side diagnostic nudge only.
+- **Result:** TBD — review 2026-08-20
+- **Learning:** TBD. Caveat noted at submit time: 5 of the 8 sitemap URLs are auth-gated app routes (`/auth/`, `/dashboard/`, `/brand-kit/`, `/documents/*`) with no indexable content — this nudge cannot produce SEO traffic on its own; that still depends on shipping real v1 content.
