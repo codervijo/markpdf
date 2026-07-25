@@ -77,17 +77,25 @@ docker exec -w /usr/src/app <name> make test proj=markpdf.dev
 
 ## Deployment info
 
-- **Platform:** Cloudflare Workers (Static Assets) — *not* Vercel.
-- **Config:** `wrangler.jsonc` at the repo root — points `assets.directory` at `./dist` and uses `not_found_handling: "single-page-application"` for SPA client-side routing.
+- **Platform:** Cloudflare **Pages** (Git integration, auto-builds on push to
+  `main`) — *not* Vercel, and *not* Workers. Confirmed via
+  `lamill project hosting markpdf.dev` → `platform: cloudflare-pages`. This
+  matters: **Pages ignores `wrangler.jsonc`'s `assets.not_found_handling`.**
+- **404 / not-found behavior:** handled by `dist/404.html` (from
+  `src/pages/404.astro`) — Pages serves it with a real 404 status for unmatched
+  routes. Without it, unknown paths fall back to `index.html` with a soft-200.
+  The `not_found_handling` value in `wrangler.jsonc` is inert on Pages (kept
+  only for a hypothetical future move to Workers).
+- **Config:** `wrangler.jsonc` at the repo root points `assets.directory` at `./dist`.
 - **Headers:** `public/_headers` — cache (`/assets/*` immutable, HTML no-cache) + security headers (`X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`). Vite copies `public/` into `dist/` at build, so the file ships with the assets.
-- **Build:** `pnpm build` → `dist/`. Wrangler picks up `dist/` via `wrangler.jsonc`.
+- **Build:** `pnpm build` → `dist/`. Cloudflare Pages runs the build and serves `dist/`.
 - **Deploy:** `wrangler deploy` (locally) or via Cloudflare's Git integration on push.
   Initial GitHub repo + CF Pages project setup is automated by the portfolio CLI:
   `cd ../portfolio && make run ARGS="deploy markpdf.dev"` runs `gh repo create` and
   POSTs to the CF Pages API with `build_command="pnpm run build"` set explicitly
   (avoids the bun-detection trap kwizicle.com hit). Idempotent; safe to re-run.
 - **Vite version:** must be ≥ 6.0.0 — Wrangler's Vite integration rejects Vite 5.
-- **Env vars:** set `VITE_*` vars (e.g. `VITE_GA_ID`) in the Cloudflare Workers project's environment-variable settings — they're inlined at build time.
+- **Env vars:** set `VITE_*` vars (e.g. `VITE_GA_ID`) in the Cloudflare Pages project's environment-variable settings — they're inlined at build time.
 - **Live URL:** https://markpdf.dev/  *(update once first deploy succeeds)*
 - **Legacy:** if a `vercel.json` or `.vercelignore` is present from a Lovable export, it's inert on Cloudflare and safe to delete.
 
