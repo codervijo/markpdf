@@ -1,0 +1,69 @@
+---
+import TemplatePage from "@/components/TemplatePage.astro";
+
+const howToSteps = [
+  { name: "Start with the objective", text: "Open with one paragraph on the outcome the project delivers — the business goal, not a task list. Everything downstream is judged against this." },
+  { name: "List deliverables concretely", text: "Name each output and its format ('a 20-page PDF audit', 'a deployed staging site'). Concrete deliverables are what make a SOW enforceable and acceptable." },
+  { name: "Define acceptance criteria", text: "For each deliverable, state how it's judged complete and the review window. Ambiguous acceptance is the top cause of 'it's not done' disputes." },
+  { name: "State what's out of scope", text: "List the near-misses people assume are included. Exclusions prevent more scope creep than any other section." },
+  { name: "Set milestones and dates", text: "Tie deliverables to target dates and review gates, and note the dependency on timely client feedback." },
+  { name: "Add assumptions and change control", text: "List what the plan depends on, and a rule that scope/schedule/fee changes go through a written change request before work proceeds." },
+  { name: "Add fees, payment, and sign-off", text: "State the fee basis, payment schedule, and a signature block. Then export a clean PDF for signature." },
+];
+
+const faq = [
+  { q: "What is a scope of work?", a: "A scope of work is the document that defines exactly what a project will deliver: the objective, the deliverables, how they'll be accepted, what's excluded, the schedule, and the terms. It turns a vague agreement into something both sides can point to." },
+  { q: "What's the difference between a scope of work and a statement of work?", a: "They overlap and are often used interchangeably. In strict usage, a statement of work (SOW) is the broader engagement document — scope, schedule, payment, and terms, often under a master agreement — while the scope of work is the part that describes the work and deliverables. For most freelance and small-agency projects, a single well-written document covers both." },
+  { q: "Who writes the scope of work?", a: "Usually the provider (freelancer, consultant, or agency), because they know the work best. The client reviews and agrees. Writing it yourself is an advantage — you get to define the boundaries before the work starts." },
+  { q: "How detailed should a scope of work be?", a: "Detailed enough that a stranger could tell whether each deliverable was met. Name deliverables and formats, define acceptance, and list exclusions. Avoid padding — precision on deliverables matters more than length." },
+  { q: "Is a scope of work legally binding?", a: "It depends on how it's executed and what it's attached to — often it's incorporated into a signed agreement. Treat it as a business document, keep the terms clear, and have a lawyer review any contractual language for your situation. This guide is not legal advice." },
+];
+
+const related = [
+  { title: "Scope of Work Template", href: "/templates/scope-of-work/", docType: "SOW" },
+  { title: "Statement of Work Template", href: "/templates/statement-of-work/", docType: "SOW" },
+  { title: "Consulting Proposal Template", href: "/templates/consulting-proposal/", docType: "Proposal" },
+];
+---
+
+<TemplatePage
+  title="How to Write a Scope of Work (Step by Step) | Markpdf"
+  description="A step-by-step guide to writing a scope of work: objective, deliverables, acceptance criteria, exclusions, timeline, and terms — with free templates to start from."
+  canonicalPath="/guide/how-to-write-a-scope-of-work/"
+  docType="Guide"
+  h1="How to Write a Scope of Work"
+  introText="A scope of work turns a vague agreement into something both sides can point to. This guide walks through each section — objective, deliverables, acceptance criteria, exclusions, timeline, and terms — with practical guidance and free templates to start from."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Guides", href: "/guide/how-to-write-a-scope-of-work/" },
+    { name: "How to Write a Scope of Work" },
+  ]}
+  howToTitle="How to write a scope of work, step by step"
+  howToSteps={howToSteps}
+  faq={faq}
+  related={related}
+>
+  <section class="mt-16" aria-labelledby="contain-heading">
+    <h2 id="contain-heading" class="font-serif text-3xl tracking-tight">What a scope of work should contain</h2>
+    <p class="mt-4 text-muted-foreground">Each section answers a question the other party will otherwise ask later.</p>
+    <dl class="mt-6 space-y-5">
+      <div><dt class="font-medium">Purpose / objective</dt><dd class="text-sm text-muted-foreground mt-1">The outcome in business terms. Anchors every other decision.</dd></div>
+      <div><dt class="font-medium">Deliverables</dt><dd class="text-sm text-muted-foreground mt-1">The concrete outputs and their formats — the spine of the document.</dd></div>
+      <div><dt class="font-medium">Acceptance criteria</dt><dd class="text-sm text-muted-foreground mt-1">How each deliverable is judged done, and the review window.</dd></div>
+      <div><dt class="font-medium">Exclusions</dt><dd class="text-sm text-muted-foreground mt-1">What is explicitly not included — your best defence against scope creep.</dd></div>
+      <div><dt class="font-medium">Timeline & milestones</dt><dd class="text-sm text-muted-foreground mt-1">Dates tied to deliverables and review gates.</dd></div>
+      <div><dt class="font-medium">Assumptions & dependencies</dt><dd class="text-sm text-muted-foreground mt-1">What the plan relies on, so delays have a clear owner.</dd></div>
+      <div><dt class="font-medium">Change control</dt><dd class="text-sm text-muted-foreground mt-1">A written process for changing scope, schedule, or fees.</dd></div>
+      <div><dt class="font-medium">Fees & sign-off</dt><dd class="text-sm text-muted-foreground mt-1">The fee basis, payment schedule, and a signature block.</dd></div>
+    </dl>
+  </section>
+
+  <aside class="mt-12 rounded-xl border border-border bg-card p-6">
+    <h2 class="font-serif text-2xl tracking-tight">Start from a template</h2>
+    <p class="mt-2 text-sm text-muted-foreground">Skip the blank page — copy a ready-made version and adapt it:</p>
+    <div class="mt-4 flex flex-wrap gap-3 text-sm">
+      <a href="/templates/scope-of-work/" class="inline-flex items-center h-10 px-5 rounded-md bg-gradient-brand text-white hover:opacity-90 shadow-glow">Scope of Work template →</a>
+      <a href="/templates/statement-of-work/" class="inline-flex items-center h-10 px-5 rounded-md border border-border hover:bg-muted">Statement of Work template →</a>
+    </div>
+  </aside>
+</TemplatePage>

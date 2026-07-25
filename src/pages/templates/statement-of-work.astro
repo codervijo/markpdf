@@ -1,0 +1,88 @@
+---
+import TemplatePage from "@/components/TemplatePage.astro";
+import { getEntry } from "astro:content";
+
+// NOTE: noindex + excluded from sitemap pending a legal review of the
+// contractual language. To index: set noindex:false here and in the .md
+// frontmatter, remove this page from the astro.config.mjs sitemap filter, and
+// delete the review banner below.
+const entry = await getEntry("templates", "statement-of-work");
+const templateMd = (entry?.body ?? "").trim();
+
+const howToSteps = [
+  { name: "Copy or download the template", text: "Grab the markdown with Copy markdown or Download .md." },
+  { name: "Reference your governing agreement", text: "If this SOW sits under a master services agreement, cite it; otherwise state that this document is the whole agreement." },
+  { name: "Summarise scope, detail deliverables", text: "Keep scope to a summary and put the specifics — with acceptance criteria — in the deliverables table." },
+  { name: "Fill payment and acceptance terms", text: "State the fee basis, payment schedule, and how deliverables are accepted." },
+  { name: "Complete IP, term, and change control", text: "Set ownership on payment, termination notice, and the written change process." },
+  { name: "Export a clean PDF for signature", text: "Paste into Markpdf, apply your brand, and export a PDF ready to sign." },
+];
+
+const faq = [
+  { q: "What is a statement of work?", a: "A statement of work (SOW) is the document that formalises an engagement: scope, deliverables, schedule, payment, acceptance, and terms. It's frequently issued under a broader master services agreement and signed by both parties." },
+  { q: "Statement of work vs scope of work — what's the difference?", a: "A statement of work is the broader engagement document (scope, schedule, payment, IP, termination); the scope of work is the portion that describes the work and deliverables. In strict contracting they're distinct; in freelance and small-agency work a single document often serves as both." },
+  { q: "What should a statement of work include?", a: "Parties and governing agreement, background, scope summary, deliverables with acceptance criteria, exclusions, schedule, fees and payment, acceptance, assumptions, change control, IP ownership, term and termination, and signatures." },
+  { q: "Who signs the statement of work?", a: "Authorised representatives of both the client and the provider. It's typically executed before work begins, and each change request is signed off the same way." },
+  { q: "Is a statement of work a contract?", a: "It's often the contractual layer of an engagement, especially when issued under a master agreement — but whether and how it binds depends on execution and jurisdiction. Have a lawyer review the terms for your situation. This is not legal advice." },
+];
+
+const related = [
+  { title: "Scope of Work Template", href: "/templates/scope-of-work/", docType: "SOW" },
+  { title: "Consulting Proposal Template", href: "/templates/consulting-proposal/", docType: "Proposal" },
+  { title: "How to Write a Scope of Work", href: "/guide/how-to-write-a-scope-of-work/", docType: "Guide" },
+];
+---
+
+<TemplatePage
+  title="Statement of Work Template (Free, Markdown) | Markpdf"
+  description="A free statement of work (SOW) template in markdown — scope, deliverables, schedule, payment, acceptance, and terms. Copy or download it, then export a PDF."
+  canonicalPath="/templates/statement-of-work/"
+  docType="SOW"
+  h1="Statement of Work Template"
+  introText="A statement of work template in markdown — scope, deliverables with acceptance criteria, schedule, payment, IP, and termination. Copy or download it, fill in the specifics, and export a PDF for signature."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Templates", href: "/templates/" },
+    { name: "Statement of Work Template" },
+  ]}
+  templateMd={templateMd}
+  downloadName="statement-of-work.md"
+  ctaText="Paste this into Markpdf to export it as a clean, branded PDF ready for signature."
+  howToTitle="How to use this template"
+  howToSteps={howToSteps}
+  faq={faq}
+  related={related}
+  noindex={true}
+>
+  <div slot="notice" class="mt-6 rounded-lg border border-amber-500/40 bg-amber-500/10 p-4 text-sm">
+    <p class="font-medium">⚠ Internal: review before indexing — currently <code>noindex</code> + excluded from sitemap.</p>
+    <p class="mt-1 text-muted-foreground">The template uses conventional default wording for the terms that carry contractual weight — <strong>payment</strong> (Net 30, late interest capped at the legal maximum), <strong>acceptance</strong> (deemed-accepted window), <strong>intellectual property</strong>, <strong>term &amp; termination</strong>, and <strong>change control</strong>. These are editable defaults, not legal advice; have them reviewed for your jurisdiction and standard agreement, then clear the page for indexing.</p>
+  </div>
+
+  <section class="mt-16" aria-labelledby="vs-heading">
+    <h2 id="vs-heading" class="font-serif text-3xl tracking-tight">Statement of work vs scope of work</h2>
+    <p class="mt-4 text-muted-foreground">People use these interchangeably, but there's a useful distinction:</p>
+    <div class="mt-6 grid sm:grid-cols-2 gap-4 text-sm">
+      <div class="rounded-lg border border-border bg-card p-5">
+        <p class="font-medium">Statement of Work (SOW)</p>
+        <p class="mt-1 text-muted-foreground">The full engagement document: scope summary, deliverables, schedule, payment, IP, termination, and terms. Often issued under a master services agreement and signed.</p>
+      </div>
+      <div class="rounded-lg border border-border bg-card p-5">
+        <p class="font-medium">Scope of Work</p>
+        <p class="mt-1 text-muted-foreground">The portion that describes the work itself — deliverables, acceptance criteria, and exclusions. It can live inside an SOW or stand alone for smaller projects.</p>
+      </div>
+    </div>
+    <p class="mt-4 text-sm text-muted-foreground">For most freelance and small-agency work, one well-written document covers both. Need just the work definition? Use the <a href="/templates/scope-of-work/" class="underline underline-offset-2">scope of work template</a>.</p>
+  </section>
+
+  <section class="mt-16" aria-labelledby="include-heading">
+    <h2 id="include-heading" class="font-serif text-3xl tracking-tight">What to include in a statement of work (and why)</h2>
+    <dl class="mt-6 space-y-5">
+      <div><dt class="font-medium">Parties & governing agreement</dt><dd class="text-sm text-muted-foreground mt-1">Who's bound, and under what. <em>Mistake:</em> not stating whether it's standalone or under a master agreement.</dd></div>
+      <div><dt class="font-medium">Deliverables & acceptance</dt><dd class="text-sm text-muted-foreground mt-1">Outputs paired with how they're accepted. <em>Mistake:</em> deliverables with no acceptance criteria.</dd></div>
+      <div><dt class="font-medium">Fees & payment</dt><dd class="text-sm text-muted-foreground mt-1">Fee basis, schedule, and a not-to-exceed if time-based. <em>Mistake:</em> an open-ended time-and-materials clause with no ceiling.</dd></div>
+      <div><dt class="font-medium">IP & termination</dt><dd class="text-sm text-muted-foreground mt-1">Who owns what, and how either side exits. <em>Mistake:</em> silence on IP until there's a dispute.</dd></div>
+      <div><dt class="font-medium">Change control</dt><dd class="text-sm text-muted-foreground mt-1">A written path for changes. <em>Mistake:</em> absorbing scope changes for free.</dd></div>
+    </dl>
+  </section>
+</TemplatePage>

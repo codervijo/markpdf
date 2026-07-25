@@ -1,0 +1,73 @@
+---
+import TemplatePage from "@/components/TemplatePage.astro";
+import { getEntry } from "astro:content";
+
+const entry = await getEntry("templates", "freelance-proposal");
+const templateMd = (entry?.body ?? "").trim();
+
+const howToSteps = [
+  { name: "Copy or download the template", text: "Grab the markdown with Copy markdown or Download .md." },
+  { name: "Write the overview first", text: "One short paragraph restating the client's problem and your solution. It's the part everyone reads." },
+  { name: "List deliverables, not activities", text: "Name the concrete things they receive — 'a 1,500-word article', not 'writing'. Concrete deliverables are easier to price and to accept." },
+  { name: "Bound the revisions", text: "State how many revision rounds are included and the rate beyond that, so 'a few tweaks' doesn't become unpaid work." },
+  { name: "Set price and payment split", text: "A deposit plus a balance on delivery is the norm; add late terms if you've been burned." },
+  { name: "Export a branded PDF", text: "Paste into Markpdf, apply your brand, and send with a one-line next step." },
+];
+
+const faq = [
+  { q: "What goes in a freelance proposal?", a: "An overview of the problem and solution, a clear list of deliverables, your process, what's excluded, a timeline, price with payment terms, assumptions, and a next step. Keep it to one or two pages — freelance clients decide fast." },
+  { q: "How long should a freelance proposal be?", a: "As short as it can be while still covering scope, price, and terms — usually one to two pages. Lead with the overview and the price; put detail in deliverables, not preamble." },
+  { q: "Should I put the price in the proposal?", a: "Yes. Leaving price out just adds a round of email and stalls the decision. State the fee, what it includes, and the payment split. If scope is uncertain, offer a fixed fee for a bounded scope rather than an open range." },
+  { q: "How do I handle revisions without losing money?", a: "Say how many rounds are included and the hourly rate beyond that, in the terms. When extra requests arrive, point to the line and quote them — this keeps 'just one more change' from eating your margin." },
+  { q: "Do I need a contract too?", a: "A signed proposal is often enough for small projects. For anything larger or ongoing, pair it with a scope of work or statement of work that spells out deliverables, acceptance, and terms." },
+];
+
+const related = [
+  { title: "Consulting Proposal Template", href: "/templates/consulting-proposal/", docType: "Proposal" },
+  { title: "Web Design Proposal Template", href: "/templates/web-design-proposal/", docType: "Proposal" },
+  { title: "Scope of Work Template", href: "/templates/scope-of-work/", docType: "SOW" },
+];
+---
+
+<TemplatePage
+  title="Freelance Proposal Template (Free, Markdown) | Markpdf"
+  description="A free, general-purpose freelance proposal template in markdown — scope, deliverables, timeline and price. Copy or download it, then export a branded PDF."
+  canonicalPath="/templates/freelance-proposal/"
+  docType="Proposal"
+  h1="Freelance Proposal Template"
+  introText="A flexible freelance proposal in markdown that works for writing, design, dev, or marketing projects — overview, deliverables, timeline, and price. Copy or download it, fill it in, and send."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Templates", href: "/templates/" },
+    { name: "Freelance Proposal Template" },
+  ]}
+  templateMd={templateMd}
+  downloadName="freelance-proposal.md"
+  howToTitle="How to use this template"
+  howToSteps={howToSteps}
+  faq={faq}
+  related={related}
+>
+  <section class="mt-16" aria-labelledby="include-heading">
+    <h2 id="include-heading" class="font-serif text-3xl tracking-tight">What to include in a freelance proposal (and why)</h2>
+    <p class="mt-4 text-muted-foreground">Keep it lean — every section should earn its place.</p>
+    <dl class="mt-6 space-y-5">
+      <div><dt class="font-medium">Overview</dt><dd class="text-sm text-muted-foreground mt-1">Problem and solution in a few sentences. <em>Mistake:</em> opening with your bio instead of their problem.</dd></div>
+      <div><dt class="font-medium">Deliverables</dt><dd class="text-sm text-muted-foreground mt-1">The concrete outputs they receive. <em>Mistake:</em> listing activities ("consulting") instead of deliverables ("a 10-page audit").</dd></div>
+      <div><dt class="font-medium">Process & not-included</dt><dd class="text-sm text-muted-foreground mt-1">How you work, plus what's out of scope. <em>Mistake:</em> no exclusions, so extras feel "owed".</dd></div>
+      <div><dt class="font-medium">Timeline</dt><dd class="text-sm text-muted-foreground mt-1">A few dated milestones. <em>Mistake:</em> promising a date without noting it depends on their feedback.</dd></div>
+      <div><dt class="font-medium">Price & terms</dt><dd class="text-sm text-muted-foreground mt-1">Fee, payment split, revision limits. <em>Mistake:</em> a number with no payment schedule.</dd></div>
+    </dl>
+  </section>
+
+  <section class="mt-16" aria-labelledby="example-heading">
+    <h2 id="example-heading" class="font-serif text-3xl tracking-tight">Freelance proposal example</h2>
+    <p class="mt-4 text-muted-foreground">A filled-in snapshot for a content project. Numbers are illustrative — use your own.</p>
+    <div class="mt-6 rounded-lg border border-border bg-card p-6 text-sm space-y-3">
+      <p><strong>Prepared for:</strong> Loop Software · <strong>By:</strong> J. Okafor · <strong>Valid until:</strong> 30 days</p>
+      <p><strong>Overview:</strong> Loop's blog is stalled. This project delivers a 6-article content sprint to restart organic traffic.</p>
+      <p><strong>Deliverables:</strong> 6 × 1,200-word articles, briefs, and one revision round each. <strong>Not included:</strong> publishing/CMS entry, images.</p>
+      <p><strong>Price:</strong> <strong>$3,000</strong> — 50% ($1,500) to start, 50% on delivery <span class="text-muted-foreground">(illustrative)</span>.</p>
+    </div>
+  </section>
+</TemplatePage>

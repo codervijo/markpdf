@@ -1,0 +1,74 @@
+---
+import TemplatePage from "@/components/TemplatePage.astro";
+import { getEntry } from "astro:content";
+
+const entry = await getEntry("templates", "web-design-proposal");
+const templateMd = (entry?.body ?? "").trim();
+
+const howToSteps = [
+  { name: "Copy or download the template", text: "Grab the full markdown with Copy markdown or Download .md." },
+  { name: "Fill in the pages table", text: "List the actual pages and templates the site needs. This is the heart of a web design proposal — vague page lists cause scope fights later." },
+  { name: "Draw the line on scope", text: "Be explicit about what's included vs an add-on (copywriting, photography, ongoing edits). Web projects creep faster than any other." },
+  { name: "Set milestones with review gates", text: "Tie the timeline to sign-off gates (wireframes, then visual design) so approvals don't slip." },
+  { name: "Price it and add a deposit", text: "Fixed fee plus a deposit to book the start date protects your calendar." },
+  { name: "Export a branded PDF and send", text: "Paste into Markpdf, apply your brand kit, and send a polished PDF with a clear next step." },
+];
+
+const faq = [
+  { q: "What should a web design proposal include?", a: "Project goals, the current situation, a concrete page/template list, what's in and out of scope, a phased timeline with review gates, pricing with a deposit, assumptions, and terms. The page list and the out-of-scope section are what prevent disputes." },
+  { q: "How much detail should the scope have?", a: "Enough that both sides can point to it later. List every page and template by name, note how many instances of each, and state exclusions plainly. 'A website' is not scope; 'home, one services template ×4, about, contact' is." },
+  { q: "Should I charge a deposit for web design work?", a: "Yes — a deposit (commonly around half) books your start date and filters out clients who aren't ready. Tie the remainder to launch, and state that the deposit is non-refundable if they cancel." },
+  { q: "How do I stop scope creep on a website project?", a: "Two things: an explicit out-of-scope list, and a change-control line that says new requests are quoted separately. Point back to the proposal when a 'quick extra page' appears." },
+  { q: "Proposal or contract — which is this?", a: "This is a proposal: it pitches the project and gets a yes. For detailed delivery terms and acceptance criteria, pair it with a scope of work or statement of work." },
+];
+
+const related = [
+  { title: "Consulting Proposal Template", href: "/templates/consulting-proposal/", docType: "Proposal" },
+  { title: "Freelance Proposal Template", href: "/templates/freelance-proposal/", docType: "Proposal" },
+  { title: "Scope of Work Template", href: "/templates/scope-of-work/", docType: "SOW" },
+];
+---
+
+<TemplatePage
+  title="Web Design Proposal Template (Free, Markdown) | Markpdf"
+  description="A free web design proposal template in markdown — goals, page list, scope, timeline and pricing. Copy or download it, then export a branded client PDF."
+  canonicalPath="/templates/web-design-proposal/"
+  docType="Proposal"
+  h1="Web Design Proposal Template"
+  introText="A complete web design proposal in markdown — goals, page list, scope, timeline, and pricing, written for freelance designers and developers. Copy or download it, fill in the specifics, and send."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Templates", href: "/templates/" },
+    { name: "Web Design Proposal Template" },
+  ]}
+  templateMd={templateMd}
+  downloadName="web-design-proposal.md"
+  howToTitle="How to use this template"
+  howToSteps={howToSteps}
+  faq={faq}
+  related={related}
+>
+  <section class="mt-16" aria-labelledby="include-heading">
+    <h2 id="include-heading" class="font-serif text-3xl tracking-tight">What to include in a web design proposal (and why)</h2>
+    <p class="mt-4 text-muted-foreground">Each section does a job. Here's what goes in it and the mistake to avoid.</p>
+    <dl class="mt-6 space-y-5">
+      <div><dt class="font-medium">Project goals</dt><dd class="text-sm text-muted-foreground mt-1">The outcome the site must produce, in business terms. <em>Mistake:</em> describing the design ("modern, clean") instead of the result ("book more calls").</dd></div>
+      <div><dt class="font-medium">Current situation</dt><dd class="text-sm text-muted-foreground mt-1">What exists and why it falls short. <em>Mistake:</em> skipping it — it's how you justify the project's value.</dd></div>
+      <div><dt class="font-medium">Page & template list</dt><dd class="text-sm text-muted-foreground mt-1">Every page and reusable template, by name and count. <em>Mistake:</em> a fuzzy list that lets "just one more page" balloon the build.</dd></div>
+      <div><dt class="font-medium">In / out of scope</dt><dd class="text-sm text-muted-foreground mt-1">Especially content, photography, and post-launch edits. <em>Mistake:</em> assuming the client knows copywriting isn't included.</dd></div>
+      <div><dt class="font-medium">Timeline with gates</dt><dd class="text-sm text-muted-foreground mt-1">Phases tied to wireframe and design sign-offs. <em>Mistake:</em> dates with no dependency on client feedback speed.</dd></div>
+      <div><dt class="font-medium">Investment & deposit</dt><dd class="text-sm text-muted-foreground mt-1">Fixed fee, optional add-ons, and a deposit to book. <em>Mistake:</em> no deposit, so the start date isn't protected.</dd></div>
+    </dl>
+  </section>
+
+  <section class="mt-16" aria-labelledby="example-heading">
+    <h2 id="example-heading" class="font-serif text-3xl tracking-tight">Web design proposal example</h2>
+    <p class="mt-4 text-muted-foreground">A filled-in snapshot for a small business redesign. Numbers are illustrative — use your own.</p>
+    <div class="mt-6 rounded-lg border border-border bg-card p-6 text-sm space-y-3">
+      <p><strong>Prepared for:</strong> Bright Dental · <strong>By:</strong> Vera Studio · <strong>Valid until:</strong> 30 days</p>
+      <p><strong>Goal:</strong> Turn a dated 5-page site into a booking source — clear services, trust signals, and an online-booking CTA.</p>
+      <p><strong>Scope:</strong> home, services (1 template ×4), about, contact with booking. <strong>Out of scope:</strong> copywriting (add-on), ongoing edits after 14-day support.</p>
+      <p><strong>Timeline:</strong> 5 weeks — discovery, wireframes, design, build, launch. <strong>Investment:</strong> <strong>$7,500</strong> fixed, 50% ($3,750) deposit to book <span class="text-muted-foreground">(illustrative)</span>.</p>
+    </div>
+  </section>
+</TemplatePage>

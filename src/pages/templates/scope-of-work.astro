@@ -1,0 +1,83 @@
+---
+import TemplatePage from "@/components/TemplatePage.astro";
+import { getEntry } from "astro:content";
+
+// NOTE: noindex + excluded from sitemap pending a legal review of the
+// contractual language. To index: set noindex:false here and in the .md
+// frontmatter, remove this page from the astro.config.mjs sitemap filter, and
+// delete the review banner below.
+const entry = await getEntry("templates", "scope-of-work");
+const templateMd = (entry?.body ?? "").trim();
+
+const howToSteps = [
+  { name: "Copy or download the template", text: "Grab the markdown with Copy markdown or Download .md." },
+  { name: "Fill deliverables precisely", text: "Name each deliverable and its format. This section is what makes a SOW enforceable." },
+  { name: "Write acceptance criteria", text: "State how each deliverable is judged complete and the review window, so 'done' isn't a matter of opinion." },
+  { name: "List exclusions", text: "Spell out what's not included; anything else becomes a change request." },
+  { name: "Set change control and fees", text: "Keep the written change-request rule and fill in the payment schedule." },
+  { name: "Export a clean PDF for sign-off", text: "Paste into Markpdf, apply your brand, and export a PDF ready for signature." },
+];
+
+const faq = [
+  { q: "What is a scope of work?", a: "A scope of work defines exactly what a project will deliver — objective, deliverables, acceptance criteria, exclusions, timeline, and terms — so both parties can point to it if there's a question later." },
+  { q: "What's the difference between a scope of work and a statement of work?", a: "They overlap. A statement of work is the broader engagement document (scope, schedule, payment, terms); the scope of work is the part describing the work and deliverables. Many small projects use one document for both. See our statement of work template for the fuller version." },
+  { q: "What makes good acceptance criteria?", a: "Criteria a stranger could check: what the deliverable must include, the review window, and what happens if there's no response. Vague acceptance ('client is happy') is the most common source of delivery disputes." },
+  { q: "How do I handle changes after signing?", a: "Use the change-control section: new or changed work is requested in writing, you respond with the impact on scope, schedule, and cost, and work starts only after both sides approve. It keeps 'small extras' from eroding the project." },
+  { q: "Is a scope of work legally binding?", a: "It depends on how it's executed and what agreement it sits under. Treat it as a business document, keep terms clear, and have a lawyer review contractual language for your situation. This is not legal advice." },
+];
+
+const related = [
+  { title: "Statement of Work Template", href: "/templates/statement-of-work/", docType: "SOW" },
+  { title: "Consulting Proposal Template", href: "/templates/consulting-proposal/", docType: "Proposal" },
+  { title: "How to Write a Scope of Work", href: "/guide/how-to-write-a-scope-of-work/", docType: "Guide" },
+];
+---
+
+<TemplatePage
+  title="Scope of Work Template (Free, Markdown) | Markpdf"
+  description="A free scope of work (SOW) template in markdown — deliverables, acceptance criteria, assumptions, and change control. Copy or download it, then export a PDF."
+  canonicalPath="/templates/scope-of-work/"
+  docType="SOW"
+  h1="Scope of Work Template"
+  introText="A scope of work template in markdown — deliverables, acceptance criteria, exclusions, timeline, change control, and sign-off. Copy or download it, fill in the specifics, and export a PDF for signature."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Templates", href: "/templates/" },
+    { name: "Scope of Work Template" },
+  ]}
+  templateMd={templateMd}
+  downloadName="scope-of-work.md"
+  ctaText="Paste this into Markpdf to export it as a clean, branded PDF ready for signature."
+  howToTitle="How to use this template"
+  howToSteps={howToSteps}
+  faq={faq}
+  related={related}
+  noindex={true}
+>
+  <div slot="notice" class="mt-6 rounded-lg border border-amber-500/40 bg-amber-500/10 p-4 text-sm">
+    <p class="font-medium">⚠ Internal: review before indexing — currently <code>noindex</code> + excluded from sitemap.</p>
+    <p class="mt-1 text-muted-foreground">The template uses conventional default wording for the terms that carry contractual weight — <strong>acceptance criteria</strong> (deemed-accepted window), <strong>change control</strong>, and <strong>fees &amp; payment</strong>. These are editable defaults, not legal advice; have them reviewed for your jurisdiction and standard agreement, then clear the page for indexing.</p>
+  </div>
+
+  <section class="mt-16" aria-labelledby="include-heading">
+    <h2 id="include-heading" class="font-serif text-3xl tracking-tight">What to include in a scope of work (and why)</h2>
+    <dl class="mt-6 space-y-5">
+      <div><dt class="font-medium">Purpose</dt><dd class="text-sm text-muted-foreground mt-1">The objective in business terms. <em>Mistake:</em> jumping straight to tasks with no stated outcome.</dd></div>
+      <div><dt class="font-medium">Deliverables</dt><dd class="text-sm text-muted-foreground mt-1">Named outputs and formats. <em>Mistake:</em> listing effort instead of artifacts.</dd></div>
+      <div><dt class="font-medium">Acceptance criteria</dt><dd class="text-sm text-muted-foreground mt-1">How each deliverable is accepted, with a review window. <em>Mistake:</em> no criteria, so "done" is subjective.</dd></div>
+      <div><dt class="font-medium">Exclusions</dt><dd class="text-sm text-muted-foreground mt-1">What's not included. <em>Mistake:</em> leaving it implicit.</dd></div>
+      <div><dt class="font-medium">Change control</dt><dd class="text-sm text-muted-foreground mt-1">A written process for scope changes. <em>Mistake:</em> handling changes by email and forgetting to bill them.</dd></div>
+    </dl>
+  </section>
+
+  <section class="mt-16" aria-labelledby="example-heading">
+    <h2 id="example-heading" class="font-serif text-3xl tracking-tight">Scope of work example</h2>
+    <p class="mt-4 text-muted-foreground">A filled-in snapshot for a small data project. Illustrative only.</p>
+    <div class="mt-6 rounded-lg border border-border bg-card p-6 text-sm space-y-3">
+      <p><strong>Project:</strong> Sales dashboard · <strong>Client:</strong> Acme Retail · <strong>Provider:</strong> Rivera Analytics</p>
+      <p><strong>Deliverables:</strong> data audit memo (PDF), warehouse model (repo), 6-view dashboard.</p>
+      <p><strong>Acceptance:</strong> client reviews within 5 business days; deemed accepted if no defects listed.</p>
+      <p><strong>Out of scope:</strong> ad-platform setup, ongoing reporting. <strong>Fee:</strong> $12,000 fixed <span class="text-muted-foreground">(illustrative)</span>.</p>
+    </div>
+  </section>
+</TemplatePage>

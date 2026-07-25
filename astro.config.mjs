@@ -15,12 +15,17 @@ export default defineConfig({
     sitemap({
       filter: (page) =>
         ![
+          // auth-gated app routes (empty to crawlers, noindex)
           'https://markpdf.dev/auth/',
           'https://markpdf.dev/dashboard/',
           'https://markpdf.dev/brand-kit/',
           'https://markpdf.dev/documents/',
           'https://markpdf.dev/documents/new/',
           'https://markpdf.dev/documents/edit/',
+          // SOW templates — held from index pending legal review of the
+          // contractual language (noindex in their .astro/.md too).
+          'https://markpdf.dev/templates/scope-of-work/',
+          'https://markpdf.dev/templates/statement-of-work/',
         ].includes(page),
     }),
     react(),

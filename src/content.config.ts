@@ -19,6 +19,10 @@ const templates = defineCollection({
     // Rich templates get a hand-built page (src/pages/templates/<slug>.astro)
     // instead of the generic [slug] renderer. Still listed in the gallery.
     customPage: z.boolean().default(false),
+    // Held from the public gallery + sitemap + indexing (e.g. legal-ish SOW
+    // template language pending review). The page still builds and is reachable
+    // via cross-links.
+    noindex: z.boolean().default(false),
     updated: z.coerce.date().optional(),
   }),
 });

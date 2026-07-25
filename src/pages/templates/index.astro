@@ -2,9 +2,9 @@
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 
-const templates = (await getCollection("templates")).sort(
-  (a, b) => a.data.order - b.data.order,
-);
+const templates = (await getCollection("templates"))
+  .filter((t) => !t.data.noindex) // hold noindex templates (e.g. SOW pending review) out of the public gallery
+  .sort((a, b) => a.data.order - b.data.order);
 ---
 
 <Layout

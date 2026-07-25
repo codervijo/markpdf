@@ -100,7 +100,15 @@ export function Landing() {
             <h3 className="font-semibold text-foreground">Templates</h3>
             <ul className="mt-3 space-y-2 text-muted-foreground">
               <li><a href="/templates/consulting-proposal/" className="hover:text-foreground">Consulting proposal</a></li>
+              <li><a href="/templates/web-design-proposal/" className="hover:text-foreground">Web design proposal</a></li>
+              <li><a href="/templates/freelance-proposal/" className="hover:text-foreground">Freelance proposal</a></li>
               <li><a href="/templates/" className="hover:text-foreground">All templates</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-semibold text-foreground">Guides</h3>
+            <ul className="mt-3 space-y-2 text-muted-foreground">
+              <li><a href="/guide/how-to-write-a-scope-of-work/" className="hover:text-foreground">How to write a scope of work</a></li>
             </ul>
           </div>
           <div>
