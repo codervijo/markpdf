@@ -4,6 +4,10 @@
   "compatibility_date": "2026-06-07",
   "assets": {
     "directory": "./dist",
+    // NOTE: this site deploys via Cloudflare *Pages* (Git integration), which
+    // ignores this field. The real 404 behavior comes from dist/404.html
+    // (src/pages/404.astro): Pages serves it with a 404 status for unmatched
+    // routes. This value only applies if the project is ever moved to Workers.
     "not_found_handling": "404-page"
   }
 }
