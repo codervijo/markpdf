@@ -36,7 +36,7 @@ were re-implemented as a minimal fetch-on-mount shim in
 `src/lib/query-shim.tsx` (`useQuery` / `useMutation` / `useQueryClient`). It is
 **not** a full cache — no background refetch, retries, or stale-time logic.
 The authenticated pages (`dashboard`, `documents`, `documents/new`,
-`documents/[id]`, `brand-kit`) are mounted as **`client:only="react"`** islands
+`documents/edit`, `brand-kit`) are mounted as **`client:only="react"`** islands
 because they need a live Supabase session + browser storage and cannot be
 prerendered.
 
@@ -45,7 +45,8 @@ prerendered.
 - **Auth + live data**: the app pages require real `VITE_SUPABASE_URL` /
   `VITE_SUPABASE_PUBLISHABLE_KEY` env vars at build/runtime, and Supabase must be
   reachable from the browser. Without them the islands error on mount.
-- **`/documents/[id]`**: static output prerenders only the placeholder path
-  (`/documents/preview`). The editor reads the real id from the URL at runtime,
-  so serving arbitrary `/documents/<uuid>` URLs needs an SPA-style 404→app
-  fallback (or moving to an SSR adapter). Decide per hosting target.
+- **Document editing** (resolved 2026-07-24): the old dynamic `/documents/[id]`
+  route is gone. The editor now lives at the prerendered `/documents/edit/` page
+  and reads the id from the `?id=` query string at runtime. No route depends on
+  an SPA catch-all anymore, so `wrangler.jsonc` uses
+  `not_found_handling: "404-page"` and unknown paths return a real 404.

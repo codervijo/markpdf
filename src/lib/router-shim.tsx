@@ -1,9 +1,11 @@
 // router-shim — drop-in replacements for the bits of @tanstack/react-router
 // the ported UI used. Astro owns routing now; these map onto the browser.
 //
-// Route mapping note: the source's dynamic route "/documents/$id" maps to
-// Astro's "/documents/[id].astro". The editor reads the id from the path at
-// runtime; see src/lib/server-todo.md for the static-hosting caveat.
+// Route mapping note: the source's dynamic route "/documents/$id" is served by
+// the prerendered "/documents/edit/" page (src/pages/documents/edit.astro),
+// which reads the id from the "?id=" query string at runtime. No server-side
+// dynamic path means unknown URLs return a real 404 (not a soft-200 SPA
+// fallback) — see wrangler.jsonc not_found_handling: "404-page".
 import * as React from "react";
 
 type Params = Record<string, string | number>;
@@ -48,10 +50,9 @@ export function usePathname(): string {
   return typeof window === "undefined" ? "/" : window.location.pathname;
 }
 
-// Replacement for Route.useParams() on the editor page: id is the last path
-// segment of /documents/<id> (e.g. "/documents/abc" -> "abc").
+// Replacement for Route.useParams() on the editor page: id comes from the
+// "?id=" query string of /documents/edit?id=<id>.
 export function useIdParam(): string {
   if (typeof window === "undefined") return "";
-  const segs = window.location.pathname.split("/").filter(Boolean);
-  return decodeURIComponent(segs[segs.length - 1] ?? "");
+  return new URLSearchParams(window.location.search).get("id") ?? "";
 }

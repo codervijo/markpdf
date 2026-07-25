@@ -1,0 +1,13 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { DocEditor } from "@/components/DocEditor";
+
+// Prerendered static route "/documents/edit/". The editor reads the document
+// id from the "?id=" query string at runtime (client-only), replacing the old
+// dynamic "/documents/[id].astro" that relied on the SPA catch-all. This lets
+// wrangler use not_found_handling: "404-page" so unknown paths return a real
+// 404 instead of a soft-200.
+---
+<Layout title="Edit document — Markpdf">
+  <DocEditor client:only="react" />
+</Layout>

@@ -95,11 +95,25 @@ export function Landing() {
       </section>
 
       <footer className="border-t border-border">
-        <div className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between text-sm text-muted-foreground">
-          <span>© {new Date().getFullYear()} Markpdf</span>
-          <div className="flex gap-4">
-            <Link to="/pricing">Pricing</Link>
-            <Link to="/auth">Sign in</Link>
+        <div className="mx-auto max-w-6xl px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
+          <div>
+            <h3 className="font-semibold text-foreground">Templates</h3>
+            <ul className="mt-3 space-y-2 text-muted-foreground">
+              <li><a href="/templates/consulting-proposal/" className="hover:text-foreground">Consulting proposal</a></li>
+              <li><a href="/templates/" className="hover:text-foreground">All templates</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-semibold text-foreground">Product</h3>
+            <ul className="mt-3 space-y-2 text-muted-foreground">
+              <li><Link to="/pricing" className="hover:text-foreground">Pricing</Link></li>
+              <li><Link to="/auth" className="hover:text-foreground">Sign in</Link></li>
+            </ul>
+          </div>
+        </div>
+        <div className="border-t border-border">
+          <div className="mx-auto max-w-6xl px-6 h-14 flex items-center text-sm text-muted-foreground">
+            <span>© {new Date().getFullYear()} Markpdf</span>
           </div>
         </div>
       </footer>

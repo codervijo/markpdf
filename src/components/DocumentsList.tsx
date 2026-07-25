@@ -53,7 +53,7 @@ function DocumentsListInner() {
           {q.data.map((d) => (
             <div key={d.id} className="flex items-center justify-between px-5 py-4 hover:bg-accent/30">
               <Link
-                to="/documents/$id"
+                to="/documents/edit?id=$id"
                 params={{ id: d.id }}
                 className="flex items-center gap-3 min-w-0 flex-1"
               >

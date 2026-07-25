@@ -1,0 +1,62 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+
+const templates = (await getCollection("templates")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<Layout
+  title="Free Markdown Templates for Proposals, SOWs & Client Docs — Markpdf"
+  description="Free, copy-pasteable markdown templates for consultants and freelancers: proposals, statements of work, project briefs and more. Copy the source, export a branded PDF."
+>
+  <div class="min-h-screen bg-background text-foreground">
+    <header class="border-b border-border/60 sticky top-0 z-30 bg-background/80 backdrop-blur">
+      <div class="mx-auto max-w-5xl px-6 h-16 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2">
+          <div class="h-6 w-6 rounded-md bg-gradient-brand shadow-glow"></div>
+          <span class="text-base font-semibold tracking-tight">Markpdf</span>
+        </a>
+        <nav class="flex items-center gap-1 text-sm">
+          <a href="/templates" class="px-3 py-2 text-foreground">Templates</a>
+          <a href="/pricing" class="px-3 py-2 text-muted-foreground hover:text-foreground">Pricing</a>
+          <a href="/auth" class="px-3 py-2 rounded-md bg-gradient-brand text-white hover:opacity-90">Get started</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-5xl px-6 py-16">
+      <div class="max-w-2xl">
+        <h1 class="font-serif text-4xl md:text-6xl leading-tight tracking-tight">
+          Free markdown templates for client documents
+        </h1>
+        <p class="mt-5 text-base md:text-lg text-muted-foreground">
+          Copy-pasteable templates for proposals, statements of work, and project
+          briefs — written for freelancers and consultants. Copy the markdown,
+          then export a branded PDF in Markpdf.
+        </p>
+      </div>
+
+      <ul class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {templates.map((t) => (
+          <li>
+            <a
+              href={`/templates/${t.id}/`}
+              class="flex flex-col h-full rounded-xl border border-border bg-card p-6 hover:border-foreground/30 hover:shadow-[0_20px_60px_-40px_rgba(15,23,42,0.25)] transition-all"
+            >
+              <span class="text-[10px] uppercase tracking-widest text-muted-foreground">{t.data.docType}</span>
+              <h2 class="mt-2 font-serif text-xl leading-snug">{t.data.title}</h2>
+              <p class="mt-2 text-sm text-muted-foreground flex-1">{t.data.description}</p>
+              <span class="mt-4 text-sm text-foreground/80">Open template →</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      {templates.length === 0 && (
+        <p class="mt-12 text-muted-foreground">Templates are on the way.</p>
+      )}
+    </main>
+  </div>
+</Layout>

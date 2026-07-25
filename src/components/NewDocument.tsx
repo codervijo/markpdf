@@ -64,7 +64,7 @@ function NewDocumentInner({ user }: { user: User }) {
     },
     onSuccess: (id) => {
       toast.success("Document created");
-      navigate({ to: "/documents/$id", params: { id } });
+      navigate({ to: "/documents/edit?id=$id", params: { id } });
     },
     onError: (e) => toast.error(e instanceof Error ? e.message : "Failed to create"),
   });

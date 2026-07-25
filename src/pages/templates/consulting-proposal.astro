@@ -1,0 +1,311 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getEntry } from "astro:content";
+
+// Single source of truth for the template body: the collection entry.
+// (Shown as a raw, copyable markdown block — NOT rendered inline, so the
+// template's own "# Project Proposal" h1 can't become a second page h1.)
+const entry = await getEntry("templates", "consulting-proposal");
+const templateMd = (entry?.body ?? "").trim();
+
+const pageUrl = "https://markpdf.dev/templates/consulting-proposal/";
+const title = "Consulting Proposal Template (Free, Markdown) | Markpdf";
+const description =
+  "A complete, free consulting proposal template in markdown. Copy or download it, fill in your scope and pricing, then export a branded client PDF.";
+
+// HowTo steps — rendered on-page AND fed to JSON-LD verbatim.
+const howToSteps = [
+  {
+    name: "Copy or download the template",
+    text: "Use the Copy markdown or Download .md button to grab the full template.",
+  },
+  {
+    name: "Replace the placeholders",
+    text: "Swap the bracketed fields — [Client name], scope items, fees — for your engagement. Everything in square brackets is meant to be edited.",
+  },
+  {
+    name: "Tighten scope and deliverables",
+    text: "Delete anything that doesn't apply and be explicit about what's out of scope. A clear out-of-scope list prevents most disputes later.",
+  },
+  {
+    name: "Set your pricing and terms",
+    text: "Choose fixed-fee, hourly, or retainer, then state payment milestones and revision limits so there are no surprises.",
+  },
+  {
+    name: "Export a branded PDF",
+    text: "Paste the markdown into Markpdf, apply your brand kit, and export a client-ready PDF with your logo and colours.",
+  },
+  {
+    name: "Send it with a clear next step",
+    text: "Attach the PDF, restate the outcome in one line, and ask for sign-off by a specific date.",
+  },
+];
+
+// FAQ — rendered on-page AND fed to FAQPage JSON-LD verbatim.
+const faq = [
+  {
+    q: "How long should a consulting proposal be?",
+    a: "Long enough to cover scope, deliverables, timeline, price, and terms — usually two to four pages. Decision-makers skim, so lead with a short executive summary and keep each section tight. Depth belongs in the scope and deliverables, not in padding.",
+  },
+  {
+    q: "Should I include pricing in the proposal?",
+    a: "Yes. A proposal without a price forces another round of email and stalls the decision. State the fee, what it includes, and the payment schedule. If you're unsure of exact numbers, present a fixed fee or a clearly-bounded range tied to scope.",
+  },
+  {
+    q: "Should I send a PDF or a Google Doc?",
+    a: "Send a PDF for the final proposal: it looks finished, carries your branding, and can't be accidentally edited. Use a shared doc only when you genuinely want the client to comment or co-edit. Markpdf turns this markdown into a branded PDF in one step.",
+  },
+  {
+    q: "What's the difference between a proposal and a statement of work?",
+    a: "A proposal pitches the engagement and persuades the client to say yes. A statement of work (SOW) is the detailed, often contractual document that defines exactly what will be delivered once they have. Many small engagements combine them; larger ones keep them separate.",
+  },
+  {
+    q: "How do I present the price without scaring the client?",
+    a: "Frame it as an investment tied to the outcome you described in the summary, not as a cost. Anchor it to the value or the problem's price. Offering two or three options — a core scope and an expanded one — lets the client choose a size rather than approve or reject a single number.",
+  },
+];
+
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": `${pageUrl}#webpage`,
+      url: pageUrl,
+      name: title,
+      description,
+      isPartOf: { "@id": "https://markpdf.dev/#website" },
+      breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${pageUrl}#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://markpdf.dev/" },
+        { "@type": "ListItem", position: 2, name: "Templates", item: "https://markpdf.dev/templates/" },
+        { "@type": "ListItem", position: 3, name: "Consulting Proposal Template", item: pageUrl },
+      ],
+    },
+    {
+      "@type": "HowTo",
+      "@id": `${pageUrl}#howto`,
+      name: "How to use this consulting proposal template",
+      step: howToSteps.map((s, i) => ({
+        "@type": "HowToStep",
+        position: i + 1,
+        name: s.name,
+        text: s.text,
+      })),
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${pageUrl}#faq`,
+      mainEntity: faq.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(graph)} />
+
+  <div class="min-h-screen bg-background text-foreground">
+    <header class="border-b border-border/60 sticky top-0 z-30 bg-background/80 backdrop-blur">
+      <div class="mx-auto max-w-5xl px-6 h-16 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2">
+          <div class="h-6 w-6 rounded-md bg-gradient-brand shadow-glow"></div>
+          <span class="text-base font-semibold tracking-tight">Markpdf</span>
+        </a>
+        <nav class="flex items-center gap-1 text-sm">
+          <a href="/templates/" class="px-3 py-2 text-muted-foreground hover:text-foreground">Templates</a>
+          <a href="/pricing/" class="px-3 py-2 text-muted-foreground hover:text-foreground">Pricing</a>
+          <a href="/auth" class="px-3 py-2 rounded-md bg-gradient-brand text-white hover:opacity-90">Get started</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-3xl px-6 py-12">
+      <nav class="text-xs text-muted-foreground mb-6" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-foreground">Home</a>
+        <span class="mx-1">/</span>
+        <a href="/templates/" class="hover:text-foreground">Templates</a>
+        <span class="mx-1">/</span>
+        <span>Consulting Proposal Template</span>
+      </nav>
+
+      <span class="inline-block text-[11px] uppercase tracking-widest text-muted-foreground border border-border rounded-full px-2 py-0.5">Proposal</span>
+      <h1 class="mt-4 font-serif text-4xl md:text-5xl leading-tight tracking-tight">Consulting Proposal Template</h1>
+      <p class="mt-4 text-base md:text-lg text-muted-foreground">
+        A complete, ready-to-use consulting proposal in markdown — every section a
+        real proposal needs, from executive summary to acceptance. Copy it or
+        download it, fill in about 15 minutes of specifics, and send.
+      </p>
+
+      <!-- Template: copy + download + code block -->
+      <section class="mt-8" aria-labelledby="template-heading">
+        <div class="flex items-center justify-between mb-3">
+          <h2 id="template-heading" class="text-sm font-semibold uppercase tracking-widest text-muted-foreground">The template</h2>
+          <div class="flex gap-2">
+            <button type="button" data-copy class="text-xs px-3 py-1.5 rounded-md border border-border hover:bg-muted transition-colors">Copy markdown</button>
+            <button type="button" data-download class="text-xs px-3 py-1.5 rounded-md bg-foreground text-background hover:opacity-90 transition-opacity">Download .md</button>
+          </div>
+        </div>
+        <pre data-template class="rounded-lg border border-border bg-muted/40 p-5 overflow-x-auto text-[13px] leading-relaxed font-mono"><code>{templateMd}</code></pre>
+      </section>
+
+      <!-- Contextual, non-blocking CTA. Template is NOT gated. -->
+      <aside class="mt-6 rounded-xl border border-border bg-card p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <p class="text-sm">
+          <span class="font-medium">Want it as a branded PDF?</span>
+          Paste this into Markpdf to export it as a branded, client-ready PDF with your logo and colours.
+        </p>
+        <a href="/auth" class="shrink-0 inline-flex items-center justify-center h-10 px-5 rounded-md bg-gradient-brand text-white text-sm hover:opacity-90 shadow-glow">Open in Markpdf →</a>
+      </aside>
+
+      <!-- How to use -->
+      <section class="mt-16" aria-labelledby="howto-heading">
+        <h2 id="howto-heading" class="font-serif text-3xl tracking-tight">How to use this template</h2>
+        <ol class="mt-6 space-y-4">
+          {howToSteps.map((s, i) => (
+            <li class="flex gap-4">
+              <span class="shrink-0 h-7 w-7 rounded-full bg-gradient-brand text-white text-sm flex items-center justify-center">{i + 1}</span>
+              <div>
+                <p class="font-medium">{s.name}</p>
+                <p class="text-sm text-muted-foreground mt-0.5">{s.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <!-- What to include -->
+      <section class="mt-16" aria-labelledby="include-heading">
+        <h2 id="include-heading" class="font-serif text-3xl tracking-tight">What to include in a consulting proposal (and why)</h2>
+        <p class="mt-4 text-muted-foreground">Each section of the template earns its place. Here's what goes in it and the mistake to avoid.</p>
+        <dl class="mt-6 space-y-5">
+          <div>
+            <dt class="font-medium">Cover &amp; prepared-for</dt>
+            <dd class="text-sm text-muted-foreground mt-1">Client name, your name, date, and a validity date. <em>Mistake:</em> leaving off a "valid until" date, which lets a quote sit for months and go stale.</dd>
+          </div>
+          <div>
+            <dt class="font-medium">Executive summary</dt>
+            <dd class="text-sm text-muted-foreground mt-1">Three sentences: the problem, the outcome, the headline price and timeline. <em>Mistake:</em> making the reader hunt through the whole document to find what it costs.</dd>
+          </div>
+          <div>
+            <dt class="font-medium">Background &amp; understanding</dt>
+            <dd class="text-sm text-muted-foreground mt-1">Restate what you heard, in their words. <em>Mistake:</em> skipping it — this paragraph is what proves you listened and separates you from a generic quote.</dd>
+          </div>
+          <div>
+            <dt class="font-medium">Scope of work</dt>
+            <dd class="text-sm text-muted-foreground mt-1">The workstreams you'll do, and an explicit out-of-scope list. <em>Mistake:</em> omitting out-of-scope — it's the single biggest source of "but I thought that was included."</dd>
+          </div>
+          <div>
+            <dt class="font-medium">Deliverables</dt>
+            <dd class="text-sm text-muted-foreground mt-1">The concrete artifacts and their formats. <em>Mistake:</em> conflating activity ("design work") with deliverables ("a Figma file and a component library").</dd>
+          </div>
+          <div>
+            <dt class="font-medium">Timeline &amp; milestones</dt>
+            <dd class="text-sm text-muted-foreground mt-1">Phases with durations and review gates. <em>Mistake:</em> promising dates without stating your dependency on their feedback turnaround.</dd>
+          </div>
+          <div>
+            <dt class="font-medium">Investment</dt>
+            <dd class="text-sm text-muted-foreground mt-1">The fee, what it includes, and payment terms. <em>Mistake:</em> a bare number with no payment schedule or late-payment terms.</dd>
+          </div>
+          <div>
+            <dt class="font-medium">Terms &amp; assumptions</dt>
+            <dd class="text-sm text-muted-foreground mt-1">Revisions, ownership/IP, cancellation, and the assumptions your estimate depends on. <em>Mistake:</em> leaving revisions unbounded.</dd>
+          </div>
+          <div>
+            <dt class="font-medium">Next steps &amp; acceptance</dt>
+            <dd class="text-sm text-muted-foreground mt-1">Exactly how to say yes and by when. <em>Mistake:</em> ending without a clear call to action, so the proposal just sits.</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- Filled example -->
+      <section class="mt-16" aria-labelledby="example-heading">
+        <h2 id="example-heading" class="font-serif text-3xl tracking-tight">Consulting proposal example</h2>
+        <p class="mt-4 text-muted-foreground">A filled-in snapshot for a fixed-fee analytics engagement. Numbers are illustrative — use your own.</p>
+        <div class="mt-6 rounded-lg border border-border bg-card p-6 text-sm space-y-3">
+          <p><strong>Prepared for:</strong> Acme Retail · <strong>By:</strong> Rivera Analytics · <strong>Valid until:</strong> 30 days</p>
+          <p><strong>Summary:</strong> Acme's marketing team can't see which channels drive revenue. This engagement delivers a single source-of-truth dashboard in 4 weeks for a fixed fee of <strong>$12,000</strong> <span class="text-muted-foreground">(illustrative)</span>.</p>
+          <p><strong>Scope:</strong> data audit, warehouse model, and a 6-view dashboard. <strong>Out of scope:</strong> ad-platform management, ongoing reporting after handoff.</p>
+          <p><strong>Deliverables:</strong> audit memo (PDF), dbt model (repo), Looker dashboard, 1-hour handoff session.</p>
+          <p><strong>Investment:</strong> $12,000 fixed — 50% ($6,000) to start, 50% on delivery. <span class="text-muted-foreground">(illustrative)</span></p>
+        </div>
+      </section>
+
+      <!-- Pricing framing -->
+      <section class="mt-16" aria-labelledby="pricing-heading">
+        <!-- Business framing only — no legal, tax, or jurisdiction-specific claims. -->
+        <h2 id="pricing-heading" class="font-serif text-3xl tracking-tight">Fixed-fee vs hourly vs retainer</h2>
+        <div class="mt-6 space-y-4 text-sm">
+          <p><strong>Fixed-fee</strong> works best when scope is well-defined. It's the easiest for a client to approve because the number can't move, and it rewards you for working efficiently. The risk is yours if scope creeps — which is exactly why the out-of-scope list matters.</p>
+          <p><strong>Hourly</strong> fits open-ended or exploratory work where scope genuinely can't be pinned down. It protects you from creep but caps your upside and asks the client to sign a blank cheque, so pair it with an estimated range and a not-to-exceed ceiling.</p>
+          <p><strong>Retainer</strong> suits ongoing relationships — a fixed monthly fee for a defined block of availability or deliverables. It smooths your income and the client's planning. Use a separate retainer proposal rather than this one when the work has no end date.</p>
+          <p class="text-muted-foreground">Whichever you choose, state it plainly in the Investment section and tie it to the outcome in your summary.</p>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mt-16" aria-labelledby="faq-heading">
+        <h2 id="faq-heading" class="font-serif text-3xl tracking-tight">FAQ</h2>
+        <dl class="mt-6 space-y-6">
+          {faq.map((f) => (
+            <div>
+              <dt class="font-medium">{f.q}</dt>
+              <dd class="text-sm text-muted-foreground mt-1.5 leading-relaxed">{f.a}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <!-- Internal links -->
+      <section class="mt-16 border-t border-border pt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+        <a href="/" class="text-foreground/80 hover:text-foreground">← Back to home</a>
+        <a href="/templates/" class="text-foreground/80 hover:text-foreground">All templates</a>
+        <a href="/pricing/" class="text-foreground/80 hover:text-foreground">See pricing</a>
+      </section>
+    </main>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var pre = document.querySelector("[data-template]");
+      var text = pre ? pre.innerText : "";
+
+      var copyBtn = document.querySelector("[data-copy]");
+      if (copyBtn) {
+        copyBtn.addEventListener("click", async function () {
+          try {
+            await navigator.clipboard.writeText(text);
+            var t = copyBtn.textContent;
+            copyBtn.textContent = "Copied ✓";
+            setTimeout(function () { copyBtn.textContent = t; }, 1600);
+          } catch (e) {
+            copyBtn.textContent = "Copy failed";
+          }
+        });
+      }
+
+      var dlBtn = document.querySelector("[data-download]");
+      if (dlBtn) {
+        dlBtn.addEventListener("click", function () {
+          var blob = new Blob([text], { type: "text/markdown;charset=utf-8" });
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement("a");
+          a.href = url;
+          a.download = "consulting-proposal.md";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        });
+      }
+    })();
+  </script>
+</Layout>

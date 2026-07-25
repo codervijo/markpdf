@@ -99,7 +99,7 @@ function DashboardInner({ user }: { user: User }) {
           {docsQ.data.map((d) => (
             <Link
               key={d.id}
-              to="/documents/$id"
+              to="/documents/edit?id=$id"
               params={{ id: d.id }}
               className="flex items-center justify-between px-5 py-4 hover:bg-accent/40"
             >

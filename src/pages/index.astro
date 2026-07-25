@@ -6,6 +6,9 @@ import "../styles/global.css";
 import { Landing } from "@/components/Landing";
 
 const site = "https://markpdf.dev";
+// Canonical URL — trailing-slash apex, byte-for-byte matching the sitemap
+// <loc> (https://markpdf.dev/) and the directory-format build output.
+const canonicalUrl = "https://markpdf.dev/";
 const title = "Markpdf — Markdown to branded client PDFs";
 const description = "Markpdf turns plain markdown proposals into polished, branded client PDFs in seconds. Write in markdown, send like a design agency.";
 
@@ -25,14 +28,14 @@ const themeScript = `
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href={site} />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content="Write in markdown. Send like a design agency." />
-    <meta property="og:url" content={site} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content="markpdf.dev" />
 
     <!-- Twitter card -->
@@ -48,7 +51,8 @@ const themeScript = `
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap"
     />
 
-    <!-- JSON-LD structured data: Organization + WebSite -->
+    <!-- JSON-LD structured data: Organization + WebSite + SoftwareApplication.
+         Prices sourced from src/components/Pricing.tsx ($19/$29/$49 USD, US-based). -->
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -56,7 +60,7 @@ const themeScript = `
     {
       "@type": "Organization",
       "@id": "https://markpdf.dev/#organization",
-      "name": "markpdf.dev",
+      "name": "Markpdf",
       "url": "https://markpdf.dev/"
     },
     {
@@ -65,6 +69,23 @@ const themeScript = `
       "url": "https://markpdf.dev/",
       "name": "markpdf.dev",
       "publisher": { "@id": "https://markpdf.dev/#organization" }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://markpdf.dev/#software",
+      "name": "Markpdf",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "url": "https://markpdf.dev/",
+      "publisher": { "@id": "https://markpdf.dev/#organization" },
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "USD",
+        "lowPrice": "19",
+        "highPrice": "49",
+        "offerCount": "3",
+        "url": "https://markpdf.dev/pricing/"
+      }
     }
   ]
 }
