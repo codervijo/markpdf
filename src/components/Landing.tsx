@@ -13,7 +13,7 @@ export function Landing() {
             <span className="text-base font-semibold tracking-tight">Markpdf</span>
           </Link>
           <nav className="flex items-center gap-2 text-sm">
-            <Link to="/pricing" className="px-3 py-2 text-muted-foreground hover:text-foreground">Pricing</Link>
+            <Link to="/pricing/" className="px-3 py-2 text-muted-foreground hover:text-foreground">Pricing</Link>
             <Link to="/auth" className="px-3 py-2 text-muted-foreground hover:text-foreground">Sign in</Link>
             <ThemeToggle />
             <Button asChild size="sm" className="bg-gradient-brand text-white border-0 hover:opacity-90"><Link to="/auth">Get started</Link></Button>
@@ -41,7 +41,7 @@ export function Landing() {
               <Link to="/auth">Create your first PDF<ArrowRight className="ml-2 h-4 w-4" /></Link>
             </Button>
             <Button asChild variant="ghost" size="lg" className="h-11 px-6">
-              <Link to="/pricing">See pricing</Link>
+              <Link to="/pricing/">See pricing</Link>
             </Button>
           </div>
         </div>
@@ -114,7 +114,7 @@ export function Landing() {
           <div>
             <h3 className="font-semibold text-foreground">Product</h3>
             <ul className="mt-3 space-y-2 text-muted-foreground">
-              <li><Link to="/pricing" className="hover:text-foreground">Pricing</Link></li>
+              <li><Link to="/pricing/" className="hover:text-foreground">Pricing</Link></li>
               <li><Link to="/auth" className="hover:text-foreground">Sign in</Link></li>
             </ul>
           </div>
