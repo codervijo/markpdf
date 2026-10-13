@@ -1,0 +1,167 @@
+---
+import TemplatePage from "@/components/TemplatePage.astro";
+
+// Tool page paired with Lamill's "Save Page as Markdown or PDF" Chrome extension
+// (tabmill recipe save-page-pdf-md; brief: tabmill `landing save-page-pdf-md`).
+// The extension is not in the Chrome Web Store yet — no install button, link the
+// lamill.io hub page instead. When it's published, re-run the tabmill brief and
+// swap the notice for the UTM-tagged store link it prints.
+
+const HUB = "https://lamill.io/extensions/save-page-pdf-md";
+const PRIVACY = "https://lamill.io/extensions/privacy";
+
+const howToSteps = [
+  { name: "Open the print dialog", text: "On the page you want to keep, press Ctrl+P (Windows, Linux, ChromeOS) or Cmd+P (Mac)." },
+  { name: "Choose a PDF destination", text: "In Chrome and Edge set Destination to “Save as PDF”. In Firefox choose “Save to PDF”. In Safari, use File → Export as PDF instead, or Print and then the PDF menu at the bottom of the dialog." },
+  { name: "Fix the layout before saving", text: "Open “More settings”. Turn off Headers and footers to drop the URL and date strip, turn on Background graphics if colours or code blocks come out blank, and set Margins and Scale if text is cut off at the edge." },
+  { name: "Check the preview, then save", text: "Scroll the whole preview. Cookie banners, sticky headers and chat widgets print on every page; if they're there, use one of the cleanup methods below before you save." },
+];
+
+const faq = [
+  { q: "Why does my saved PDF include ads, menus and cookie banners?", a: "Because the print dialog prints the page as it's built, and most sites don't ship a print stylesheet that hides their navigation, ads and overlays. Reader view, removing the clutter by hand, or an extension that extracts just the article will fix it; the browser's own print settings won't." },
+  { q: "Why is my PDF missing background colours or images?", a: "Browsers skip background graphics when printing to save ink. In Chrome and Edge, tick “Background graphics” under More settings; in Firefox, tick “Print backgrounds”. Images that load lazily may also be missing if you print before scrolling past them — scroll to the bottom first." },
+  { q: "Can I save a webpage as a PDF on my phone?", a: "Yes. In Chrome on Android, open the ⋮ menu, choose Share → Print, and set the printer to “Save as PDF”. On iPhone and iPad, tap Share → Print in Safari, then use the share button in the print preview to save the PDF to Files." },
+  { q: "Will links still work in the saved PDF?", a: "Usually, yes. Chrome, Edge and Firefox keep hyperlinks clickable when they save to PDF. Links that only work through JavaScript (buttons that look like links) won't." },
+  { q: "Can I save a page I'm logged in to, or a paywalled article I subscribe to?", a: "Yes — printing works on whatever your browser is showing you, so pages behind a login save fine. Online converters that ask for a URL can't do this: they fetch the page themselves, without your session." },
+  { q: "Should I save as PDF or as Markdown?", a: "PDF if you need a fixed copy to read, print, annotate or send. Markdown if you want the text itself — to edit, search, paste into notes like Obsidian, or feed into another tool. Markdown keeps headings, links, lists and code blocks but not the page's visual design." },
+];
+---
+
+<TemplatePage
+  title="Save a Webpage as PDF — Clean, Without Ads or Menus"
+  description="Save any webpage as a PDF in Chrome, Edge, Firefox or Safari — and how to keep the article without the menus, ads and cookie banners that print with it."
+  canonicalPath="/save-webpage-as-pdf/"
+  docType="Guide"
+  h1="How to Save a Webpage as a PDF"
+  introText="Press Ctrl+P (Cmd+P on a Mac), set the destination to “Save as PDF”, and click Save — that works in Chrome, Edge and Firefox; Safari also has File → Export as PDF. The catch is that the browser prints the page exactly as built, so menus, ads and cookie banners often end up in the PDF. To get just the article, clean the page up before you print, or extract the article and print only that."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Save a Webpage as PDF" },
+  ]}
+  howToTitle="Save a webpage as a PDF in any browser"
+  howToSteps={howToSteps}
+  faq={faq}
+>
+  <section class="mt-16" aria-labelledby="why-heading">
+    <h2 id="why-heading" class="font-serif text-3xl tracking-tight">Why printed pages come out messy</h2>
+    <p class="mt-4 text-muted-foreground leading-relaxed">
+      When you print, the browser switches the page to its print styles — a separate set of CSS
+      rules a site can use to hide navigation, ads and other screen-only parts. Most sites never
+      write print styles, so you get everything: the sticky header repeated on every page, the
+      sidebar squeezing the text, the newsletter popup stamped over paragraph three.
+    </p>
+    <p class="mt-4 text-muted-foreground leading-relaxed">
+      None of the print dialog's settings can remove those parts, because to the browser they're
+      just more content. What fixes it is removing them before the print step. You can do that by
+      hand, with reader view, or by extracting the article and printing only that.
+    </p>
+  </section>
+
+  <section class="mt-16" aria-labelledby="clean-heading">
+    <h2 id="clean-heading" class="font-serif text-3xl tracking-tight">Three ways to get a clean PDF</h2>
+    <dl class="mt-6 space-y-6">
+      <div>
+        <dt class="font-medium">1. Reader view, then print</dt>
+        <dd class="text-sm text-muted-foreground mt-1.5 leading-relaxed">
+          Firefox and Safari both have a reader view button in the address bar. Open it, then
+          print from there — what you save is just the article. Reader view only appears on pages
+          the browser recognizes as articles.
+        </dd>
+      </div>
+      <div>
+        <dt class="font-medium">2. Remove the clutter by hand</dt>
+        <dd class="text-sm text-muted-foreground mt-1.5 leading-relaxed">
+          Close cookie banners and popups first, and scroll to the bottom so lazy-loaded images
+          arrive. For anything still in the way, right-click → Inspect, select the element, and
+          press Delete — it's gone until you reload. Tedious, but it works on any page.
+        </dd>
+      </div>
+      <div>
+        <dt class="font-medium">3. Extract the article, then print it</dt>
+        <dd class="text-sm text-muted-foreground mt-1.5 leading-relaxed">
+          This is what reader view does under the hood: find the main text, drop everything else,
+          and lay it out for reading. Do it with an extension and you get the same clean result in
+          Chrome, from any article page, in one click — plus a Markdown copy if you want the text
+          rather than a document.
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="mt-16" aria-labelledby="extension-heading">
+    <h2 id="extension-heading" class="font-serif text-3xl tracking-tight">Save Page as Markdown or PDF — the one-click version</h2>
+    <p class="mt-4 text-muted-foreground leading-relaxed">
+      If you save pages often, the steps above get old. <strong class="text-foreground font-medium">Save Page as
+      Markdown or PDF</strong> is a Chrome extension built by Lamill, the team behind Markpdf, that does
+      the extraction for you. It answers one question: “how do I keep just the article from this
+      page?”
+    </p>
+    <ol class="mt-6 space-y-3 text-sm text-muted-foreground leading-relaxed list-decimal pl-5">
+      <li>Click the extension's toolbar button on the page you want.</li>
+      <li>Choose <strong class="text-foreground font-medium">Save as PDF</strong>. It pulls out the article
+        with Mozilla Readability (the library behind Firefox's Reader View) and opens it in a clean,
+        print-ready view with the title and source link at the top. Chrome's print dialog opens —
+        pick “Save as PDF”.</li>
+      <li>Or choose <strong class="text-foreground font-medium">Save as Markdown</strong> to download a
+        <code>.md</code> file: the article as Markdown, with the title, the source URL and the date
+        you saved it at the top.</li>
+    </ol>
+    <p class="mt-6 text-muted-foreground leading-relaxed">
+      <strong class="text-foreground font-medium">Privacy:</strong> it runs locally — page content never
+      leaves your browser. It only reads the page you're on, and only when you click Save
+      (<code>activeTab</code>); it has no access to any other site. The full permission list is on the
+      <a href={PRIVACY} class="underline underline-offset-4 hover:text-foreground">privacy page</a>.
+    </p>
+  </section>
+
+  <aside slot="notice" class="mt-8 rounded-xl border border-border bg-card p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <p class="text-sm">
+      <span class="font-medium">Chrome extension — coming soon.</span>
+      {" "}Save Page as Markdown or PDF isn't in the Chrome Web Store yet. Built by Lamill.
+    </p>
+    <a href={HUB} class="shrink-0 inline-flex items-center justify-center h-10 px-5 rounded-md border border-border text-sm hover:bg-muted">About the extension →</a>
+  </aside>
+
+  <section class="mt-16" aria-labelledby="examples-heading">
+    <h2 id="examples-heading" class="font-serif text-3xl tracking-tight">What to expect on different pages</h2>
+    <dl class="mt-6 space-y-6">
+      <div>
+        <dt class="font-medium">A news article or blog post</dt>
+        <dd class="text-sm text-muted-foreground mt-1.5 leading-relaxed">
+          The best case. Plain print gives you the article plus the site's header, share buttons,
+          “read next” links and any banner still on screen. Reader view or extraction gives you the
+          headline, byline, body text and in-article images — the version you'd want to keep.
+        </dd>
+      </div>
+      <div>
+        <dt class="font-medium">Documentation with code blocks</dt>
+        <dd class="text-sm text-muted-foreground mt-1.5 leading-relaxed">
+          Docs sites often have a left-hand table of contents that eats a third of the printed page
+          width. Extraction drops the sidebar. If code blocks print as white boxes with plain text,
+          turn on Background graphics. Here Markdown is often the better format: the code arrives
+          as fenced code blocks you can copy out cleanly.
+        </dd>
+      </div>
+      <div>
+        <dt class="font-medium">A homepage, dashboard or web app — where extraction fails</dt>
+        <dd class="text-sm text-muted-foreground mt-1.5 leading-relaxed">
+          Pages that aren't one article have nothing for reader view or an extractor to find.
+          Reader view just won't offer itself; the extension falls back to the whole page body
+          (the Markdown save tells you when it did). For these pages, plain Ctrl+P (or a screenshot) is the right tool.
+          Browser pages like <code>chrome://</code> and the Chrome Web Store can't be read by any
+          extension at all.
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="mt-16" aria-labelledby="markpdf-heading">
+    <h2 id="markpdf-heading" class="font-serif text-3xl tracking-tight">Going the other way: Markdown to a designed PDF</h2>
+    <p class="mt-4 text-muted-foreground leading-relaxed">
+      Saving a page gives you someone else's document. If you're writing your own — a proposal,
+      a statement of work, a report — in Markdown, <a href="/" class="underline underline-offset-4 hover:text-foreground">Markpdf</a>
+      turns it into a branded, client-ready PDF with your logo and colours. Start from a
+      <a href="/templates/" class="underline underline-offset-4 hover:text-foreground">free Markdown template</a>.
+    </p>
+  </section>
+</TemplatePage>

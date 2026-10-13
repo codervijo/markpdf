@@ -91,3 +91,12 @@ https://search.google.com/search-console directly.
 - **Action:** internal links to `/pricing` and `/templates` now point to the canonical trailing-slash URLs (no more 308 hop from homepage/nav). Force-resubmitted `sitemap-index.xml` and `sitemap-0.xml` via `lamill settings gsc submit-sitemap --force`. Manual "Request Indexing" isn't available through the API; it has to be clicked in GSC for each URL.
 - **Result:** TBD — review 2026-10-30
 - **Learning:** TBD. The 2026-07-23 resubmit alone moved nothing, so if coverage changes this time, credit the manual Request Indexing clicks (if done), not the resubmit.
+
+## 2026-10-11 — tool page `/save-webpage-as-pdf/` (paired with the Save Page as Markdown or PDF extension)
+- **Status:** active
+- **Hypothesis:** A how-to that explains *why* printed pages come out messy (no print stylesheet) and how to get just the article, will earn impressions for "save webpage as pdf" and related phrasings, and send traffic to Lamill's extension (via the lamill.io hub until it's in the Chrome Web Store). It's a head term led by large PDF-tool sites and this domain has almost no authority, so long-tail phrasings in the FAQ are the realistic first wins.
+- **KPI:** GSC impressions + average position for the page; queries containing "webpage" + "pdf"; clicks to `lamill.io/extensions/save-page-pdf-md`.
+- **Baseline:** 0 — new URL. Site: 1/7 sitemap URLs indexed (2026-10-02 entry).
+- **Action:** new page via `TemplatePage` (WebPage + BreadcrumbList + HowTo + FAQPage JSON-LD; canonical == og:url, trailing slash); in the sitemap. Brief from tabmill (`tabmill landing save-page-pdf-md`, D-033/D-035). No install button: the extension isn't published yet.
+- **Result:** TBD — review 28 days after the page is first indexed.
+- **Learning:** TBD.
