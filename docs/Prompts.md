@@ -18,3 +18,7 @@ to surface "last AI prompt" per project. Keep entries append-only.
 > target "save webpage as pdf" at `/save-webpage-as-pdf/`, chosen by the operator over "markdown to pdf",
 > which is this site's home query)
 > → `src/pages/save-webpage-as-pdf.astro`; growth.md entry.
+
+## 2026-10-14 — install button on /save-webpage-as-pdf/
+> "add a button to use that chrome extension" (extension now live in the Chrome Web Store)
+> → replaced the "coming soon" notice with UTM-tagged Add to Chrome buttons (notice + extension section) and kept the lamill.io hub link.

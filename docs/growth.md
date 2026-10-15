@@ -100,3 +100,11 @@ https://search.google.com/search-console directly.
 - **Action:** new page via `TemplatePage` (WebPage + BreadcrumbList + HowTo + FAQPage JSON-LD; canonical == og:url, trailing slash); in the sitemap. Brief from tabmill (`tabmill landing save-page-pdf-md`, D-033/D-035). No install button: the extension isn't published yet.
 - **Result:** TBD — review 28 days after the page is first indexed.
 - **Learning:** TBD.
+
+## 2026-10-14 — install button on `/save-webpage-as-pdf/` (extension now in the Chrome Web Store)
+- **Status:** active
+- **KPI:** Chrome Web Store installs attributed to `utm_source=markpdf.dev&utm_campaign=save-page-pdf-md`; page impressions/position as in the 2026-10-11 entry.
+- **Baseline:** 0 — the page had no install link (the old notice said "coming soon").
+- **Action:** two UTM-tagged "Add to Chrome" buttons (top notice + extension section); lamill.io hub link kept.
+- **Result:** TBD — review 28 days after the page is first indexed.
+- **Learning:** TBD.

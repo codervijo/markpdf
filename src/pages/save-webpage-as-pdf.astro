@@ -3,10 +3,9 @@ import TemplatePage from "@/components/TemplatePage.astro";
 
 // Tool page paired with Lamill's "Save Page as Markdown or PDF" Chrome extension
 // (tabmill recipe save-page-pdf-md; brief: tabmill `landing save-page-pdf-md`).
-// The extension is not in the Chrome Web Store yet — no install button, link the
-// lamill.io hub page instead. When it's published, re-run the tabmill brief and
-// swap the notice for the UTM-tagged store link it prints.
+// Install link is the UTM-tagged store URL from the tabmill brief.
 
+const STORE = "https://chromewebstore.google.com/detail/aknmbookdcobogmhhnppjofghdjepice?utm_source=markpdf.dev&utm_medium=landing&utm_campaign=save-page-pdf-md";
 const HUB = "https://lamill.io/extensions/save-page-pdf-md";
 const PRIVACY = "https://lamill.io/extensions/privacy";
 
@@ -112,14 +111,18 @@ const faq = [
       (<code>activeTab</code>); it has no access to any other site. The full permission list is on the
       <a href={PRIVACY} class="underline underline-offset-4 hover:text-foreground">privacy page</a>.
     </p>
+    <div class="mt-6 flex flex-wrap items-center gap-4">
+      <a href={STORE} target="_blank" rel="noopener" class="inline-flex items-center justify-center h-11 px-6 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90">Add to Chrome</a>
+      <a href={HUB} class="text-sm underline underline-offset-4 text-muted-foreground hover:text-foreground">About the extension</a>
+    </div>
   </section>
 
   <aside slot="notice" class="mt-8 rounded-xl border border-border bg-card p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
     <p class="text-sm">
-      <span class="font-medium">Chrome extension — coming soon.</span>
-      {" "}Save Page as Markdown or PDF isn't in the Chrome Web Store yet. Built by Lamill.
+      <span class="font-medium">Save Page as Markdown or PDF</span>
+      {" "}— a Chrome extension by Lamill. One click saves just the article, as a PDF or Markdown.
     </p>
-    <a href={HUB} class="shrink-0 inline-flex items-center justify-center h-10 px-5 rounded-md border border-border text-sm hover:bg-muted">About the extension →</a>
+    <a href={STORE} target="_blank" rel="noopener" class="shrink-0 inline-flex items-center justify-center h-10 px-5 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90">Add to Chrome</a>
   </aside>
 
   <section class="mt-16" aria-labelledby="examples-heading">
