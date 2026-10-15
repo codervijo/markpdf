@@ -1,0 +1,35 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import { liveGuides, formatMonthYear } from "@/lib/guides.mjs";
+
+const guides = liveGuides();
+---
+
+<Layout
+  title="Guides — Markpdf"
+  description="Practical guides from Markpdf: writing client documents like scopes of work, and saving webpages as clean PDFs."
+>
+  <div class="min-h-screen bg-background text-foreground">
+    <SiteHeader current="guides" />
+
+    <main class="mx-auto max-w-5xl px-6 py-16">
+      <h1 class="font-serif text-4xl md:text-6xl leading-tight tracking-tight">Guides</h1>
+
+      <ul class="mt-12 grid sm:grid-cols-2 gap-5">
+        {guides.map((g) => (
+          <li>
+            <a
+              href={g.path}
+              class="flex flex-col h-full rounded-xl border border-border bg-card p-6 hover:border-foreground/30 hover:shadow-[0_20px_60px_-40px_rgba(15,23,42,0.25)] transition-all"
+            >
+              <h2 class="font-serif text-xl leading-snug">{g.title}</h2>
+              <p class="mt-2 text-sm text-muted-foreground flex-1">{g.description}</p>
+              <span class="mt-4 text-xs text-muted-foreground">Updated <time datetime={g.updated}>{formatMonthYear(g.updated)}</time></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </main>
+  </div>
+</Layout>

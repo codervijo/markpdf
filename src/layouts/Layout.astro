@@ -8,13 +8,21 @@ interface Props {
   title?: string;
   description?: string;
   noindex?: boolean;
+  ogImage?: string; // path under public/, 1200×630 — caller ensures the file exists
+  ogImageAlt?: string;
+  ogType?: string;
 }
 
 const {
   title = "Markpdf — Markdown to branded client PDFs",
   description = "Markpdf turns plain markdown proposals into polished, branded client PDFs in seconds.",
   noindex = false,
+  ogImage,
+  ogImageAlt,
+  ogType = "website",
 } = Astro.props;
+
+const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).href : undefined;
 
 // Canonical URL for every Layout-based page — resolved against `site` in
 // astro.config.mjs (https://markpdf.dev). Trailing-slash-normalized.
@@ -41,8 +49,19 @@ const themeScript = `
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:type" content={ogType} />
+    {ogImageUrl ? (
+      <>
+        <meta property="og:image" content={ogImageUrl} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        {ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={ogImageUrl} />
+      </>
+    ) : (
+      <meta name="twitter:card" content="summary" />
+    )}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

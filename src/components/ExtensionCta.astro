@@ -1,0 +1,23 @@
+---
+// Install CTA for a Lamill Chrome extension. `href` is the UTM-tagged store URL
+// from the tabmill landing brief; keep it verbatim.
+//   variant="notice" — card under the intro (blurb + button)
+//   variant="button" — button + hub link, for the end of the extension section
+const { href, hub, variant = "button", name } = Astro.props;
+---
+
+{variant === "notice" ? (
+  <aside class="mt-8 rounded-xl border border-border bg-card p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <p class="text-sm"><slot /></p>
+    <a href={href} target="_blank" rel="noopener" class="shrink-0 inline-flex items-center justify-center h-10 px-5 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90">
+      Add to Chrome<span class="sr-only"> — {name} (opens the Chrome Web Store in a new tab)</span>
+    </a>
+  </aside>
+) : (
+  <div class="mt-6 flex flex-wrap items-center gap-4">
+    <a href={href} target="_blank" rel="noopener" class="inline-flex items-center justify-center h-11 px-6 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90">
+      Add to Chrome<span class="sr-only"> — {name} (opens the Chrome Web Store in a new tab)</span>
+    </a>
+    {hub && <a href={hub} class="text-sm underline underline-offset-4 text-muted-foreground hover:text-foreground">About the extension</a>}
+  </div>
+)}

@@ -1,0 +1,22 @@
+---
+// Header shared by the static content pages (templates, guides).
+const { current } = Astro.props; // "templates" | "guides" | undefined
+
+const link = (key) =>
+  `px-3 py-2 ${current === key ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`;
+---
+
+<header class="border-b border-border/60 sticky top-0 z-30 bg-background/80 backdrop-blur">
+  <div class="mx-auto max-w-5xl px-6 h-16 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2">
+      <div class="h-6 w-6 rounded-md bg-gradient-brand shadow-glow"></div>
+      <span class="text-base font-semibold tracking-tight">Markpdf</span>
+    </a>
+    <nav class="flex items-center gap-1 text-sm" aria-label="Main">
+      <a href="/templates/" class={link("templates")} aria-current={current === "templates" ? "page" : undefined}>Templates</a>
+      <a href="/guides/" class={`hidden sm:inline-block ${link("guides")}`} aria-current={current === "guides" ? "page" : undefined}>Guides</a>
+      <a href="/pricing/" class={link("pricing")}>Pricing</a>
+      <a href="/auth/" class="px-3 py-2 rounded-md bg-gradient-brand text-white hover:opacity-90">Get started</a>
+    </nav>
+  </div>
+</header>

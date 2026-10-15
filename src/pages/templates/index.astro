@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
 
 const templates = (await getCollection("templates"))
   .filter((t) => !t.data.noindex) // hold noindex templates (e.g. SOW pending review) out of the public gallery
@@ -12,19 +13,7 @@ const templates = (await getCollection("templates"))
   description="Free, copy-pasteable markdown templates for consultants and freelancers: proposals, statements of work, project briefs and more. Copy the source, export a branded PDF."
 >
   <div class="min-h-screen bg-background text-foreground">
-    <header class="border-b border-border/60 sticky top-0 z-30 bg-background/80 backdrop-blur">
-      <div class="mx-auto max-w-5xl px-6 h-16 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-2">
-          <div class="h-6 w-6 rounded-md bg-gradient-brand shadow-glow"></div>
-          <span class="text-base font-semibold tracking-tight">Markpdf</span>
-        </a>
-        <nav class="flex items-center gap-1 text-sm">
-          <a href="/templates/" class="px-3 py-2 text-foreground">Templates</a>
-          <a href="/pricing/" class="px-3 py-2 text-muted-foreground hover:text-foreground">Pricing</a>
-          <a href="/auth" class="px-3 py-2 rounded-md bg-gradient-brand text-white hover:opacity-90">Get started</a>
-        </nav>
-      </div>
-    </header>
+    <SiteHeader current="templates" />
 
     <main class="mx-auto max-w-5xl px-6 py-16">
       <div class="max-w-2xl">

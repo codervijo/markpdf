@@ -1,5 +1,9 @@
 ---
-import TemplatePage from "@/components/TemplatePage.astro";
+import GuidePage from "@/components/GuidePage.astro";
+import ExtensionCta from "@/components/ExtensionCta.astro";
+import MarkpdfCta from "@/components/MarkpdfCta.astro";
+import GuideFigure from "@/components/GuideFigure.astro";
+import RelatedGuide from "@/components/RelatedGuide.astro";
 
 // Tool page paired with Lamill's "Save Page as Markdown or PDF" Chrome extension
 // (tabmill recipe save-page-pdf-md; brief: tabmill `landing save-page-pdf-md`).
@@ -26,11 +30,11 @@ const faq = [
 ];
 ---
 
-<TemplatePage
-  title="Save a Webpage as PDF — Clean, Without Ads or Menus"
-  description="Save any webpage as a PDF in Chrome, Edge, Firefox or Safari — and how to keep the article without the menus, ads and cookie banners that print with it."
+<GuidePage
+  title="Save a Webpage as PDF — Clean, Without Ads or Menus | Markpdf"
   canonicalPath="/save-webpage-as-pdf/"
   docType="Guide"
+  ogImageAlt="How to save a webpage as a clean PDF, without ads or menus — Markpdf guide"
   h1="How to Save a Webpage as a PDF"
   introText="Press Ctrl+P (Cmd+P on a Mac), set the destination to “Save as PDF”, and click Save — that works in Chrome, Edge and Firefox; Safari also has File → Export as PDF. The catch is that the browser prints the page exactly as built, so menus, ads and cookie banners often end up in the PDF. To get just the article, clean the page up before you print, or extract the article and print only that."
   breadcrumb={[
@@ -85,6 +89,22 @@ const faq = [
         </dd>
       </div>
     </dl>
+    <div class="mt-8 grid sm:grid-cols-2 gap-4">
+      <GuideFigure
+        src="/guides/save-webpage-as-pdf/print-preview-cluttered.webp"
+        alt="Chrome print preview of a news article with the site header, cookie banner and sidebar ads printed alongside the text"
+        caption="Before: plain Ctrl+P prints the whole page."
+        width={1600}
+        height={1200}
+      />
+      <GuideFigure
+        src="/guides/save-webpage-as-pdf/print-preview-clean.webp"
+        alt="The same article in the Save Page as Markdown or PDF print view: title, source link and article text only"
+        caption="After: the extension's print view keeps just the article."
+        width={1600}
+        height={1200}
+      />
+    </div>
   </section>
 
   <section class="mt-16" aria-labelledby="extension-heading">
@@ -105,25 +125,28 @@ const faq = [
         <code>.md</code> file: the article as Markdown, with the title, the source URL and the date
         you saved it at the top.</li>
     </ol>
+    <GuideFigure
+      kind="video"
+      src="/guides/save-webpage-as-pdf/extension-demo.mp4"
+      poster="/guides/save-webpage-as-pdf/extension-demo-poster.webp"
+      alt="Screen recording: clicking the extension's toolbar button on an article, choosing Save as PDF, and Chrome's print dialog opening on the clean article view"
+      width={1280}
+      height={800}
+      class="mt-8"
+    />
     <p class="mt-6 text-muted-foreground leading-relaxed">
       <strong class="text-foreground font-medium">Privacy:</strong> it runs locally — page content never
       leaves your browser. It only reads the page you're on, and only when you click Save
       (<code>activeTab</code>); it has no access to any other site. The full permission list is on the
       <a href={PRIVACY} class="underline underline-offset-4 hover:text-foreground">privacy page</a>.
     </p>
-    <div class="mt-6 flex flex-wrap items-center gap-4">
-      <a href={STORE} target="_blank" rel="noopener" class="inline-flex items-center justify-center h-11 px-6 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90">Add to Chrome</a>
-      <a href={HUB} class="text-sm underline underline-offset-4 text-muted-foreground hover:text-foreground">About the extension</a>
-    </div>
+    <ExtensionCta href={STORE} hub={HUB} name="Save Page as Markdown or PDF" />
   </section>
 
-  <aside slot="notice" class="mt-8 rounded-xl border border-border bg-card p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-    <p class="text-sm">
-      <span class="font-medium">Save Page as Markdown or PDF</span>
+  <ExtensionCta slot="notice" variant="notice" href={STORE} name="Save Page as Markdown or PDF">
+    <span class="font-medium">Save Page as Markdown or PDF</span>
       {" "}— a Chrome extension by Lamill. One click saves just the article, as a PDF or Markdown.
-    </p>
-    <a href={STORE} target="_blank" rel="noopener" class="shrink-0 inline-flex items-center justify-center h-10 px-5 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90">Add to Chrome</a>
-  </aside>
+  </ExtensionCta>
 
   <section class="mt-16" aria-labelledby="examples-heading">
     <h2 id="examples-heading" class="font-serif text-3xl tracking-tight">What to expect on different pages</h2>
@@ -158,13 +181,12 @@ const faq = [
     </dl>
   </section>
 
-  <section class="mt-16" aria-labelledby="markpdf-heading">
-    <h2 id="markpdf-heading" class="font-serif text-3xl tracking-tight">Going the other way: Markdown to a designed PDF</h2>
-    <p class="mt-4 text-muted-foreground leading-relaxed">
-      Saving a page gives you someone else's document. If you're writing your own — a proposal,
+  <RelatedGuide path="/save-webpage-as-markdown/" lead="Want the text instead?" />
+
+  <MarkpdfCta heading="Going the other way: Markdown to a designed PDF">
+    Saving a page gives you someone else's document. If you're writing your own — a proposal,
       a statement of work, a report — in Markdown, <a href="/" class="underline underline-offset-4 hover:text-foreground">Markpdf</a>
       turns it into a branded, client-ready PDF with your logo and colours. Start from a
       <a href="/templates/" class="underline underline-offset-4 hover:text-foreground">free Markdown template</a>.
-    </p>
-  </section>
-</TemplatePage>
+  </MarkpdfCta>
+</GuidePage>

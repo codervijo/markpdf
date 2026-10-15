@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
 
 // Shared page shell for template + guide pages. Mirrors the exact structure
 // shipped at /templates/consulting-proposal/: header, breadcrumb, single <h1>,
@@ -25,6 +26,11 @@ const {
   faq = [],
   related = [], // [{title, href, docType}]
   noindex = false,
+  extraGraph = [], // extra JSON-LD nodes (e.g. GuidePage's TechArticle)
+  ogImage,
+  ogImageAlt,
+  ogType,
+  current, // SiteHeader nav highlight
 } = Astro.props;
 
 const pageUrl = `${SITE}${canonicalPath}`;
@@ -79,27 +85,16 @@ const graph = {
           },
         ]
       : []),
+    ...extraGraph,
   ],
 };
 ---
 
-<Layout title={title} description={description} noindex={noindex}>
+<Layout title={title} description={description} noindex={noindex} ogImage={ogImage} ogImageAlt={ogImageAlt} ogType={ogType}>
   <script type="application/ld+json" set:html={JSON.stringify(graph)} />
 
   <div class="min-h-screen bg-background text-foreground">
-    <header class="border-b border-border/60 sticky top-0 z-30 bg-background/80 backdrop-blur">
-      <div class="mx-auto max-w-5xl px-6 h-16 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-2">
-          <div class="h-6 w-6 rounded-md bg-gradient-brand shadow-glow"></div>
-          <span class="text-base font-semibold tracking-tight">Markpdf</span>
-        </a>
-        <nav class="flex items-center gap-1 text-sm">
-          <a href="/templates/" class="px-3 py-2 text-muted-foreground hover:text-foreground">Templates</a>
-          <a href="/pricing/" class="px-3 py-2 text-muted-foreground hover:text-foreground">Pricing</a>
-          <a href="/auth" class="px-3 py-2 rounded-md bg-gradient-brand text-white hover:opacity-90">Get started</a>
-        </nav>
-      </div>
-    </header>
+    <SiteHeader current={current} />
 
     <main class="mx-auto max-w-3xl px-6 py-12">
       <nav class="text-xs text-muted-foreground mb-6" aria-label="Breadcrumb">
@@ -113,6 +108,7 @@ const graph = {
 
       <span class="inline-block text-[11px] uppercase tracking-widest text-muted-foreground border border-border rounded-full px-2 py-0.5">{docType}</span>
       <h1 class="mt-4 font-serif text-4xl md:text-5xl leading-tight tracking-tight">{h1}</h1>
+      <slot name="meta" />
       <p class="mt-4 text-base md:text-lg text-muted-foreground">{introText}</p>
 
       <slot name="notice" />
@@ -135,7 +131,7 @@ const graph = {
               <span class="font-medium">Want it as a branded PDF?</span>
               {" "}{ctaText}
             </p>
-            <a href="/auth" class="shrink-0 inline-flex items-center justify-center h-10 px-5 rounded-md bg-gradient-brand text-white text-sm hover:opacity-90 shadow-glow">Open in Markpdf →</a>
+            <a href="/auth/" class="shrink-0 inline-flex items-center justify-center h-10 px-5 rounded-md bg-gradient-brand text-white text-sm hover:opacity-90 shadow-glow">Open in Markpdf →</a>
           </aside>
         </>
       )}
@@ -193,6 +189,7 @@ const graph = {
       <section class="mt-16 border-t border-border pt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm">
         <a href="/" class="text-foreground/80 hover:text-foreground">← Back to home</a>
         <a href="/templates/" class="text-foreground/80 hover:text-foreground">All templates</a>
+        <a href="/guides/" class="text-foreground/80 hover:text-foreground">All guides</a>
         <a href="/pricing/" class="text-foreground/80 hover:text-foreground">See pricing</a>
       </section>
     </main>

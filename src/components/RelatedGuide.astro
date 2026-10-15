@@ -1,0 +1,15 @@
+---
+// Cross-link to a companion guide. Renders only when the target is live in
+// guides.mjs, so an upcoming guide can be wired in before its route exists.
+import { getGuide } from "@/lib/guides.mjs";
+
+const { path, lead } = Astro.props;
+const g = getGuide(path);
+---
+
+{g.live && (
+  <aside class="mt-10 rounded-xl border border-border p-5 text-sm">
+    <span class="font-medium">{lead}</span>{" "}
+    <a href={g.path} class="underline underline-offset-4 hover:text-foreground">{g.title} →</a>
+  </aside>
+)}

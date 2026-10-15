@@ -1,0 +1,14 @@
+---
+// Closing "your own Markdown → branded PDF" block for guides. Copy comes from
+// the page (default slot); this supplies the prominent frame + template link.
+const { heading, id = "markpdf-heading" } = Astro.props;
+---
+
+<section class="mt-16 rounded-2xl border border-border bg-card p-6 md:p-8" aria-labelledby={id}>
+  <h2 id={id} class="font-serif text-3xl tracking-tight">{heading}</h2>
+  <p class="mt-4 text-muted-foreground leading-relaxed"><slot /></p>
+  <div class="mt-6 flex flex-wrap items-center gap-4">
+    <a href="/templates/" class="inline-flex items-center justify-center h-11 px-6 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90">Browse Markdown templates</a>
+    <a href="/" class="text-sm underline underline-offset-4 text-muted-foreground hover:text-foreground">How Markpdf works</a>
+  </div>
+</section>

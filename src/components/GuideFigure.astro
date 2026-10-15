@@ -1,0 +1,31 @@
+---
+// Image or video slot for guides. src (and poster) are paths under public/.
+//   kind="image" — supply a WebP; rendered lazy with explicit width/height (no CLS).
+//   kind="video" — click-to-play MP4 (smaller than a GIF; no autoplay motion).
+// Renders only when the file exists: nothing in production while it's missing,
+// a dashed placeholder naming the expected path in `astro dev`.
+// (Pre-made WebP rather than astro:assets: avoids a sharp build dependency.)
+import { publicAssetExists } from "@/lib/assets.mjs";
+
+const { kind = "image", src, alt, width, height, caption, poster, class: cls } = Astro.props;
+
+const present = publicAssetExists(src);
+const posterSrc = poster && publicAssetExists(poster) ? poster : undefined;
+---
+
+{present ? (
+  <figure class={cls}>
+    {kind === "image" ? (
+      <img src={src} alt={alt} width={width} height={height} loading="lazy" decoding="async" class="w-full h-auto rounded-lg border border-border" />
+    ) : (
+      <video controls muted loop playsinline preload="none" width={width} height={height} poster={posterSrc} aria-label={alt} class="w-full h-auto rounded-lg border border-border">
+        <source src={src} type="video/mp4" />
+      </video>
+    )}
+    {caption && <figcaption class="mt-2 text-xs text-muted-foreground">{caption}</figcaption>}
+  </figure>
+) : import.meta.env.DEV && (
+  <div class={`${cls ?? ""} rounded-lg border-2 border-dashed border-border p-4 text-xs text-muted-foreground flex items-center justify-center text-center`} style={`aspect-ratio:${width}/${height}`}>
+    Asset pending: public{src} ({width}×{height}) — {alt}
+  </div>
+)}

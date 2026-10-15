@@ -22,3 +22,7 @@ to surface "last AI prompt" per project. Keep entries append-only.
 ## 2026-10-14 — install button on /save-webpage-as-pdf/
 > "add a button to use that chrome extension" (extension now live in the Chrome Web Store)
 > → replaced the "coming soon" notice with UTM-tagged Add to Chrome buttons (notice + extension section) and kept the lamill.io hub link.
+
+## 2026-10-14 — v1.C guide polish + shared guide kit
+> "Improve the existing guide at /save-webpage-as-pdf/ … visuals, social cards, schema, brand consistency, freshness … reusable components" (brand: Markpdf; PRD slot v1.C)
+> → guides.mjs registry, GuidePage/SiteHeader/ExtensionCta/MarkpdfCta/GuideFigure/RelatedGuide, /guides/ index, og:image support in Layout, sitemap lastmod. Asset slots pending operator files.

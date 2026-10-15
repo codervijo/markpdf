@@ -108,3 +108,12 @@ https://search.google.com/search-console directly.
 - **Action:** two UTM-tagged "Add to Chrome" buttons (top notice + extension section); lamill.io hub link kept.
 - **Result:** TBD — review 28 days after the page is first indexed.
 - **Learning:** TBD.
+
+## 2026-10-14 — v1.C: `/save-webpage-as-pdf/` gets internal links, `/guides/` index, TechArticle schema, sitemap lastmod
+- **Status:** active
+- **Hypothesis:** The page had no inbound internal links (orphan, reachable only via sitemap). Linking it from the homepage footer, the header nav and a new `/guides/` index, and adding `lastmod`, gives Google a crawl path from the one indexed URL (`/`), so the page gets discovered sooner.
+- **KPI:** URL Inspection coverage for `/save-webpage-as-pdf/` and `/guides/` (unknown → indexed); then impressions per the 2026-10-11 entry.
+- **Baseline:** `/save-webpage-as-pdf/` unknown to Google; site 1/7 sitemap URLs indexed (2026-10-02 entry).
+- **Action:** guides registry (`src/lib/guides.mjs`) drives visible "Updated" date, TechArticle `dateModified`, and sitemap `lastmod`; `GuidePage` shell for both guides; `/guides/` index; nav/footer links; og:image / video / before-after slots that render only once assets exist.
+- **Result:** TBD — review 2026-11-11
+- **Learning:** TBD.

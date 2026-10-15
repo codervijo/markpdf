@@ -109,6 +109,8 @@ export function Landing() {
             <h3 className="font-semibold text-foreground">Guides</h3>
             <ul className="mt-3 space-y-2 text-muted-foreground">
               <li><a href="/guide/how-to-write-a-scope-of-work/" className="hover:text-foreground">How to write a scope of work</a></li>
+              <li><a href="/save-webpage-as-pdf/" className="hover:text-foreground">Save a webpage as PDF</a></li>
+              <li><a href="/guides/" className="hover:text-foreground">All guides</a></li>
             </ul>
           </div>
           <div>

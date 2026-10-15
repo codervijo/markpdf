@@ -4,6 +4,13 @@ import { fileURLToPath } from 'node:url';
 import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
+import { liveGuides } from './src/lib/guides.mjs';
+
+// lastmod from the guides registry (the same dates the pages show). Other URLs
+// get no lastmod rather than a made-up one.
+const guides = liveGuides();
+const LASTMOD = Object.fromEntries(guides.map((g) => [`https://markpdf.dev${g.path}`, g.updated]));
+LASTMOD['https://markpdf.dev/guides/'] = guides.map((g) => g.updated).sort().at(-1);
 
 export default defineConfig({
   site: 'https://markpdf.dev',
@@ -27,6 +34,10 @@ export default defineConfig({
           'https://markpdf.dev/templates/scope-of-work/',
           'https://markpdf.dev/templates/statement-of-work/',
         ].includes(page),
+      serialize(item) {
+        if (LASTMOD[item.url]) item.lastmod = LASTMOD[item.url];
+        return item;
+      },
     }),
     react(),
   ],

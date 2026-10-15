@@ -1,5 +1,5 @@
 ---
-import TemplatePage from "@/components/TemplatePage.astro";
+import GuidePage from "@/components/GuidePage.astro";
 
 const howToSteps = [
   { name: "Start with the objective", text: "Open with one paragraph on the outcome the project delivers — the business goal, not a task list. Everything downstream is judged against this." },
@@ -26,16 +26,15 @@ const related = [
 ];
 ---
 
-<TemplatePage
+<GuidePage
   title="How to Write a Scope of Work (Step by Step) | Markpdf"
-  description="A step-by-step guide to writing a scope of work: objective, deliverables, acceptance criteria, exclusions, timeline, and terms — with free templates to start from."
   canonicalPath="/guide/how-to-write-a-scope-of-work/"
   docType="Guide"
   h1="How to Write a Scope of Work"
   introText="A scope of work turns a vague agreement into something both sides can point to. This guide walks through each section — objective, deliverables, acceptance criteria, exclusions, timeline, and terms — with practical guidance and free templates to start from."
   breadcrumb={[
     { name: "Home", href: "/" },
-    { name: "Guides", href: "/guide/how-to-write-a-scope-of-work/" },
+    { name: "Guides", href: "/guides/" },
     { name: "How to Write a Scope of Work" },
   ]}
   howToTitle="How to write a scope of work, step by step"
@@ -66,4 +65,4 @@ const related = [
       <a href="/templates/statement-of-work/" class="inline-flex items-center h-10 px-5 rounded-md border border-border hover:bg-muted">Statement of Work template →</a>
     </div>
   </aside>
-</TemplatePage>
+</GuidePage>

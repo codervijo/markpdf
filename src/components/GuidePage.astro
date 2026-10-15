@@ -1,0 +1,57 @@
+---
+// Guide shell: TemplatePage + guide metadata from guides.mjs (single source of
+// truth). Adds the visible "Updated <Month YYYY>" line, a TechArticle node whose
+// dates match it, the Organization node it references, and the page's og:image
+// once public/<ogImage> exists. Slots: default (body), notice (under the intro).
+import TemplatePage from "@/components/TemplatePage.astro";
+import { getGuide, formatMonthYear } from "@/lib/guides.mjs";
+import { publicAssetExists } from "@/lib/assets.mjs";
+
+const SITE = "https://markpdf.dev";
+
+const { canonicalPath, h1, ogImageAlt, ...rest } = Astro.props;
+const g = getGuide(canonicalPath);
+const description = g.description; // meta, og, schema and /guides/ card share one string
+const pageUrl = `${SITE}${canonicalPath}`;
+const ogImage = publicAssetExists(g.ogImage) ? g.ogImage : undefined;
+
+const extraGraph = [
+  {
+    "@type": "Organization",
+    "@id": `${SITE}/#organization`,
+    name: "Markpdf",
+    url: `${SITE}/`,
+  },
+  {
+    "@type": "TechArticle",
+    "@id": `${pageUrl}#article`,
+    headline: h1,
+    description,
+    datePublished: g.published,
+    dateModified: g.updated,
+    author: { "@id": `${SITE}/#organization` },
+    publisher: { "@id": `${SITE}/#organization` },
+    mainEntityOfPage: { "@id": `${pageUrl}#webpage` },
+    inLanguage: "en",
+    ...(ogImage ? { image: [`${SITE}${ogImage}`] } : {}),
+  },
+];
+---
+
+<TemplatePage
+  {...rest}
+  canonicalPath={canonicalPath}
+  h1={h1}
+  description={description}
+  extraGraph={extraGraph}
+  ogImage={ogImage}
+  ogImageAlt={ogImageAlt}
+  ogType="article"
+  current="guides"
+>
+  <p slot="meta" class="mt-3 text-sm text-muted-foreground">
+    Updated <time datetime={g.updated}>{formatMonthYear(g.updated)}</time>
+  </p>
+  <slot name="notice" slot="notice" />
+  <slot />
+</TemplatePage>

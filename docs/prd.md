@@ -4,7 +4,7 @@ prd_version: 1
 project_version: v0.A
 status: planned
 owner: Vijo
-last_updated: 2026-06-07
+last_updated: 2026-10-14
 ---
 
 # markpdf.dev — PRD
@@ -43,7 +43,9 @@ Two-level versioning convention (canonical: `sites/portfolio/AI_AGENTS.md`):
 | Phase | Theme | Features | Status |
 |---|---|---|---|
 | **v0.A** | scaffolded | `portfolio new bootstrap` ran; standard files written; git initialized | ✅ |
-| **v1.A** | <fill in> | <fill in> | planned |
+| **v1.A** | templates + SEO baseline | templates library, homepage SEO, real 404 on CF Pages, noindex/sitemap-exclude app routes | ✅ |
+| **v1.B** | template library expansion | 5 template/guide pages via shared `TemplatePage` | ✅ |
+| **v1.C** | guide polish + shared guide kit | `src/lib/guides.mjs` registry (single source for dates, sitemap lastmod, index, cross-links); `GuidePage` (TechArticle schema + visible "Updated" date); reusable `ExtensionCta`, `MarkpdfCta`, `GuideFigure`, `RelatedGuide`; asset slots that render only when the file exists; page-specific og:image + `summary_large_image`; `/guides/` index + nav/footer links; applied to `/save-webpage-as-pdf/` | in progress |
 
 ## 6. Open questions
 
