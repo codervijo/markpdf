@@ -26,3 +26,7 @@ to surface "last AI prompt" per project. Keep entries append-only.
 ## 2026-10-14 — v1.C guide polish + shared guide kit
 > "Improve the existing guide at /save-webpage-as-pdf/ … visuals, social cards, schema, brand consistency, freshness … reusable components" (brand: Markpdf; PRD slot v1.C)
 > → guides.mjs registry, GuidePage/SiteHeader/ExtensionCta/MarkpdfCta/GuideFigure/RelatedGuide, /guides/ index, og:image support in Layout, sitemap lastmod. Asset slots pending operator files.
+
+## 2026-10-30 — v1.D thin-page repair
+> "use treg to find more SEO pages … low KD high to medium SV", "are all pages thick and useful based on our seo custom skill", "dont try to make me request indexing … make progress"
+> → audit vs write-lamill-seo-page (4 thin pages); keyword shortlist via treg (SE Ranking) → PRD v1.D/v1.E; v1.D shipped locally: homepage retarget + convert-markdown-to-pdf content, SOW guide rewrite, hub prose/schema, de-templated template pages.

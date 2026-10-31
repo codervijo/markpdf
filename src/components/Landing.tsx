@@ -2,6 +2,7 @@ import { Link } from "@/lib/router-shim";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, FileText, Palette, Check } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { homeFaq } from "@/lib/markdown-to-pdf";
 
 export function Landing() {
   return (
@@ -30,11 +31,11 @@ export function Landing() {
             For freelancers and consultants
           </div>
           <h1 className="mt-6 font-serif text-5xl md:text-7xl leading-[1.02] tracking-tight">
-            Write in markdown.<br />
-            <span className="italic text-gradient-brand">Send like a design agency.</span>
+            Convert Markdown to PDF<br />
+            <span className="italic text-gradient-brand">that looks designed.</span>
           </h1>
           <p className="mt-6 max-w-xl mx-auto text-base md:text-lg text-muted-foreground">
-            Markpdf turns plain markdown proposals into polished, branded client PDFs in seconds.
+            Write proposals and scopes of work in markdown. Markpdf exports them as polished PDFs with your logo and brand colours, so you can send them to clients as they are.
           </p>
           <div className="mt-10 flex items-center justify-center gap-3">
             <Button asChild size="lg" className="h-11 px-6 bg-gradient-brand text-white border-0 hover:opacity-90 shadow-glow">
@@ -91,6 +92,96 @@ export function Landing() {
           <Feature icon={FileText} title="Markdown in, PDF out" body="Headings, tables, code, blockquotes — all rendered into a typographic, client-ready document." tint="violet" />
           <Feature icon={Palette} title="Your brand, always" body="Logo, primary color, accent. Saved once in your brand kit, applied to every export." tint="coral" />
           <Feature icon={Check} title="Three pro templates" body="Modern Proposal, Clean Scope of Work, Executive Brief. Built for technical work." tint="teal" />
+        </div>
+      </section>
+
+      {/* How to convert Markdown to PDF — server-rendered guide content */}
+      <section className="border-t border-border" aria-labelledby="convert-heading">
+        <div className="mx-auto max-w-3xl px-6 py-20">
+          <h2 id="convert-heading" className="font-serif text-4xl tracking-tight">How to convert Markdown to PDF</h2>
+          <p className="mt-5 text-muted-foreground leading-relaxed">
+            The quickest way is to export from your editor (Obsidian has Export to PDF built in), or to run{" "}
+            <code className="font-mono text-[0.9em]">pandoc input.md -o output.pdf</code> from a terminal. Either gives you a
+            readable document. Neither gives you one you'd send a client without fixing the styling, page breaks and branding
+            first. Here are the options and where each one breaks down.
+          </p>
+
+          <dl className="mt-10 space-y-8">
+            <div>
+              <dt className="font-serif text-2xl">1. Export from your editor</dt>
+              <dd className="mt-2 text-muted-foreground leading-relaxed">
+                Obsidian exports a note to PDF from its command palette. In VS Code, the widely used Markdown PDF extension adds
+                an export command. It's fast for notes and internal docs. Styling is whatever the editor or extension ships with,
+                and adding a logo or letterhead means editing CSS.
+              </dd>
+            </div>
+            <div>
+              <dt className="font-serif text-2xl">2. Pandoc on the command line</dt>
+              <dd className="mt-2 text-muted-foreground leading-relaxed">
+                <code className="font-mono text-[0.9em]">pandoc input.md -o output.pdf</code> converts through LaTeX by default,
+                so it needs a TeX distribution installed. Without one, Pandoc stops and tells you the PDF engine wasn't found.
+                Add <code className="font-mono text-[0.9em]">--pdf-engine=xelatex</code> for documents with non-Latin characters,
+                or use an HTML engine such as <code className="font-mono text-[0.9em]">--pdf-engine=weasyprint</code> to style the
+                output with CSS. Pandoc is the right tool for scripted or batch conversion.
+              </dd>
+            </div>
+            <div>
+              <dt className="font-serif text-2xl">3. Render it, then print from the browser</dt>
+              <dd className="mt-2 text-muted-foreground leading-relaxed">
+                Open the rendered Markdown in a browser, press Ctrl+P (Cmd+P on a Mac) and choose Save as PDF. It's free and works
+                everywhere, but you inherit the page's styles and long tables or code blocks split wherever the page ends. The{" "}
+                <a href="/save-webpage-as-pdf/" className="underline underline-offset-4 hover:text-foreground">guide to saving a webpage as a PDF</a>{" "}
+                covers cleaning up a page before you print it.
+              </dd>
+            </div>
+            <div>
+              <dt className="font-serif text-2xl">4. Markpdf, for documents clients will read</dt>
+              <dd className="mt-2 text-muted-foreground leading-relaxed">
+                Write or paste the markdown, and Markpdf applies your saved brand kit (logo, primary and accent colours) to a
+                document layout built for proposals and scopes of work. Start from a{" "}
+                <a href="/templates/consulting-proposal/" className="underline underline-offset-4 hover:text-foreground">consulting proposal</a>,{" "}
+                <a href="/templates/web-design-proposal/" className="underline underline-offset-4 hover:text-foreground">web design proposal</a> or{" "}
+                <a href="/templates/freelance-proposal/" className="underline underline-offset-4 hover:text-foreground">freelance proposal</a> template.
+              </dd>
+            </div>
+          </dl>
+
+          <h3 className="mt-16 font-serif text-3xl tracking-tight">Common conversion problems</h3>
+          <ul className="mt-6 space-y-5 text-muted-foreground leading-relaxed">
+            <li>
+              <span className="font-medium text-foreground">
+                <code className="font-mono text-[0.9em]">LaTeX Error: Unicode character … not set up for use with LaTeX</code>
+              </span>{" "}
+              Pandoc's default pdflatex engine can't typeset some characters, such as emoji, symbols like ✓, and many non-Latin
+              scripts. Switch to <code className="font-mono text-[0.9em]">--pdf-engine=xelatex</code> or{" "}
+              <code className="font-mono text-[0.9em]">lualatex</code>, with a font that contains the character.
+            </li>
+            <li>
+              <span className="font-medium text-foreground">Images are missing.</span> Relative image paths resolve from where the
+              converter runs, not from where the .md file lives. Run the command from the file's folder, or point Pandoc at the
+              images with <code className="font-mono text-[0.9em]">--resource-path</code>.
+            </li>
+            <li>
+              <span className="font-medium text-foreground">Tables run off the page or split badly.</span> Wide tables overflow the
+              right margin in LaTeX output. In HTML-based output, add{" "}
+              <code className="font-mono text-[0.9em]">break-inside: avoid</code> to tables and code blocks in your CSS to keep each
+              one on a single page.
+            </li>
+            <li>
+              <span className="font-medium text-foreground">The URL and date print in the margins.</span> That's the browser's
+              default header and footer. Turn off Headers and footers under More settings in the print dialog.
+            </li>
+          </ul>
+
+          <h3 className="mt-16 font-serif text-3xl tracking-tight">FAQ</h3>
+          <dl className="mt-6 space-y-6">
+            {homeFaq.map((f) => (
+              <div key={f.q}>
+                <dt className="font-medium">{f.q}</dt>
+                <dd className="mt-1.5 text-sm text-muted-foreground leading-relaxed">{f.a}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 

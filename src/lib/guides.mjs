@@ -21,9 +21,9 @@ export const GUIDES = [
     path: "/guide/how-to-write-a-scope-of-work/",
     title: "How to Write a Scope of Work",
     description:
-      "A step-by-step guide to writing a scope of work: objective, deliverables, acceptance criteria, exclusions, timeline, and terms — with free templates to start from.",
+      "Write a scope of work step by step: deliverables, acceptance, exclusions and dates, with vague-vs-specific rewrites and a worked example.",
     published: "2026-07-24",
-    updated: "2026-07-24",
+    updated: "2026-10-30",
     live: true,
   },
   {

@@ -2,16 +2,45 @@
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import SiteHeader from "@/components/SiteHeader.astro";
+import { liveGuides } from "@/lib/guides.mjs";
+
+const SITE = "https://markpdf.dev";
+const pageUrl = `${SITE}/templates/`;
+const title = "Free Markdown Proposal & SOW Templates | Markpdf";
+const description = "Free markdown templates for client proposals and scopes of work. Pick by project type, copy the source, and export a branded PDF.";
 
 const templates = (await getCollection("templates"))
   .filter((t) => !t.data.noindex) // hold noindex templates (e.g. SOW pending review) out of the public gallery
   .sort((a, b) => a.data.order - b.data.order);
+const guides = liveGuides();
+
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": `${pageUrl}#webpage`,
+      url: pageUrl,
+      name: title,
+      description,
+      isPartOf: { "@id": `${SITE}/#website` },
+      mainEntity: { "@id": `${pageUrl}#list` },
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${pageUrl}#list`,
+      itemListElement: templates.map((t, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: t.data.title,
+        url: `${SITE}/templates/${t.id}/`,
+      })),
+    },
+  ],
+};
 ---
 
-<Layout
-  title="Free Markdown Templates for Proposals, SOWs & Client Docs — Markpdf"
-  description="Free, copy-pasteable markdown templates for consultants and freelancers: proposals, statements of work, project briefs and more. Copy the source, export a branded PDF."
->
+<Layout title={title} description={description}>
   <div class="min-h-screen bg-background text-foreground">
     <SiteHeader current="templates" />
 
@@ -21,9 +50,10 @@ const templates = (await getCollection("templates"))
           Free markdown templates for client documents
         </h1>
         <p class="mt-5 text-base md:text-lg text-muted-foreground">
-          Copy-pasteable templates for proposals, statements of work, and project
-          briefs — written for freelancers and consultants. Copy the markdown,
-          then export a branded PDF in Markpdf.
+          Each template is a complete document, not an outline: every section a
+          client expects, placeholder text that tells you what to write, and a
+          filled-in example on the page. They're plain markdown, so they live in
+          your editor and your git repo like the rest of your work.
         </p>
       </div>
 
@@ -46,6 +76,56 @@ const templates = (await getCollection("templates"))
       {templates.length === 0 && (
         <p class="mt-12 text-muted-foreground">Templates are on the way.</p>
       )}
+
+      <section class="mt-20 max-w-3xl" aria-labelledby="choose-heading">
+        <h2 id="choose-heading" class="font-serif text-3xl tracking-tight">Which template do you need?</h2>
+        <dl class="mt-6 space-y-5">
+          <div>
+            <dt class="font-medium">You're advising, auditing or recommending</dt>
+            <dd class="text-sm text-muted-foreground mt-1">Use the <a href="/templates/consulting-proposal/" class="underline underline-offset-4">consulting proposal</a>. It leads with the client's problem and your approach, and prices the engagement as a fixed fee, hourly rate or retainer.</dd>
+          </div>
+          <div>
+            <dt class="font-medium">You're building a website</dt>
+            <dd class="text-sm text-muted-foreground mt-1">Use the <a href="/templates/web-design-proposal/" class="underline underline-offset-4">web design proposal</a>. It has a page-by-page table, sign-off gates between wireframes, design and build, and a deposit line, which website projects need more than most.</dd>
+          </div>
+          <div>
+            <dt class="font-medium">It's a small, well-defined job</dt>
+            <dd class="text-sm text-muted-foreground mt-1">Use the <a href="/templates/freelance-proposal/" class="underline underline-offset-4">freelance proposal</a>: one or two pages covering overview, deliverables, revision limits and price. It works for writing, design, development or marketing.</dd>
+          </div>
+          <div>
+            <dt class="font-medium">The client has said yes and you need it in writing</dt>
+            <dd class="text-sm text-muted-foreground mt-1">That's a scope of work. A proposal persuades; a scope of work pins down deliverables, acceptance and exclusions so both sides agree on what "done" means. <a href="/guide/how-to-write-a-scope-of-work/" class="underline underline-offset-4">How to write a scope of work</a> walks through it with examples.</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="mt-16 max-w-3xl" aria-labelledby="why-md-heading">
+        <h2 id="why-md-heading" class="font-serif text-3xl tracking-tight">Why markdown for client documents</h2>
+        <p class="mt-4 text-muted-foreground leading-relaxed">
+          A proposal in a word processor mixes content and layout, so every new
+          client means fixing styles that drifted. In markdown the document is
+          just text: diffable, easy to reuse between clients, and quick to edit
+          in the same editor you write code in. The catch is that raw markdown
+          isn't something you'd send a client. Markpdf handles that step,
+          applying your logo, colours and typography when it exports the PDF.
+        </p>
+      </section>
+
+      {guides.length > 0 && (
+        <section class="mt-16 border-t border-border pt-10" aria-labelledby="guides-heading">
+          <h2 id="guides-heading" class="font-serif text-2xl mb-6">Guides</h2>
+          <ul class="grid sm:grid-cols-2 gap-4">
+            {guides.map((g) => (
+              <li>
+                <a href={g.path} class="block h-full rounded-lg border border-border bg-card p-4 hover:border-foreground/30 transition-colors">
+                  <p class="font-medium leading-snug">{g.title}</p>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </main>
   </div>
+  <script type="application/ld+json" set:html={JSON.stringify(graph)} />
 </Layout>

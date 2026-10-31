@@ -12,10 +12,11 @@ const howToSteps = [
 ];
 
 const faq = [
-  { q: "What is a scope of work?", a: "A scope of work is the document that defines exactly what a project will deliver: the objective, the deliverables, how they'll be accepted, what's excluded, the schedule, and the terms. It turns a vague agreement into something both sides can point to." },
+  { q: "The client asked for something that isn't in the scope. What do I do?", a: "Don't absorb it and don't refuse it. Reply that it's outside the agreed scope, quote it as a change request (what it adds, what it costs, how it moves the dates), and start only once they approve it in writing. A change-control clause in the SOW is what makes this a routine reply instead of an awkward negotiation." },
   { q: "What's the difference between a scope of work and a statement of work?", a: "They overlap and are often used interchangeably. In strict usage, a statement of work (SOW) is the broader engagement document — scope, schedule, payment, and terms, often under a master agreement — while the scope of work is the part that describes the work and deliverables. For most freelance and small-agency projects, a single well-written document covers both." },
   { q: "Who writes the scope of work?", a: "Usually the provider (freelancer, consultant, or agency), because they know the work best. The client reviews and agrees. Writing it yourself is an advantage — you get to define the boundaries before the work starts." },
-  { q: "How detailed should a scope of work be?", a: "Detailed enough that a stranger could tell whether each deliverable was met. Name deliverables and formats, define acceptance, and list exclusions. Avoid padding — precision on deliverables matters more than length." },
+  { q: "How detailed should a scope of work be?", a: "Detailed enough that a stranger could tell whether each deliverable was met. Name deliverables and formats, define acceptance, and list exclusions. A two-week project might fit on one page; a multi-phase build needs more, but precision on deliverables matters more than length." },
+  { q: "What if the project is too uncertain to scope?", a: "Scope a paid discovery phase first. Its deliverable is the information you're missing — a findings document, a technical plan, a firm estimate for the main build. Then write the main scope of work from what discovery found, instead of guessing and padding the price." },
   { q: "Is a scope of work legally binding?", a: "It depends on how it's executed and what it's attached to — often it's incorporated into a signed agreement. Treat it as a business document, keep the terms clear, and have a lawyer review any contractual language for your situation. This guide is not legal advice." },
 ];
 
@@ -24,14 +25,24 @@ const related = [
   { title: "Statement of Work Template", href: "/templates/statement-of-work/", docType: "SOW" },
   { title: "Consulting Proposal Template", href: "/templates/consulting-proposal/", docType: "Proposal" },
 ];
+
+// Weak line → specific line. The weak versions are the ones that turn into
+// "that was included" disputes.
+const rewrites = [
+  { weak: "Website redesign.", strong: "Design and build six pages (home, services, about, pricing, blog index, contact) in Webflow, responsive at phone, tablet and desktop widths.", why: "Names every output, so a seventh page is visibly a change." },
+  { weak: "Client will provide content.", strong: "Client supplies final copy and images for all six pages by 12 March. Each week of delay moves the launch date by one week.", why: "Gives the dependency an owner, a date and a consequence." },
+  { weak: "Revisions as needed.", strong: "Two rounds of revisions per deliverable. Feedback is consolidated into one list and returned within five business days.", why: "Bounds the work and stops piecemeal feedback from five people." },
+  { weak: "Ongoing support after launch.", strong: "14 days of bug fixes after launch. New features and content edits are quoted separately.", why: "Separates fixing what was built from building something new." },
+  { weak: "Project complete upon delivery.", strong: "A deliverable is accepted when the client approves it in writing, or five business days pass without a written list of defects.", why: "Acceptance can't stall indefinitely." },
+];
 ---
 
 <GuidePage
-  title="How to Write a Scope of Work (Step by Step) | Markpdf"
+  title="How to Write a Scope of Work (With Examples) | Markpdf"
   canonicalPath="/guide/how-to-write-a-scope-of-work/"
   docType="Guide"
   h1="How to Write a Scope of Work"
-  introText="A scope of work turns a vague agreement into something both sides can point to. This guide walks through each section — objective, deliverables, acceptance criteria, exclusions, timeline, and terms — with practical guidance and free templates to start from."
+  introText="To write a scope of work, state the project's objective, list every deliverable with its format, define how each one is accepted, name what is excluded, tie deliverables to dates, and finish with assumptions, change control, fees and sign-off. The test of a finished scope: someone outside the project could read it and say, deliverable by deliverable, whether the work was done."
   breadcrumb={[
     { name: "Home", href: "/" },
     { name: "Guides", href: "/guides/" },
@@ -44,7 +55,7 @@ const related = [
 >
   <section class="mt-16" aria-labelledby="contain-heading">
     <h2 id="contain-heading" class="font-serif text-3xl tracking-tight">What a scope of work should contain</h2>
-    <p class="mt-4 text-muted-foreground">Each section answers a question the other party will otherwise ask later.</p>
+    <p class="mt-4 text-muted-foreground">Each section answers a question the other party will otherwise ask later — usually at the worst moment.</p>
     <dl class="mt-6 space-y-5">
       <div><dt class="font-medium">Purpose / objective</dt><dd class="text-sm text-muted-foreground mt-1">The outcome in business terms. Anchors every other decision.</dd></div>
       <div><dt class="font-medium">Deliverables</dt><dd class="text-sm text-muted-foreground mt-1">The concrete outputs and their formats — the spine of the document.</dd></div>
@@ -55,6 +66,34 @@ const related = [
       <div><dt class="font-medium">Change control</dt><dd class="text-sm text-muted-foreground mt-1">A written process for changing scope, schedule, or fees.</dd></div>
       <div><dt class="font-medium">Fees & sign-off</dt><dd class="text-sm text-muted-foreground mt-1">The fee basis, payment schedule, and a signature block.</dd></div>
     </dl>
+  </section>
+
+  <section class="mt-16" aria-labelledby="rewrite-heading">
+    <h2 id="rewrite-heading" class="font-serif text-3xl tracking-tight">Vague lines that cause disputes, rewritten</h2>
+    <p class="mt-4 text-muted-foreground">Most scope arguments trace back to a single sentence that both sides read differently. These are the usual suspects, with a version that leaves no room for a second reading.</p>
+    <div class="mt-6 space-y-4">
+      {rewrites.map((r) => (
+        <div class="rounded-lg border border-border bg-card p-5 text-sm">
+          <p><span class="text-[10px] uppercase tracking-widest text-muted-foreground mr-2">Weak</span><span class="line-through decoration-muted-foreground/60">{r.weak}</span></p>
+          <p class="mt-2"><span class="text-[10px] uppercase tracking-widest text-muted-foreground mr-2">Specific</span>{r.strong}</p>
+          <p class="mt-2 text-muted-foreground">{r.why}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="mt-16" aria-labelledby="example-heading">
+    <h2 id="example-heading" class="font-serif text-3xl tracking-tight">Worked example: a security assessment</h2>
+    <p class="mt-4 text-muted-foreground">A condensed scope of work for a two-week web application security review by an independent consultant. Names, dates and figures are illustrative.</p>
+    <div class="mt-6 rounded-lg border border-border bg-card p-6 text-sm space-y-3">
+      <p><strong>Objective:</strong> Identify exploitable vulnerabilities in Acme's customer portal before its public launch, and give the engineering team a prioritised fix list.</p>
+      <p><strong>Deliverables:</strong> (1) A written report (PDF) listing each finding with severity, affected endpoint, reproduction steps and recommended fix. (2) A 60-minute readout call with the engineering lead. (3) One retest of fixed critical and high findings within 30 days of the report.</p>
+      <p><strong>Acceptance:</strong> The report is accepted when Acme confirms receipt and raises no written questions within five business days, or once the readout call has taken place.</p>
+      <p><strong>Out of scope:</strong> the marketing site, mobile apps, social engineering, denial-of-service testing, and fixing the issues found.</p>
+      <p><strong>Assumptions:</strong> Acme provides a staging environment and two test accounts (standard and admin) by 3 June. Testing runs 3–14 June; a late environment moves the report date by the same number of days.</p>
+      <p><strong>Change control:</strong> Additional applications or a second retest are quoted as a change request before any work starts.</p>
+    </div>
+    <p class="mt-4 text-muted-foreground"><strong>Where this would have gone wrong:</strong> the first draft said "test the platform". Acme's CTO read "platform" as including the mobile apps; the consultant had priced only the web portal. Naming the target and listing the mobile apps under exclusions settled that before it cost either side money.</p>
   </section>
 
   <aside class="mt-12 rounded-xl border border-border bg-card p-6">

@@ -4,13 +4,19 @@
 // SEO baseline tags directly from this file. Body is the ported Landing island.
 import "../styles/global.css";
 import { Landing } from "@/components/Landing";
+import { homeFaq } from "@/lib/markdown-to-pdf";
 
 const site = "https://markpdf.dev";
 // Canonical URL — trailing-slash apex, byte-for-byte matching the sitemap
 // <loc> (https://markpdf.dev/) and the directory-format build output.
 const canonicalUrl = "https://markpdf.dev/";
-const title = "Markpdf — Markdown to branded client PDFs";
-const description = "Markpdf turns plain markdown proposals into polished, branded client PDFs in seconds. Write in markdown, send like a design agency.";
+const title = "Convert Markdown to PDF — Branded Client PDFs | Markpdf";
+const description = "Convert Markdown to PDF with Pandoc, your editor or a browser, fix the common errors, or export branded client PDFs with Markpdf.";
+const faqLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: homeFaq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+});
 
 const themeScript = `
   (function() {
@@ -34,7 +40,7 @@ const themeScript = `
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content="Write in markdown. Send like a design agency." />
+    <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content="markpdf.dev" />
 
@@ -90,6 +96,7 @@ const themeScript = `
   ]
 }
     </script>
+    <script type="application/ld+json" set:html={faqLd} />
     <script is:inline set:html={themeScript} />
   </head>
   <body>
