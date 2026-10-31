@@ -1,0 +1,189 @@
+---
+import GuidePage from "@/components/GuidePage.astro";
+import RelatedGuide from "@/components/RelatedGuide.astro";
+
+// Day-based rate calculator: salary-equivalent ↔ day rate ↔ hourly rate.
+// Inputs are example values for the reader to replace, not benchmarks. The
+// worked example uses the same functions as the live calculator.
+
+const d = { salary: 90000, costs: 8000, onCost: 25, daysPerWeek: 5, holidays: 10, vacation: 20, sick: 5, billable: 80, hoursPerDay: 8, offered: 500 };
+
+function days(i) {
+  const working = Math.max(0, 52 * i.daysPerWeek - i.holidays - i.vacation - i.sick);
+  return { working, billable: working * (i.billable / 100) };
+}
+function dayRate(i) {
+  const need = i.salary * (1 + i.onCost / 100) + i.costs;
+  const b = days(i).billable;
+  const day = b > 0 ? need / b : 0;
+  return { need, day, hourly: i.hoursPerDay > 0 ? day / i.hoursPerDay : 0 };
+}
+function salaryFromDay(i, rate) {
+  const gross = rate * days(i).billable;
+  return Math.max(0, (gross - i.costs) / (1 + i.onCost / 100));
+}
+
+const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
+const usd2 = (n) => "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+const r = dayRate(d);
+const dd = days(d);
+const naiveDay = d.salary / 260; // salary ÷ 260 weekdays
+const offeredSalary = salaryFromDay(d, d.offered);
+const naiveCovers = salaryFromDay(d, naiveDay);
+
+const fields = [
+  { id: "salary", label: "Salary you're replacing", suffix: "per year", step: 1000, help: "The employee salary this work should be worth to you." },
+  { id: "costs", label: "Business costs", suffix: "per year", step: 500, help: "Tools, insurance, accounting, equipment." },
+  { id: "onCost", label: "Employer on-costs you now pay", suffix: "% of salary", step: 1, help: "Payroll taxes, pension and health cover an employer would have added. Check your own figure with an accountant." },
+  { id: "daysPerWeek", label: "Days worked per week", suffix: "days", step: 1, help: "" },
+  { id: "holidays", label: "Public holidays", suffix: "days a year", step: 1, help: "Use your country's count." },
+  { id: "vacation", label: "Vacation", suffix: "days a year", step: 1, help: "" },
+  { id: "sick", label: "Sick and training days", suffix: "days a year", step: 1, help: "Unpaid now, so plan for them." },
+  { id: "billable", label: "Days you can bill", suffix: "% of working days", step: 1, help: "Days spent on sales, admin or between contracts aren't billable." },
+  { id: "hoursPerDay", label: "Hours in a billed day", suffix: "hours", step: 0.5, help: "What one day means in your contracts." },
+];
+
+const faq = [
+  { q: "How many hours is a day rate?", a: "Whatever your contract says. Seven and a half or eight hours is common, but it's a definition, not a law, so write it into the proposal along with what happens on a day that runs longer. Without it, a day rate quietly becomes \"until it's done\"." },
+  { q: "Should I charge a day rate or an hourly rate?", a: "Day rates suit on-site work, workshops and engagements where switching between clients during the day isn't practical. Hourly suits short, fragmented tasks. If you quote a day rate, decide whether half days are billable and say so." },
+  { q: "Is a day rate the same as dividing my salary by 260?", a: "No. 260 is every weekday in a year. As a contractor you're unpaid on holidays, vacation and sick days, you pay the costs an employer used to cover, and some working days can't be billed. Dividing by 260 ignores all of that, which is why it underprices." },
+  { q: "How do I compare a contract day rate with a salaried job offer?", a: "Use the second calculator on this page: enter the day rate you've been offered and it works back to the salary that rate is equivalent to, after unbilled days, on-costs and business costs. Compare that figure with the job offer, not the day rate times 260." },
+];
+
+const related = [
+  { title: "Consulting Rate Calculator", href: "/consulting-rate-calculator/", docType: "Tool" },
+  { title: "Fixed Price vs Time and Materials", href: "/guide/fixed-price-vs-time-and-materials/", docType: "Guide" },
+  { title: "Freelance Proposal Template", href: "/templates/freelance-proposal/", docType: "Proposal" },
+];
+---
+
+<GuidePage
+  title="Day Rate Calculator: Salary to Day Rate and Hourly | Markpdf"
+  canonicalPath="/day-rate-calculator/"
+  docType="Tool"
+  h1="Day Rate Calculator"
+  introText="To set a day rate, add up what you need in a year (the salary you're replacing, the on-costs an employer used to pay, and your business costs) and divide it by the days you can actually bill. Billable days are the weekdays in a year, minus holidays, vacation and sick days, minus the share spent finding work. Divide the day rate by the hours in a billed day to get the hourly equivalent. The starting values below are examples; replace them with yours."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Guides", href: "/guides/" },
+    { name: "Day Rate Calculator" },
+  ]}
+  faq={faq}
+  related={related}
+>
+  <section class="mt-10 rounded-2xl border border-border bg-card p-6 md:p-8" aria-labelledby="dr-calc-heading" data-day-calc>
+    <h2 id="dr-calc-heading" class="font-serif text-2xl tracking-tight">From salary to day rate</h2>
+    <div class="mt-6 grid sm:grid-cols-2 gap-5">
+      {fields.map((f) => (
+        <label class="block">
+          <span class="text-sm font-medium">{f.label}</span>
+          <span class="mt-1.5 flex items-center gap-2">
+            <input type="number" inputmode="decimal" min="0" step={f.step} name={f.id} value={d[f.id]}
+              class="w-full h-10 rounded-md border border-border bg-background px-3 text-sm" />
+            <span class="shrink-0 text-xs text-muted-foreground">{f.suffix}</span>
+          </span>
+          {f.help && <span class="mt-1 block text-xs text-muted-foreground">{f.help}</span>}
+        </label>
+      ))}
+    </div>
+
+    <div class="mt-8 grid sm:grid-cols-3 gap-4" aria-live="polite">
+      <div class="rounded-lg bg-muted/40 p-4">
+        <p class="text-xs uppercase tracking-widest text-muted-foreground">Day rate</p>
+        <p class="mt-1 font-serif text-4xl" data-out="day">{usd(r.day)}</p>
+      </div>
+      <div class="rounded-lg bg-muted/40 p-4">
+        <p class="text-xs uppercase tracking-widest text-muted-foreground">Hourly equivalent</p>
+        <p class="mt-1 font-serif text-4xl" data-out="hourly">{usd2(r.hourly)}</p>
+      </div>
+      <div class="rounded-lg bg-muted/40 p-4">
+        <p class="text-xs uppercase tracking-widest text-muted-foreground">Billable days</p>
+        <p class="mt-1 font-serif text-4xl" data-out="billable">{Math.round(dd.billable)}</p>
+      </div>
+    </div>
+    <p class="mt-4 text-sm text-muted-foreground">
+      You need <span data-out="need">{usd(r.need)}</span> a year from
+      <span data-out="working">{Math.round(dd.working)}</span> working days.
+    </p>
+
+    <div class="mt-10 border-t border-border pt-6">
+      <h3 class="font-serif text-xl">Offered a day rate? See what it's worth as a salary</h3>
+      <label class="mt-4 block max-w-xs">
+        <span class="text-sm font-medium">Day rate offered</span>
+        <span class="mt-1.5 flex items-center gap-2">
+          <input type="number" inputmode="decimal" min="0" step="10" name="offered" value={d.offered}
+            class="w-full h-10 rounded-md border border-border bg-background px-3 text-sm" />
+          <span class="shrink-0 text-xs text-muted-foreground">per day</span>
+        </span>
+      </label>
+      <p class="mt-4 text-sm">Equivalent salary, using the days and costs above: <strong class="font-serif text-2xl" data-out="offeredSalary">{usd(offeredSalary)}</strong></p>
+    </div>
+  </section>
+
+  <section class="mt-16" aria-labelledby="dr-formula-heading">
+    <h2 id="dr-formula-heading" class="font-serif text-3xl tracking-tight">The formula</h2>
+    <ol class="mt-6 space-y-3 text-muted-foreground list-decimal pl-5">
+      <li><strong class="text-foreground">Working days</strong> = 52 × days per week − holidays − vacation − sick days</li>
+      <li><strong class="text-foreground">Billable days</strong> = working days × billable share</li>
+      <li><strong class="text-foreground">Annual need</strong> = salary × (1 + on-costs) + business costs</li>
+      <li><strong class="text-foreground">Day rate</strong> = annual need ÷ billable days</li>
+      <li><strong class="text-foreground">Hourly equivalent</strong> = day rate ÷ hours in a billed day</li>
+      <li><strong class="text-foreground">Salary equivalent of a day rate</strong> = (day rate × billable days − business costs) ÷ (1 + on-costs)</li>
+    </ol>
+  </section>
+
+  <section class="mt-16" aria-labelledby="dr-example-heading">
+    <h2 id="dr-example-heading" class="font-serif text-3xl tracking-tight">Example: the ÷ 260 mistake</h2>
+    <p class="mt-4 text-muted-foreground">
+      Using the example inputs: a {usd(d.salary)} salary, {d.onCost}% on-costs, {usd(d.costs)} costs, {d.holidays + d.vacation + d.sick} days off and {d.billable}% of working days billed.
+    </p>
+    <div class="mt-6 space-y-3 text-sm">
+      <div class="rounded-lg border border-border bg-card p-4">
+        <p class="font-medium">Salary ÷ 260 weekdays = {usd(naiveDay)} a day</p>
+        <p class="mt-1 text-muted-foreground">At {Math.round(dd.billable)} billable days, that brings in enough for a salary of about {usd(naiveCovers)} once costs and on-costs are paid, well short of the {usd(d.salary)} it was meant to replace.</p>
+      </div>
+      <div class="rounded-lg border border-border bg-card p-4">
+        <p class="font-medium">Counting days off, unbilled days and costs = {usd(r.day)} a day ({usd2(r.hourly)} an hour over {d.hoursPerDay} hours)</p>
+        <p class="mt-1 text-muted-foreground">This is the rate that actually replaces the salary. It's {(r.day / naiveDay).toFixed(1)}× the shortcut, and none of the difference is profit.</p>
+      </div>
+      <div class="rounded-lg border border-border bg-card p-4">
+        <p class="font-medium">An offer of {usd(d.offered)} a day ≈ a {usd(offeredSalary)} salary</p>
+        <p class="mt-1 text-muted-foreground">It looks generous next to {usd(naiveDay)}. Worked back through the same days and costs, it's below the salary you're replacing.</p>
+      </div>
+    </div>
+    <p class="mt-4 text-muted-foreground">All figures are computed from the example inputs and are illustrative. If you price by the hour instead, the <a href="/consulting-rate-calculator/" class="underline underline-offset-4">consulting rate calculator</a> works from working hours and adds a profit margin.</p>
+  </section>
+
+  <RelatedGuide path="/guide/fixed-price-vs-time-and-materials/" lead="Day rate or a fixed fee?" />
+</GuidePage>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector("[data-day-calc]");
+    if (!root) return;
+    var ids = ["salary", "costs", "onCost", "daysPerWeek", "holidays", "vacation", "sick", "billable", "hoursPerDay", "offered"];
+    var out = function (k) { return root.querySelector('[data-out="' + k + '"]'); };
+    var usd = function (n) { return "$" + Math.round(n).toLocaleString("en-US"); };
+    var usd2 = function (n) { return "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+    function update() {
+      var v = {};
+      ids.forEach(function (id) {
+        var n = parseFloat(root.querySelector('[name="' + id + '"]').value);
+        v[id] = isFinite(n) && n >= 0 ? n : 0;
+      });
+      var working = Math.max(0, 52 * v.daysPerWeek - v.holidays - v.vacation - v.sick);
+      var billable = working * (v.billable / 100);
+      var need = v.salary * (1 + v.onCost / 100) + v.costs;
+      var day = billable > 0 ? need / billable : 0;
+      out("day").textContent = billable > 0 ? usd(day) : "—";
+      out("hourly").textContent = billable > 0 && v.hoursPerDay > 0 ? usd2(day / v.hoursPerDay) : "—";
+      out("billable").textContent = Math.round(billable);
+      out("need").textContent = usd(need);
+      out("working").textContent = Math.round(working);
+      var sal = Math.max(0, (v.offered * billable - v.costs) / (1 + v.onCost / 100));
+      out("offeredSalary").textContent = usd(sal);
+    }
+    root.addEventListener("input", update);
+  })();
+</script>

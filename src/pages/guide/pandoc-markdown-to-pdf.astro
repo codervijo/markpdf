@@ -1,0 +1,135 @@
+---
+import GuidePage from "@/components/GuidePage.astro";
+import MarkpdfCta from "@/components/MarkpdfCta.astro";
+
+// Every command and error message on this page was run against pandoc 3.11
+// (pandoc/latex Docker image) on 2026-10-30. Re-run them before changing the
+// wording; Pandoc renames flags between versions (--highlight-style →
+// --syntax-highlighting).
+
+const howToSteps = [
+  { name: "Install Pandoc and a PDF engine", text: "Install Pandoc, plus a TeX distribution (TeX Live, MacTeX or MiKTeX) for the default LaTeX route. Or skip both installs and use the pandoc/latex Docker image." },
+  { name: "Run the basic command", text: "pandoc input.md -o output.pdf. Pandoc picks PDF output from the .pdf extension." },
+  { name: "Switch engine for non-Latin text", text: "Add --pdf-engine=xelatex if the document contains symbols, accented scripts or anything beyond basic Latin characters." },
+  { name: "Set margins and links", text: "Add -V geometry:margin=1in for normal margins and -V colorlinks=true so links stand out." },
+  { name: "Save the options in a defaults file", text: "Put the flags in a YAML defaults file and run pandoc input.md -o output.pdf --defaults=defaults.yaml, so every document converts the same way." },
+];
+
+const faq = [
+  { q: "Can Pandoc make a PDF without LaTeX?", a: "Yes. Pandoc can hand off to HTML-based engines such as WeasyPrint, wkhtmltopdf or Prince, or to Typst, using --pdf-engine. Each has to be installed separately. If it isn't, Pandoc stops with \"'weasyprint' not found. Please select a different --pdf-engine or install 'weasyprint'\" (with the engine you asked for)." },
+  { q: "How do I change the font?", a: "Use --pdf-engine=xelatex or lualatex and set -V mainfont=\"Font Name\". The font has to be installed where Pandoc runs. If it isn't, the build fails with \"Package fontspec Error: The font ... cannot be found\". The default pdflatex engine doesn't use system fonts at all." },
+  { q: "Why is my CSS ignored?", a: "CSS only applies with an HTML-based engine, for example --pdf-engine=weasyprint --css=style.css. The default LaTeX route ignores CSS entirely and takes its look from LaTeX variables and templates." },
+  { q: "How do I add a logo, header or footer?", a: "On the LaTeX route that means a custom LaTeX template or header-includes in the YAML front matter. It's doable but fiddly, and it's the point where most people looking for a branded document stop using raw Pandoc." },
+  { q: "How do I convert every Markdown file in a folder?", a: "Loop over them in the shell: for f in *.md; do pandoc \"$f\" -o \"${f%.md}.pdf\"; done. Add your defaults file to the command so every file gets the same settings." },
+];
+
+const related = [
+  { title: "How to Write a Scope of Work", href: "/guide/how-to-write-a-scope-of-work/", docType: "Guide" },
+  { title: "Consulting Proposal Template", href: "/templates/consulting-proposal/", docType: "Proposal" },
+  { title: "Freelance Proposal Template", href: "/templates/freelance-proposal/", docType: "Proposal" },
+];
+
+const flags = [
+  { flag: "-o output.pdf", does: "Output file. The .pdf extension is what makes Pandoc produce a PDF." },
+  { flag: "--pdf-engine=xelatex", does: "Typeset with XeLaTeX: Unicode text and system fonts. lualatex works the same way." },
+  { flag: "-V geometry:margin=1in", does: "Page margins. The LaTeX default margins are wide for most documents." },
+  { flag: "-V colorlinks=true", does: "Coloured hyperlinks instead of plain text." },
+  { flag: "--toc", does: "Table of contents built from your headings." },
+  { flag: "--syntax-highlighting=tango", does: "Code highlighting style. Older Pandoc versions call this --highlight-style; 3.11 still accepts that but warns it's deprecated." },
+  { flag: "--resource-path=DIR", does: "Where to look for images referenced with relative paths." },
+  { flag: "--defaults=FILE.yaml", does: "Load all of the above from a file." },
+];
+
+const errors = [
+  {
+    msg: "! LaTeX Error: Unicode character ✓ (U+2713) not set up for use with LaTeX.",
+    fix: "The default pdflatex engine can't typeset that character. Rerun with --pdf-engine=xelatex (or lualatex).",
+  },
+  {
+    msg: "[WARNING] Missing character: There is no ✓ (U+2713) in font [lmroman12-bold]…",
+    fix: "What you get after switching to xelatex: the PDF builds, but the character is silently left out because the default Latin Modern font doesn't have it. Set -V mainfont to an installed font that does. Emoji need a font with emoji glyphs.",
+  },
+  {
+    msg: "Package fontspec Error: The font \"…\" cannot be found",
+    fix: "The mainfont you named isn't installed where Pandoc runs. That includes Docker containers, which have their own fonts, not yours.",
+  },
+  {
+    msg: "'weasyprint' not found. Please select a different --pdf-engine or install 'weasyprint'",
+    fix: "The engine isn't installed or isn't on PATH. You'll see the same message, with that engine's name, for any other engine you haven't installed.",
+  },
+  {
+    msg: "[WARNING] Could not fetch resource img/logo.png: replacing image with description",
+    fix: "The easy one to miss. Pandoc still writes the PDF and exits successfully, with the image's alt text in place of the image. Relative paths resolve from where you run the command, so run it from the Markdown file's folder or add --resource-path.",
+  },
+];
+
+const defaultsYaml = `pdf-engine: xelatex
+toc: true
+variables:
+  geometry: margin=1in
+  colorlinks: true`;
+---
+
+<GuidePage
+  title="Pandoc Markdown to PDF: Commands and Error Fixes | Markpdf"
+  canonicalPath="/guide/pandoc-markdown-to-pdf/"
+  docType="Guide"
+  h1="How to Convert Markdown to PDF with Pandoc"
+  introText="Run pandoc input.md -o output.pdf. Pandoc sees the .pdf extension and typesets the document through LaTeX (pdflatex by default), so a TeX distribution has to be installed. Add --pdf-engine=xelatex if the text contains anything beyond basic Latin characters, and -V geometry:margin=1in for normal margins. The rest of this page covers the options worth knowing and the errors you're likely to hit, each tested on Pandoc 3.11."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Guides", href: "/guides/" },
+    { name: "Pandoc Markdown to PDF" },
+  ]}
+  howToTitle="Markdown to PDF with Pandoc, step by step"
+  howToSteps={howToSteps}
+  faq={faq}
+  related={related}
+>
+  <section class="mt-16" aria-labelledby="docker-heading">
+    <h2 id="docker-heading" class="font-serif text-3xl tracking-tight">No TeX installed? Use Docker</h2>
+    <p class="mt-4 text-muted-foreground">A full TeX distribution runs to several gigabytes. If you only need PDFs occasionally, the official image bundles Pandoc with a minimal LaTeX setup. Run it from the folder that holds your Markdown:</p>
+    <pre class="mt-4 rounded-lg border border-border bg-muted/40 p-4 overflow-x-auto text-[13px] font-mono"><code>docker run --rm -v "$(pwd)":/data pandoc/latex input.md -o output.pdf</code></pre>
+    <p class="mt-4 text-muted-foreground">The image works in <code class="font-mono text-[0.9em]">/data</code>, so paths are relative to your current folder. It doesn't include your system fonts or optional engines like WeasyPrint, so <code class="font-mono text-[0.9em]">mainfont</code> and HTML engines need a custom image.</p>
+  </section>
+
+  <section class="mt-16" aria-labelledby="flags-heading">
+    <h2 id="flags-heading" class="font-serif text-3xl tracking-tight">The options that matter for PDF</h2>
+    <dl class="mt-6 space-y-4">
+      {flags.map((f) => (
+        <div>
+          <dt><code class="font-mono text-sm">{f.flag}</code></dt>
+          <dd class="text-sm text-muted-foreground mt-1">{f.does}</dd>
+        </div>
+      ))}
+    </dl>
+    <p class="mt-6 text-muted-foreground">Pandoc's Markdown has no page-break syntax, but on the LaTeX route a line containing only <code class="font-mono text-[0.9em]">\newpage</code> passes through as raw LaTeX and starts a new page. A YAML block at the top of the file (<code class="font-mono text-[0.9em]">title:</code>, <code class="font-mono text-[0.9em]">author:</code>, <code class="font-mono text-[0.9em]">date:</code>) becomes the document's title block.</p>
+  </section>
+
+  <section class="mt-16" aria-labelledby="defaults-heading">
+    <h2 id="defaults-heading" class="font-serif text-3xl tracking-tight">Worked example: a defaults file for client documents</h2>
+    <p class="mt-4 text-muted-foreground">Once you've settled on options, stop retyping them. Save this as <code class="font-mono text-[0.9em]">defaults.yaml</code>:</p>
+    <pre class="mt-4 rounded-lg border border-border bg-muted/40 p-4 overflow-x-auto text-[13px] font-mono"><code>{defaultsYaml}</code></pre>
+    <p class="mt-4 text-muted-foreground">Then convert any document with <code class="font-mono text-[0.9em]">pandoc proposal.md -o proposal.pdf --defaults=defaults.yaml</code>. You get XeLaTeX (so a ✓ or an accented client name doesn't stop the build), one-inch margins, coloured links and a table of contents. Commit the file next to your documents and everyone's PDFs come out the same.</p>
+    <p class="mt-4 text-muted-foreground"><strong>Where this example falls short:</strong> adding <code class="font-mono text-[0.9em]">mainfont: Inter</code> to the variables works on a laptop with Inter installed and fails in CI or Docker with a fontspec error, because the font isn't there. Install the font in the build environment, or leave mainfont out of shared defaults.</p>
+  </section>
+
+  <section class="mt-16" aria-labelledby="errors-heading">
+    <h2 id="errors-heading" class="font-serif text-3xl tracking-tight">Errors and what they mean</h2>
+    <div class="mt-6 space-y-4">
+      {errors.map((e) => (
+        <div class="rounded-lg border border-border bg-card p-5">
+          <p><code class="font-mono text-[13px] break-words">{e.msg}</code></p>
+          <p class="mt-2 text-sm text-muted-foreground">{e.fix}</p>
+        </div>
+      ))}
+    </div>
+    <p class="mt-6 text-muted-foreground">One more that doesn't produce a message: long lines in code blocks don't wrap on the LaTeX route, so they run off the right edge of the page. Break long lines in the source, or use an HTML engine and set <code class="font-mono text-[0.9em]">white-space: pre-wrap</code> on code in your CSS.</p>
+  </section>
+
+  <MarkpdfCta heading="When the PDF is going to a client">
+    Pandoc is excellent at turning Markdown into a correct document. Making it look like it came from your studio, with logo,
+    brand colours and a proper cover, means writing a LaTeX template. Markpdf does that part: write the proposal or scope of
+    work in Markdown and export it with your saved brand kit applied.
+  </MarkpdfCta>
+</GuidePage>

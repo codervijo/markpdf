@@ -30,3 +30,11 @@ to surface "last AI prompt" per project. Keep entries append-only.
 ## 2026-10-30 — v1.D thin-page repair
 > "use treg to find more SEO pages … low KD high to medium SV", "are all pages thick and useful based on our seo custom skill", "dont try to make me request indexing … make progress"
 > → audit vs write-lamill-seo-page (4 thin pages); keyword shortlist via treg (SE Ranking) → PRD v1.D/v1.E; v1.D shipped locally: homepage retarget + convert-markdown-to-pdf content, SOW guide rewrite, hub prose/schema, de-templated template pages.
+
+## 2026-10-30 — v1.E new low-KD pages
+> "start v1.E"
+> → SERP checks (treg); /guide/statement-of-work-vs-scope-of-work/, /guide/pandoc-markdown-to-pdf/ (commands verified on pandoc 3.11), /consulting-rate-calculator/ (interactive, SSR default), /templates/proposal-cover-letter/.
+
+## 2026-10-30 — v1.F ten more pages
+> "write another 10 pages using custom seo skills with thick useful pages, after finding 10 topics using low kd high sv topics from tregs"
+> → 85-keyword SE Ranking batch via treg; 10 topics picked (KD ≤36, stable volume, ICP fit, no contract-language templates); written in 3 parallel forks, integrated + audited centrally.

@@ -1,0 +1,161 @@
+---
+import GuidePage from "@/components/GuidePage.astro";
+import RelatedGuide from "@/components/RelatedGuide.astro";
+
+// Cost-plus rate calculator. The inputs are example values for the reader to
+// replace, not benchmarks. The worked examples below are computed by the same
+// function as the live calculator, so the page can't contradict itself.
+
+const defaults = { income: 100000, expenses: 12000, setAside: 25, weeksOff: 6, hoursPerWeek: 40, billable: 60, margin: 10 };
+
+function calc(i) {
+  const revenue = (i.income * (1 + i.setAside / 100) + i.expenses) * (1 + i.margin / 100);
+  const workingHours = (52 - i.weeksOff) * i.hoursPerWeek;
+  const billableHours = workingHours * (i.billable / 100);
+  const hourly = billableHours > 0 ? revenue / billableHours : 0;
+  const day = hourly * (i.hoursPerWeek / 5);
+  return { revenue, billableHours, hourly, day };
+}
+
+const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
+const usd2 = (n) => "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+const r = calc(defaults);
+const naive = defaults.income / 2080; // the "salary ÷ 2,080 hours" shortcut
+const fullyBillable = calc({ ...defaults, billable: 100 });
+
+const fields = [
+  { id: "income", label: "Income you want to pay yourself", suffix: "per year", step: 1000, help: "Your salary before personal income tax: what you'd want in a job offer." },
+  { id: "expenses", label: "Business expenses", suffix: "per year", step: 500, help: "Software, hardware, insurance, accountant, coworking, travel you can't bill." },
+  { id: "setAside", label: "Tax and benefits set-aside", suffix: "% of income", step: 1, help: "What an employer would have paid on top of salary: self-employment tax, health cover, retirement. Ask your accountant for your number." },
+  { id: "weeksOff", label: "Weeks not working", suffix: "per year", step: 1, help: "Holidays, vacation, sick days, training." },
+  { id: "hoursPerWeek", label: "Hours you work", suffix: "per week", step: 1, help: "All working hours, billable or not." },
+  { id: "billable", label: "Share of hours you can bill", suffix: "%", step: 1, help: "The rest goes to sales, proposals, admin and learning. Track a month of your time to find yours." },
+  { id: "margin", label: "Profit margin", suffix: "%", step: 1, help: "A buffer for slow months and the business's own savings." },
+];
+
+const faq = [
+  { q: "Should I charge hourly, daily or a fixed fee?", a: "Use the hourly figure as your floor, whatever you quote. Fixed fees work best when the scope is well defined: estimate the hours, multiply by your rate, and add a margin for risk. Day rates suit on-site or workshop work. Hourly suits open-ended advisory work where scope genuinely can't be pinned down." },
+  { q: "The rate looks too high for my market. What now?", a: "Don't lower the number. Change the inputs. Raise the billable share by spending less time on unpaid work, cut expenses, or accept a lower income target for now. A rate below this figure means the business loses money, however busy you are." },
+  { q: "Should I show my hourly rate in proposals?", a: "Usually not for fixed-scope work. A project fee keeps the conversation on the outcome rather than on hours. If the client needs a rate for change requests, put it in the terms section." },
+  { q: "Does this include VAT or sales tax?", a: "No. The result is what you need to earn. Any sales tax or VAT you're required to charge goes on top of it on the invoice." },
+];
+
+const related = [
+  { title: "Consulting Proposal Template", href: "/templates/consulting-proposal/", docType: "Proposal" },
+  { title: "Freelance Proposal Template", href: "/templates/freelance-proposal/", docType: "Proposal" },
+  { title: "How to Write a Scope of Work", href: "/guide/how-to-write-a-scope-of-work/", docType: "Guide" },
+];
+---
+
+<GuidePage
+  title="Consulting Rate Calculator: Hourly & Day Rate | Markpdf"
+  canonicalPath="/consulting-rate-calculator/"
+  docType="Tool"
+  h1="Consulting Rate Calculator"
+  introText="Your minimum consulting rate is the revenue you need in a year divided by the hours you can actually bill. Revenue covers your income, the taxes and benefits an employer would have paid, business expenses and a margin. Billable hours are your working hours minus time off, sales and admin. Enter your own numbers below; the starting values are only examples."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Guides", href: "/guides/" },
+    { name: "Consulting Rate Calculator" },
+  ]}
+  faq={faq}
+  related={related}
+>
+  <section class="mt-10 rounded-2xl border border-border bg-card p-6 md:p-8" aria-labelledby="calc-heading" data-rate-calc>
+    <h2 id="calc-heading" class="font-serif text-2xl tracking-tight">Work out your rate</h2>
+    <div class="mt-6 grid sm:grid-cols-2 gap-5">
+      {fields.map((f) => (
+        <label class="block">
+          <span class="text-sm font-medium">{f.label}</span>
+          <span class="mt-1.5 flex items-center gap-2">
+            <input
+              type="number"
+              inputmode="decimal"
+              min="0"
+              step={f.step}
+              name={f.id}
+              value={defaults[f.id]}
+              class="w-full h-10 rounded-md border border-border bg-background px-3 text-sm"
+            />
+            <span class="shrink-0 text-xs text-muted-foreground">{f.suffix}</span>
+          </span>
+          <span class="mt-1 block text-xs text-muted-foreground">{f.help}</span>
+        </label>
+      ))}
+    </div>
+
+    <div class="mt-8 grid sm:grid-cols-2 gap-4" aria-live="polite">
+      <div class="rounded-lg bg-muted/40 p-4">
+        <p class="text-xs uppercase tracking-widest text-muted-foreground">Minimum hourly rate</p>
+        <p class="mt-1 font-serif text-4xl" data-out="hourly">{usd2(r.hourly)}</p>
+      </div>
+      <div class="rounded-lg bg-muted/40 p-4">
+        <p class="text-xs uppercase tracking-widest text-muted-foreground">Day rate</p>
+        <p class="mt-1 font-serif text-4xl" data-out="day">{usd(r.day)}</p>
+      </div>
+    </div>
+    <p class="mt-4 text-sm text-muted-foreground">
+      Revenue needed: <span data-out="revenue">{usd(r.revenue)}</span> a year, across
+      <span data-out="hours">{Math.round(r.billableHours).toLocaleString("en-US")}</span> billable hours.
+    </p>
+  </section>
+
+  <section class="mt-16" aria-labelledby="formula-heading">
+    <h2 id="formula-heading" class="font-serif text-3xl tracking-tight">How the calculation works</h2>
+    <ol class="mt-6 space-y-3 text-muted-foreground list-decimal pl-5">
+      <li><strong class="text-foreground">Revenue needed</strong> = (income × (1 + set-aside) + expenses) × (1 + margin)</li>
+      <li><strong class="text-foreground">Billable hours</strong> = (52 − weeks off) × hours per week × billable share</li>
+      <li><strong class="text-foreground">Hourly rate</strong> = revenue needed ÷ billable hours</li>
+      <li><strong class="text-foreground">Day rate</strong> = hourly rate × (hours per week ÷ 5)</li>
+    </ol>
+    <p class="mt-4 text-muted-foreground">This is a cost-plus floor: the least you can charge without the business losing money. What a client will pay depends on the value of the problem you solve, and can be well above it.</p>
+  </section>
+
+  <section class="mt-16" aria-labelledby="example-heading">
+    <h2 id="example-heading" class="font-serif text-3xl tracking-tight">Worked example: why the salary shortcut underprices you</h2>
+    <p class="mt-4 text-muted-foreground">Take the example inputs above: {usd(defaults.income)} income, {usd(defaults.expenses)} expenses, {defaults.setAside}% set-aside, {defaults.weeksOff} weeks off, {defaults.hoursPerWeek}-hour weeks, {defaults.billable}% billable, {defaults.margin}% margin.</p>
+    <div class="mt-6 space-y-3 text-sm">
+      <div class="rounded-lg border border-border bg-card p-4">
+        <p class="font-medium">The shortcut: income ÷ 2,080 hours = {usd2(naive)}/hour</p>
+        <p class="mt-1 text-muted-foreground">2,080 is 52 weeks × 40 hours, a full-time employee's paid year. It assumes no time off, no unbilled hours, no expenses and no employer costs, so none of those get paid for.</p>
+      </div>
+      <div class="rounded-lg border border-border bg-card p-4">
+        <p class="font-medium">Counting costs, but assuming every hour is billable: {usd2(fullyBillable.hourly)}/hour</p>
+        <p class="mt-1 text-muted-foreground">Closer, but it assumes every working hour goes on client work. Proposals, invoicing and finding the next client still take time.</p>
+      </div>
+      <div class="rounded-lg border border-border bg-card p-4">
+        <p class="font-medium">All inputs: {usd2(r.hourly)}/hour, or {usd(r.day)} a day</p>
+        <p class="mt-1 text-muted-foreground">At {Math.round(r.billableHours).toLocaleString("en-US")} billable hours a year, this is the rate that actually pays the {usd(defaults.income)} income. Charging the shortcut rate instead would cover about {Math.round((naive / r.hourly) * 100)}% of it.</p>
+      </div>
+    </div>
+  </section>
+
+  <RelatedGuide path="/guide/statement-of-work-vs-scope-of-work/" lead="Pricing a project?" />
+</GuidePage>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector("[data-rate-calc]");
+    if (!root) return;
+    var ids = ["income", "expenses", "setAside", "weeksOff", "hoursPerWeek", "billable", "margin"];
+    var out = function (k) { return root.querySelector('[data-out="' + k + '"]'); };
+    var usd = function (n) { return "$" + Math.round(n).toLocaleString("en-US"); };
+    var usd2 = function (n) { return "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+    function update() {
+      var v = {};
+      ids.forEach(function (id) {
+        var n = parseFloat(root.querySelector('[name="' + id + '"]').value);
+        v[id] = isFinite(n) && n >= 0 ? n : 0;
+      });
+      var revenue = (v.income * (1 + v.setAside / 100) + v.expenses) * (1 + v.margin / 100);
+      var hours = Math.max(0, 52 - v.weeksOff) * v.hoursPerWeek * (v.billable / 100);
+      var hourly = hours > 0 ? revenue / hours : 0;
+      out("hourly").textContent = hours > 0 ? usd2(hourly) : "—";
+      out("day").textContent = hours > 0 ? usd(hourly * (v.hoursPerWeek / 5)) : "—";
+      out("revenue").textContent = usd(revenue);
+      out("hours").textContent = Math.round(hours).toLocaleString("en-US");
+    }
+    root.addEventListener("input", update);
+  })();
+</script>

@@ -122,7 +122,9 @@ export function Landing() {
                 so it needs a TeX distribution installed. Without one, Pandoc stops and tells you the PDF engine wasn't found.
                 Add <code className="font-mono text-[0.9em]">--pdf-engine=xelatex</code> for documents with non-Latin characters,
                 or use an HTML engine such as <code className="font-mono text-[0.9em]">--pdf-engine=weasyprint</code> to style the
-                output with CSS. Pandoc is the right tool for scripted or batch conversion.
+                output with CSS. Pandoc is the right tool for scripted or batch conversion. The{" "}
+                <a href="/guide/pandoc-markdown-to-pdf/" className="underline underline-offset-4 hover:text-foreground">Pandoc guide</a>{" "}
+                has the full set of options and error fixes.
               </dd>
             </div>
             <div>
@@ -193,6 +195,12 @@ export function Landing() {
               <li><a href="/templates/consulting-proposal/" className="hover:text-foreground">Consulting proposal</a></li>
               <li><a href="/templates/web-design-proposal/" className="hover:text-foreground">Web design proposal</a></li>
               <li><a href="/templates/freelance-proposal/" className="hover:text-foreground">Freelance proposal</a></li>
+              <li><a href="/templates/proposal-cover-letter/" className="hover:text-foreground">Proposal cover letter</a></li>
+              <li><a href="/templates/consulting-report/" className="hover:text-foreground">Consulting report</a></li>
+              <li><a href="/templates/project-kickoff/" className="hover:text-foreground">Project kickoff</a></li>
+              <li><a href="/templates/design-doc/" className="hover:text-foreground">Design doc</a></li>
+              <li><a href="/templates/readme/" className="hover:text-foreground">README</a></li>
+              <li><a href="/templates/pentest-report/" className="hover:text-foreground">Pentest report</a></li>
               <li><a href="/templates/" className="hover:text-foreground">All templates</a></li>
             </ul>
           </div>
@@ -200,6 +208,14 @@ export function Landing() {
             <h3 className="font-semibold text-foreground">Guides</h3>
             <ul className="mt-3 space-y-2 text-muted-foreground">
               <li><a href="/guide/how-to-write-a-scope-of-work/" className="hover:text-foreground">How to write a scope of work</a></li>
+              <li><a href="/guide/statement-of-work-vs-scope-of-work/" className="hover:text-foreground">Statement of work vs scope of work</a></li>
+              <li><a href="/guide/pandoc-markdown-to-pdf/" className="hover:text-foreground">Markdown to PDF with Pandoc</a></li>
+              <li><a href="/guide/proposal-format/" className="hover:text-foreground">Proposal format</a></li>
+              <li><a href="/guide/proposal-vs-quote/" className="hover:text-foreground">Proposal vs quote</a></li>
+              <li><a href="/guide/fixed-price-vs-time-and-materials/" className="hover:text-foreground">Fixed price vs time and materials</a></li>
+              <li><a href="/guide/markdown-to-docx/" className="hover:text-foreground">Markdown to Word (DOCX)</a></li>
+              <li><a href="/consulting-rate-calculator/" className="hover:text-foreground">Consulting rate calculator</a></li>
+              <li><a href="/day-rate-calculator/" className="hover:text-foreground">Day rate calculator</a></li>
               <li><a href="/save-webpage-as-pdf/" className="hover:text-foreground">Save a webpage as PDF</a></li>
               <li><a href="/guides/" className="hover:text-foreground">All guides</a></li>
             </ul>

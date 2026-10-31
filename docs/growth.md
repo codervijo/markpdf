@@ -126,3 +126,21 @@ https://search.google.com/search-console directly.
 - **Action:** homepage H1 → "Convert Markdown to PDF that looks designed", ~740 words of SSR content + FAQPage JSON-LD; SOW guide 659 → ~1,215 words (direct-answer intro, vague-vs-specific rewrites, worked security-assessment example with failure case, 2 real FAQs replacing a definitional one; `updated` 2026-10-30 → sitemap lastmod); `/templates/` 127 → ~390 words, `/guides/` 76 → ~150, both with CollectionPage + ItemList schema and metadata within limits; template pages no longer share an H2 skeleton or CTA sentence.
 - **Result:** TBD — review 2026-11-27
 - **Learning:** TBD.
+
+## 2026-10-30 — v1.E: four low-KD pages (SOW vs scope, Pandoc, rate calculator, cover letter)
+- **Status:** active
+- **Hypothesis:** Low-KD queries with stable volume are winnable on a fresh domain once crawled, and four more homepage-linked pages give Google more reasons to crawl the site.
+- **KPI:** indexed status + impressions for `/guide/statement-of-work-vs-scope-of-work/` ("statement of work vs scope of work" 480/KD 7), `/guide/pandoc-markdown-to-pdf/` ("pandoc markdown to pdf" 480/KD 20), `/consulting-rate-calculator/` (320/KD 17), `/templates/proposal-cover-letter/` (260/KD 6). Volumes: SE Ranking via treg, US, 2026-10.
+- **Baseline:** 0 — new URLs. Site 1/9 indexed (2026-10-30).
+- **Action:** 4 pages built after SERP checks via treg; every Pandoc command/error on the guide verified against pandoc 3.11 in Docker; all linked from homepage footer, hubs and sibling pages; sitemap 9 → 13 URLs.
+- **Result:** TBD — review 28 days after first indexed.
+- **Learning:** TBD.
+
+## 2026-10-30 — v1.F: ten more low-KD pages
+- **Status:** active
+- **Hypothesis:** Broadening from proposals into adjacent client-document and pricing queries (low KD, stable volume) multiplies the queries the site can win once Google starts crawling, and gives the homepage crawl path 10 more targets.
+- **KPI:** indexed count (sitemap 13 → 23 URLs) and per-page impressions for: proposal format (810/KD 36), markdown to docx (590/25), readme template (480/30), design doc template (390/8), fixed price vs time and materials (320/11), pentest report template (320/26 + "penetration test report template" 210/26), proposal vs quote (260/11), day rate calculator (260/7), project kickoff template (260/12), consulting report template (260/19). SE Ranking via treg, US, 2026-10.
+- **Baseline:** 0 — new URLs. Site 1/9 indexed (2026-10-30).
+- **Action:** 85-keyword treg batch → 10 topics (skipped volume-jump artifacts and contract-language templates); SERP checked per page; Markdown→DOCX commands verified on pandoc 3.11; 744–1,300 words each with worked example + failure case; linked from homepage footer, hubs and siblings.
+- **Result:** TBD — review 28 days after first indexed.
+- **Learning:** TBD.

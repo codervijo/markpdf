@@ -1,0 +1,73 @@
+---
+import TemplatePage from "@/components/TemplatePage.astro";
+import { getEntry } from "astro:content";
+
+const entry = await getEntry("templates", "project-kickoff");
+const templateMd = (entry?.body ?? "").trim();
+
+const howToSteps = [
+  { name: "Pre-fill it from the signed scope", text: "Copy deliverables, exclusions and dates straight from the statement of work. The meeting confirms them; it isn't the place to write them." },
+  { name: "Send it a day ahead", text: "Share the draft before the call so the client arrives with questions instead of reading it for the first time on screen." },
+  { name: "Let the client state the goal", text: "Ask the sponsor to say what success looks like and write it down in their words. You'll quote it back at every review." },
+  { name: "Name a person for every input", text: "Credentials, content and approvals each get an owner and a date. An input without an owner is the most common reason a schedule slips in week one." },
+  { name: "Record decisions before you hang up", text: "Read the decisions and next steps aloud at the end, then send the completed document the same day as the written record." },
+];
+
+const faq = [
+  { q: "Who should attend a client kickoff meeting?", a: "The person who approves the work, the person who'll give day-to-day feedback, and whoever on your side leads the project. If the client's approver can't attend, schedule the kickoff when they can. Decisions made without them tend to be reopened later." },
+  { q: "How long should a kickoff meeting be?", a: "Long enough to get through the agenda without rushing the scope section. For a small project an hour is usually plenty. If scope questions take over the meeting, that's a sign the statement of work needs tightening before work starts, not a longer meeting." },
+  { q: "Is a kickoff document the same as a project charter?", a: "They overlap. A project charter is usually an internal document that authorises a project and names its sponsor. A client kickoff document records what both sides agreed at the start of delivery: goal, scope, roles, schedule and how you'll communicate." },
+  { q: "What if the client wants to change scope during the kickoff?", a: "Write it under open questions, not into the scope. After the meeting, send it as a change request with its effect on price and dates. Agreeing to it on the call, without the numbers, is how a project starts over budget." },
+];
+
+const related = [
+  { title: "Statement of Work vs Scope of Work", href: "/guide/statement-of-work-vs-scope-of-work/", docType: "Guide" },
+  { title: "How to Write a Scope of Work", href: "/guide/how-to-write-a-scope-of-work/", docType: "Guide" },
+  { title: "Consulting Proposal Template", href: "/templates/consulting-proposal/", docType: "Proposal" },
+];
+---
+
+<TemplatePage
+  title="Project Kickoff Template (Free, Markdown) | Markpdf"
+  description={entry.data.description}
+  canonicalPath="/templates/project-kickoff/"
+  docType="Kickoff"
+  h1="Project Kickoff Template"
+  introText="A project kickoff document sets out, on one page, what both sides agreed at the start of a project: the goal, what's in and out of scope, who does what, the milestones, and how you'll communicate. Use it as the agenda for the kickoff meeting, then send the completed version as the written record. This template is built for client work, where the scope is already signed and the meeting is about running the project."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Templates", href: "/templates/" },
+    { name: "Project Kickoff Template" },
+  ]}
+  templateMd={templateMd}
+  downloadName="project-kickoff.md"
+  templateHeading="Kickoff agenda and record (markdown)"
+  ctaText="Export the completed kickoff from Markpdf with your branding and send it as the project's first deliverable."
+  howToTitle="Running the kickoff with this document"
+  howToSteps={howToSteps}
+  faq={faq}
+  related={related}
+>
+  <section class="mt-16" aria-labelledby="kickoff-example-heading">
+    <h2 id="kickoff-example-heading" class="font-serif text-3xl tracking-tight">Example: kickoff notes for a website rebuild</h2>
+    <p class="mt-4 text-muted-foreground">The sections that matter most, filled in after the call. Names and dates are illustrative.</p>
+    <div class="mt-6 rounded-lg border border-border bg-card p-6 text-sm space-y-3">
+      <p><strong>Goal:</strong> More booked consultations from the website. "We'll know it worked when online bookings replace most phone bookings." (Clinic director)</p>
+      <p><strong>Out of scope:</strong> copywriting, photography, migration of blog posts older than 2023.</p>
+      <p><strong>Roles:</strong> Dr. Lee approves designs; Sam (practice manager) gives feedback within two business days and supplies content.</p>
+      <p><strong>Access needed:</strong> domain registrar login (Sam, by 6 May); booking system API key (Sam, by 6 May).</p>
+      <p><strong>Open question:</strong> whether the new booking flow must support insurance details. Owner: Dr. Lee, answer by 10 May. If yes, raised as a change request.</p>
+      <p><strong>Decisions:</strong> weekly status email on Fridays; design review on 20 May with both Dr. Lee and Sam.</p>
+    </div>
+  </section>
+
+  <section class="mt-16" aria-labelledby="kickoff-mistakes-heading">
+    <h2 id="kickoff-mistakes-heading" class="font-serif text-3xl tracking-tight">Kickoffs that cause trouble later</h2>
+    <ul class="mt-6 space-y-4 text-muted-foreground">
+      <li><span class="font-medium text-foreground">Renegotiating scope on the call.</span> The client mentions "one more thing" and everyone nods. Two weeks later it's assumed to be included. Log it as an open question and price it afterwards.</li>
+      <li><span class="font-medium text-foreground">No owner for client inputs.</span> "We'll send the content" with no name or date. The first milestone then waits on something nobody was responsible for.</li>
+      <li><span class="font-medium text-foreground">The approver isn't there.</span> The day-to-day contact agrees the plan, the sponsor sees it at the first review and changes direction. Get the person who signs off into the kickoff.</li>
+      <li><span class="font-medium text-foreground">Nothing in writing afterwards.</span> Everyone remembers the meeting differently by week three. Send the completed document the same day.</li>
+    </ul>
+  </section>
+</TemplatePage>

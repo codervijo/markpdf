@@ -27,6 +27,78 @@ export const GUIDES = [
     live: true,
   },
   {
+    path: "/guide/statement-of-work-vs-scope-of-work/",
+    title: "Statement of Work vs Scope of Work",
+    description:
+      "The difference between a statement of work and a scope of work, which one your project needs, and the same project written both ways.",
+    published: "2026-10-30",
+    updated: "2026-10-30",
+    live: true,
+  },
+  {
+    path: "/guide/pandoc-markdown-to-pdf/",
+    title: "How to Convert Markdown to PDF with Pandoc",
+    description:
+      "Convert Markdown to PDF with Pandoc: the commands, a reusable defaults file, and fixes for the errors you'll hit. Tested on Pandoc 3.11.",
+    published: "2026-10-30",
+    updated: "2026-10-30",
+    live: true,
+  },
+  {
+    path: "/consulting-rate-calculator/",
+    title: "Consulting Rate Calculator",
+    description:
+      "Work out your minimum consulting hourly and day rate from income, expenses, time off and billable hours, with the formula shown.",
+    published: "2026-10-30",
+    updated: "2026-10-30",
+    live: true,
+  },
+  {
+    path: "/guide/markdown-to-docx/",
+    title: "How to Convert Markdown to DOCX (Word)",
+    description:
+      "Convert Markdown to DOCX with Pandoc: what becomes which Word style, a reference document for your own styles, and what gets lost.",
+    published: "2026-10-30",
+    updated: "2026-10-30",
+    live: true,
+  },
+  {
+    path: "/guide/proposal-format/",
+    title: "Proposal Format",
+    description:
+      "Client proposal format, section by section: what goes in each part, the order and why, a filled-in skeleton, and layout tips.",
+    published: "2026-10-30",
+    updated: "2026-10-30",
+    live: true,
+  },
+  {
+    path: "/guide/proposal-vs-quote/",
+    title: "Proposal vs Quote",
+    description:
+      "Proposal vs quote: what each contains, how to tell which a client needs, and the same request answered both ways.",
+    published: "2026-10-30",
+    updated: "2026-10-30",
+    live: true,
+  },
+  {
+    path: "/guide/fixed-price-vs-time-and-materials/",
+    title: "Fixed Price vs Time and Materials",
+    description:
+      "Fixed price vs time and materials: when each fits, who carries the risk, hybrid models, and one project priced both ways.",
+    published: "2026-10-30",
+    updated: "2026-10-30",
+    live: true,
+  },
+  {
+    path: "/day-rate-calculator/",
+    title: "Day Rate Calculator",
+    description:
+      "Calculate a day rate from the salary you're replacing, days off, unbilled days and costs, and see what an offered day rate is worth.",
+    published: "2026-10-30",
+    updated: "2026-10-30",
+    live: true,
+  },
+  {
     path: "/save-webpage-as-markdown/",
     title: "Save a Webpage as Markdown",
     live: false,

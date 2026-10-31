@@ -1,0 +1,91 @@
+---
+import TemplatePage from "@/components/TemplatePage.astro";
+import { getEntry } from "astro:content";
+
+const entry = await getEntry("templates", "design-doc");
+const templateMd = (entry?.body ?? "").trim();
+
+const howToSteps = [
+  { name: "Write context and goals, then stop", text: "Share just those two sections with one reviewer before designing anything. Disagreement about the problem is cheaper to settle before there's a solution to defend." },
+  { name: "Write the non-goals deliberately", text: "List the things a reader would reasonably assume are included. Each one you write down is a scope argument you won't have in review." },
+  { name: "Describe the design, including failure paths", text: "For each key flow, say what happens when a dependency is slow, down or returns garbage. Happy-path-only designs pass review and fail in production." },
+  { name: "Give the alternatives a fair hearing", text: "Describe each one as its strongest advocate would, then give the specific reason it lost. Include doing nothing." },
+  { name: "Plan the rollout backwards", text: "Start from how you'd undo it. If a step can't be rolled back, say so and explain why that's acceptable." },
+  { name: "Record decisions as they happen", text: "When review settles a question, add it to the decision log with a date. Months later, that log is the part people look for." },
+];
+
+const faq = [
+  { q: "Is a design doc the same as a technical spec?", a: "The terms overlap and many teams use them interchangeably. Where they're separated, the design doc argues for an approach and records the alternatives, and the technical spec details the chosen approach for whoever builds it. For most projects one document doing both is enough." },
+  { q: "How long should a design doc be?", a: "Long enough for a reviewer outside your team to understand the problem, the proposal and why the alternatives lost. For a contained change that might be two pages; for a new system, considerably more. If it's getting very long, the design may be several designs." },
+  { q: "When is a design doc not worth writing?", a: "When the change is cheap to reverse, stays inside one team's code, and nobody needs to approve it. Writing one for a routine change slows the work down and trains people to skim design docs." },
+  { q: "Who should review it?", a: "The people who'll build it, the owners of every system it touches, and at least one person who wasn't involved in the idea. That last reviewer catches the assumptions everyone else stopped seeing." },
+  { q: "What happens to the doc after the build?", a: "Mark its status (approved, implemented, superseded) and leave it where people can find it. Its real long-term value is explaining why the system looks the way it does, so keep the alternatives and decision log intact." },
+];
+
+const related = [
+  { title: "README Template", href: "/templates/readme/", docType: "Docs" },
+  { title: "How to Write a Scope of Work", href: "/guide/how-to-write-a-scope-of-work/", docType: "Guide" },
+  { title: "Consulting Report Template", href: "/templates/consulting-report/", docType: "Report" },
+];
+---
+
+<TemplatePage
+  title="Design Doc Template (Software, Markdown) | Markpdf"
+  description={entry.data.description}
+  canonicalPath="/templates/design-doc/"
+  docType="Docs"
+  h1="Design Doc Template"
+  introText="A design doc describes how you plan to solve a technical problem before you build it, so other people can find the flaws while they're cheap to fix. It needs the context and goals, what's explicitly out of scope, the proposed design, the alternatives you rejected and why, the risks, and how the change will roll out and be undone. The template below has each of those sections, in the order reviewers read them."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Templates", href: "/templates/" },
+    { name: "Design Doc Template" },
+  ]}
+  templateMd={templateMd}
+  downloadName="design-doc.md"
+  templateHeading="Design doc (markdown)"
+  ctaText="Need sign-off from someone outside engineering? Markpdf exports the doc as a clean, branded PDF they can review and annotate."
+  howToTitle="Writing it so reviewers can say yes or no"
+  howToSteps={howToSteps}
+  faq={faq}
+  related={related}
+>
+  <section class="mt-16" aria-labelledby="why-heading">
+    <h2 id="why-heading" class="font-serif text-3xl tracking-tight">What each section protects you from</h2>
+    <dl class="mt-6 space-y-5">
+      <div><dt class="font-medium">Context</dt><dd class="text-sm text-muted-foreground mt-1">Reviewers approving a solution to a problem they don't share. Numbers in this section make the cost of the status quo concrete.</dd></div>
+      <div><dt class="font-medium">Goals and non-goals</dt><dd class="text-sm text-muted-foreground mt-1">A review that drifts into features nobody asked for. Measurable goals also become the launch checklist.</dd></div>
+      <div><dt class="font-medium">Alternatives considered</dt><dd class="text-sm text-muted-foreground mt-1">The same idea being proposed again in six months by someone who doesn't know it was rejected, or why.</dd></div>
+      <div><dt class="font-medium">Risks and open questions</dt><dd class="text-sm text-muted-foreground mt-1">Unknowns that surface mid-build with nobody owning them. Giving every open question an owner and a date turns it into a task.</dd></div>
+      <div><dt class="font-medium">Rollout and rollback</dt><dd class="text-sm text-muted-foreground mt-1">A launch with no way back. Writing the rollback is often where you find a step that can't be undone.</dd></div>
+    </dl>
+  </section>
+
+  <section class="mt-16" aria-labelledby="example-heading">
+    <h2 id="example-heading" class="font-serif text-3xl tracking-tight">Example: alternatives done badly, then properly</h2>
+    <p class="mt-4 text-muted-foreground">From a doc proposing to move image resizing from the web servers to a background queue. Details are illustrative.</p>
+    <div class="mt-6 space-y-4 text-sm">
+      <div class="rounded-lg border border-border bg-card p-5">
+        <p class="text-[10px] uppercase tracking-widest text-muted-foreground">Weak</p>
+        <p class="mt-2"><strong>Alternatives:</strong> We considered using a third-party image service but decided against it.</p>
+        <p class="mt-2 text-muted-foreground">No reviewer can check this reasoning, and nobody later will know whether "decided against it" was about price, privacy or someone's preference.</p>
+      </div>
+      <div class="rounded-lg border border-border bg-card p-5">
+        <p class="text-[10px] uppercase tracking-widest text-muted-foreground">Useful</p>
+        <p class="mt-2"><strong>Hosted image service.</strong> No resizing code to maintain, and a CDN included. Rejected because customer uploads include signed contracts, and the service would store copies outside our hosting region, which our data agreement with two enterprise clients doesn't allow. Revisit if those agreements change.</p>
+        <p class="mt-2"><strong>Do nothing.</strong> Upload requests currently time out on large files a few times a week; support handles each manually. Acceptable for now, but each new enterprise client with large scans makes it worse.</p>
+        <p class="mt-2 text-muted-foreground">The strongest argument for each option, the specific reason it lost, and the condition under which the decision should be revisited.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-16" aria-labelledby="fail-heading">
+    <h2 id="fail-heading" class="font-serif text-3xl tracking-tight">How design docs go wrong</h2>
+    <ul class="mt-6 space-y-4 text-muted-foreground">
+      <li><span class="font-medium text-foreground">It's written after the decision.</span> The doc only describes the chosen option, so review becomes a formality and the real trade-offs are never recorded.</li>
+      <li><span class="font-medium text-foreground">It's all implementation detail.</span> Class names and function signatures, but no statement of the problem. Reviewers can check the code-level design and still miss that the approach is wrong.</li>
+      <li><span class="font-medium text-foreground">Open questions have no owner.</span> "TBD: how do we migrate existing data?" sits in the doc through approval and becomes the riskiest week of the project.</li>
+      <li><span class="font-medium text-foreground">It never changes after approval.</span> The build diverges and nobody updates the doc, so it misleads the next reader. A one-line note under the decision log is enough to keep it honest.</li>
+    </ul>
+  </section>
+</TemplatePage>

@@ -1,0 +1,116 @@
+---
+import GuidePage from "@/components/GuidePage.astro";
+import RelatedGuide from "@/components/RelatedGuide.astro";
+
+// Every command, style name and message on this page was checked against
+// pandoc 3.11 (pandoc/latex Docker image) on 2026-10-30 by converting a test
+// document and inspecting the resulting word/document.xml.
+
+const howToSteps = [
+  { name: "Install Pandoc", text: "Word output is built into Pandoc. Unlike PDF, it needs no LaTeX or other engine." },
+  { name: "Convert the file", text: "pandoc input.md -o output.docx. The .docx extension selects Word output." },
+  { name: "Export the default reference document", text: "pandoc -o custom-reference.docx --print-default-data-file reference.docx writes the style sheet Pandoc uses." },
+  { name: "Restyle it in Word", text: "Open custom-reference.docx, change the styles (Heading 1, Body Text, Title, Table and so on), not the text, and save." },
+  { name: "Convert with your styles", text: "pandoc input.md -o output.docx --reference-doc=custom-reference.docx. Every document now comes out in your fonts, colours and spacing." },
+];
+
+const faq = [
+  { q: "Can I convert Markdown to Word without installing anything?", a: "Online converters take a file upload and return a .docx. They're fine for one-off documents that aren't confidential. For anything you'll repeat, or anything under NDA, a local Pandoc install keeps the file on your machine and lets you reuse a reference document." },
+  { q: "How do I make the Word file use my company's fonts and styles?", a: "Use a reference document. Export Pandoc's default with --print-default-data-file reference.docx, edit its styles in Word, and pass it with --reference-doc. Pandoc copies styles from it, not content, so whatever text is in the file is ignored." },
+  { q: "Will my tables, footnotes and equations survive?", a: "Yes. Pipe tables become real Word tables (using the Table style), footnotes become Word footnotes, and LaTeX math like $E = mc^2$ becomes a native Word equation you can edit in Word's equation editor." },
+  { q: "Can I convert the Word file back to Markdown?", a: "pandoc output.docx -o back.md works and keeps headings, emphasis, links, lists, footnotes and tables. Expect some noise: tables may come back in a different Markdown table syntax, and images are extracted under media/ with explicit sizes." },
+  { q: "Should I send clients a .docx or a PDF?", a: "A PDF when the document is final, such as a proposal, a scope of work or a report, because it looks the same everywhere and can't be edited by accident. A .docx when the client needs to mark it up with tracked changes, typically a contract draft." },
+];
+
+const related = [
+  { title: "How to Convert Markdown to PDF with Pandoc", href: "/guide/pandoc-markdown-to-pdf/", docType: "Guide" },
+  { title: "Consulting Proposal Template", href: "/templates/consulting-proposal/", docType: "Proposal" },
+  { title: "Proposal Format", href: "/guide/proposal-format/", docType: "Guide" },
+];
+
+const mapping = [
+  { md: "# Heading, ## Heading", word: "Heading 1, Heading 2 (real Word heading styles, so the navigation pane and a Word TOC work)" },
+  { md: "YAML title: and author:", word: "Title and Author styles at the top of the document" },
+  { md: "Paragraphs", word: "First Paragraph for the first one after a heading, Body Text after that" },
+  { md: "Pipe tables", word: "Word tables using a style called Table; column alignment is kept" },
+  { md: "Fenced code blocks", word: "Source Code style, with syntax colouring applied as character styles" },
+  { md: "> Blockquotes", word: "Block Text style" },
+  { md: "[^1] footnotes", word: "Real Word footnotes at the bottom of the page" },
+  { md: "$math$", word: "Native Word equations" },
+  { md: "Links", word: "Clickable hyperlinks in the Hyperlink style" },
+  { md: "Images", word: "Embedded in the .docx (if Pandoc can find the file)" },
+];
+
+const lost = [
+  { what: "Inline HTML styling", detail: "A <div style=\"color:red\"> keeps its text but loses the colour. Word output ignores HTML styling." },
+  { what: "Task-list checkboxes", detail: "- [ ] becomes a ☐ character in a bullet list, not a clickable Word checkbox." },
+  { what: "Images Pandoc can't find", detail: "Pandoc warns \"Could not fetch resource img/x.png: replacing image with description\" and still writes the file, with the alt text where the image should be. Relative paths resolve from the folder you run the command in." },
+  { what: "Your Markdown editor's theme", detail: "The look comes from the reference document, not from how the file looked in your editor's preview." },
+];
+---
+
+<GuidePage
+  title="Markdown to DOCX: Convert Markdown to Word | Markpdf"
+  canonicalPath="/guide/markdown-to-docx/"
+  docType="Guide"
+  h1="How to Convert Markdown to DOCX (Word)"
+  introText="Run pandoc input.md -o output.docx. Pandoc writes a real Word document: Markdown headings become Word heading styles, tables become Word tables, and footnotes become Word footnotes. To control fonts and spacing, export Pandoc's reference document, restyle it in Word, and pass it back with --reference-doc. Unlike PDF output, no LaTeX install is needed."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Guides", href: "/guides/" },
+    { name: "Markdown to DOCX" },
+  ]}
+  howToTitle="Markdown to Word in five steps"
+  howToSteps={howToSteps}
+  faq={faq}
+  related={related}
+>
+  <section class="mt-16" aria-labelledby="map-heading">
+    <h2 id="map-heading" class="font-serif text-3xl tracking-tight">What each Markdown element becomes in Word</h2>
+    <p class="mt-4 text-muted-foreground">Pandoc maps Markdown to named Word styles rather than hard-coding formatting. That's why the reference document works: change a style once and every document that uses it follows.</p>
+    <div class="mt-6 overflow-x-auto rounded-lg border border-border">
+      <table class="w-full text-sm">
+        <thead class="bg-muted/40 text-left">
+          <tr><th class="p-3 font-medium">Markdown</th><th class="p-3 font-medium">In the .docx</th></tr>
+        </thead>
+        <tbody>
+          {mapping.map((m) => (
+            <tr class="border-t border-border align-top">
+              <td class="p-3"><code class="font-mono text-[13px]">{m.md}</code></td>
+              <td class="p-3 text-muted-foreground">{m.word}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="mt-16" aria-labelledby="refdoc-heading">
+    <h2 id="refdoc-heading" class="font-serif text-3xl tracking-tight">Worked example: a house style for client documents</h2>
+    <p class="mt-4 text-muted-foreground">Say every proposal you send has to use the client-facing font and your brand colour for headings. Do it once:</p>
+    <pre class="mt-4 rounded-lg border border-border bg-muted/40 p-4 overflow-x-auto text-[13px] font-mono"><code>pandoc -o custom-reference.docx --print-default-data-file reference.docx</code></pre>
+    <p class="mt-4 text-muted-foreground">Open <code class="font-mono text-[0.9em]">custom-reference.docx</code> in Word. In the Styles pane, modify Heading 1 and Heading 2 (font, colour, spacing), Body Text and First Paragraph (body font and line spacing), Title, and the Table style. Save. Then:</p>
+    <pre class="mt-4 rounded-lg border border-border bg-muted/40 p-4 overflow-x-auto text-[13px] font-mono"><code>pandoc proposal.md -o proposal.docx --reference-doc=custom-reference.docx</code></pre>
+    <p class="mt-4 text-muted-foreground">Add <code class="font-mono text-[0.9em]">--toc</code> if you want a table of contents. Pandoc inserts a Word TOC field, which Word fills in when fields are updated.</p>
+    <p class="mt-4 text-muted-foreground"><strong>Where this goes wrong:</strong> formatting text directly instead of editing styles. If you select a heading in the reference document and make it bold and blue, nothing changes in the next conversion, because Pandoc copies the style definitions, not the formatting on the sample text. Right-click the style and choose Modify. A mistyped path fails loudly, at least: <code class="font-mono text-[0.9em]">File 'missing.docx' not found in resource path</code>, and no output is written.</p>
+  </section>
+
+  <section class="mt-16" aria-labelledby="lost-heading">
+    <h2 id="lost-heading" class="font-serif text-3xl tracking-tight">What doesn't make it across</h2>
+    <dl class="mt-6 space-y-5">
+      {lost.map((l) => (
+        <div>
+          <dt class="font-medium">{l.what}</dt>
+          <dd class="text-sm text-muted-foreground mt-1">{l.detail}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section class="mt-16" aria-labelledby="flavour-heading">
+    <h2 id="flavour-heading" class="font-serif text-3xl tracking-tight">GitHub-flavoured Markdown</h2>
+    <p class="mt-4 text-muted-foreground">Pandoc reads its own Markdown dialect by default, which covers tables, footnotes and task lists. If your files were written for GitHub and something renders oddly, tell Pandoc so with <code class="font-mono text-[0.9em]">-f gfm</code>: <code class="font-mono text-[0.9em]">pandoc README.md -f gfm -o README.docx</code>.</p>
+  </section>
+
+  <RelatedGuide path="/guide/pandoc-markdown-to-pdf/" lead="Need a PDF instead?" />
+</GuidePage>

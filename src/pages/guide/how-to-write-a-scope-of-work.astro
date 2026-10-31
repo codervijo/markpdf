@@ -1,5 +1,6 @@
 ---
 import GuidePage from "@/components/GuidePage.astro";
+import RelatedGuide from "@/components/RelatedGuide.astro";
 
 const howToSteps = [
   { name: "Start with the objective", text: "Open with one paragraph on the outcome the project delivers — the business goal, not a task list. Everything downstream is judged against this." },
@@ -95,6 +96,8 @@ const rewrites = [
     </div>
     <p class="mt-4 text-muted-foreground"><strong>Where this would have gone wrong:</strong> the first draft said "test the platform". Acme's CTO read "platform" as including the mobile apps; the consultant had priced only the web portal. Naming the target and listing the mobile apps under exclusions settled that before it cost either side money.</p>
   </section>
+
+  <RelatedGuide path="/guide/statement-of-work-vs-scope-of-work/" lead="Not sure whether you need a scope or a statement of work?" />
 
   <aside class="mt-12 rounded-xl border border-border bg-card p-6">
     <h2 class="font-serif text-2xl tracking-tight">Start from a template</h2>

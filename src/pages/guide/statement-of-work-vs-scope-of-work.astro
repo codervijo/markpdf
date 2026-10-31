@@ -1,0 +1,120 @@
+---
+import GuidePage from "@/components/GuidePage.astro";
+import RelatedGuide from "@/components/RelatedGuide.astro";
+
+const faq = [
+  { q: "What does SOW stand for?", a: "Both. \"SOW\" is used for statement of work and for scope of work, which is why the terms get mixed up. In procurement and agency contracts it almost always means statement of work. When someone asks you for \"the SOW\", ask whether they want the full engagement document or just the description of the work." },
+  { q: "Is a statement of work a contract?", a: "Often it's part of one. A statement of work is commonly signed under a master services agreement, which holds the legal terms, while the statement of work holds the project specifics. A standalone statement of work with fees and signatures can also work as the agreement for a small project. Whether it's binding depends on how it's executed, so have contractual wording reviewed for your situation. This isn't legal advice." },
+  { q: "How is a proposal different from a statement of work?", a: "A proposal is written to win the work: it argues why your approach fits and what it costs. A statement of work is written once the work is won, to pin down exactly what will be delivered, accepted and paid for. Proposals can be persuasive and a little open; a statement of work shouldn't be either." },
+  { q: "Who writes the statement of work?", a: "Whoever knows the work best, usually the provider. Large buyers sometimes write their own statement of work and attach it to a request for proposal; in that case your proposal responds to it and the final version is negotiated." },
+  { q: "Can one document be both?", a: "Yes, and for freelance and small-agency projects it usually should be. One document with objective, deliverables, acceptance, exclusions, timeline, fees and signatures covers everything a separate scope and statement of work would, with nothing to keep in sync." },
+];
+
+const related = [
+  { title: "How to Write a Scope of Work", href: "/guide/how-to-write-a-scope-of-work/", docType: "Guide" },
+  { title: "Statement of Work Template", href: "/templates/statement-of-work/", docType: "SOW" },
+  { title: "Consulting Proposal Template", href: "/templates/consulting-proposal/", docType: "Proposal" },
+];
+
+const rows = [
+  { label: "Answers", scope: "What work will be done, and what won't?", statement: "What will be delivered, by when, for how much, and how do we both know it's done?" },
+  { label: "Contains", scope: "Tasks, deliverables, boundaries and exclusions", statement: "The scope, plus schedule, acceptance criteria, roles, assumptions, change control, fees, payment terms and signatures" },
+  { label: "Where it lives", scope: "A section of a proposal or of a statement of work", statement: "A standalone document, often under a master services agreement" },
+  { label: "When it's written", scope: "While shaping the project, often before the price is agreed", statement: "Once the work is won, before it starts" },
+  { label: "Who relies on it", scope: "The people doing the work", statement: "Both parties' delivery leads, plus whoever approves payment" },
+];
+---
+
+<GuidePage
+  title="Statement of Work vs Scope of Work: The Difference | Markpdf"
+  canonicalPath="/guide/statement-of-work-vs-scope-of-work/"
+  docType="Guide"
+  h1="Statement of Work vs Scope of Work"
+  introText="A scope of work describes the work itself: the tasks, deliverables and boundaries. A statement of work is the larger document that contains the scope plus everything needed to run the engagement, including schedule, acceptance criteria, payment and sign-off. Every statement of work includes a scope of work, but a scope of work can stand on its own, for example as a section of a proposal. Both get abbreviated to SOW, which causes most of the confusion."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Guides", href: "/guides/" },
+    { name: "Statement of Work vs Scope of Work" },
+  ]}
+  faq={faq}
+  related={related}
+>
+  <section class="mt-12" aria-labelledby="compare-heading">
+    <h2 id="compare-heading" class="font-serif text-3xl tracking-tight">Side by side</h2>
+    <div class="mt-6 overflow-x-auto rounded-lg border border-border">
+      <table class="w-full text-sm">
+        <thead class="bg-muted/40 text-left">
+          <tr>
+            <th class="p-3 font-medium w-1/5"></th>
+            <th class="p-3 font-medium">Scope of work</th>
+            <th class="p-3 font-medium">Statement of work</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr class="border-t border-border align-top">
+              <th scope="row" class="p-3 text-left font-medium">{r.label}</th>
+              <td class="p-3 text-muted-foreground">{r.scope}</td>
+              <td class="p-3 text-muted-foreground">{r.statement}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="mt-16" aria-labelledby="which-heading">
+    <h2 id="which-heading" class="font-serif text-3xl tracking-tight">Which one do you need?</h2>
+    <dl class="mt-6 space-y-5">
+      <div>
+        <dt class="font-medium">A fixed-fee project with one client contact</dt>
+        <dd class="text-sm text-muted-foreground mt-1">One document. Call it a scope of work, include fees, payment terms and a signature block, and you've written a statement of work in all but name. Splitting it in two only creates two documents that can disagree.</dd>
+      </div>
+      <div>
+        <dt class="font-medium">Ongoing work under a master services agreement</dt>
+        <dd class="text-sm text-muted-foreground mt-1">A statement of work per project. The master agreement carries the legal terms once (liability, IP, confidentiality); each statement of work carries that project's scope, schedule and fee, so new work doesn't mean renegotiating the contract.</dd>
+      </div>
+      <div>
+        <dt class="font-medium">The client sent a request for proposal with a "SOW" attached</dt>
+        <dd class="text-sm text-muted-foreground mt-1">That's their statement of the work they want. Your response is a proposal. Answer their SOW point by point and flag anything you'd scope differently, because the final statement of work is usually negotiated from the two.</dd>
+      </div>
+      <div>
+        <dt class="font-medium">You're still persuading the client</dt>
+        <dd class="text-sm text-muted-foreground mt-1">A proposal with a scope section. Keep the scope concrete enough to price, and write the statement of work once they say yes.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="mt-16" aria-labelledby="example-heading">
+    <h2 id="example-heading" class="font-serif text-3xl tracking-tight">The same project, written both ways</h2>
+    <p class="mt-4 text-muted-foreground">A two-week API integration for a client's online store. Names and figures are illustrative.</p>
+    <div class="mt-6 grid md:grid-cols-2 gap-4 text-sm">
+      <div class="rounded-lg border border-border bg-card p-5 space-y-2">
+        <p class="text-[10px] uppercase tracking-widest text-muted-foreground">Scope of work (in the proposal)</p>
+        <p>Connect the store to the shipping provider's API so that rates show at checkout and labels are created when an order is paid.</p>
+        <p><strong>Deliverables:</strong> rate lookup at checkout; label creation on payment; an admin setting for the default package size.</p>
+        <p><strong>Out of scope:</strong> international shipping, returns labels, changes to the checkout design.</p>
+      </div>
+      <div class="rounded-lg border border-border bg-card p-5 space-y-2">
+        <p class="text-[10px] uppercase tracking-widest text-muted-foreground">Statement of work (signed)</p>
+        <p>Everything on the left, plus:</p>
+        <p><strong>Schedule:</strong> staging build by 10 March, production by 17 March.</p>
+        <p><strong>Acceptance:</strong> ten test orders on staging produce correct rates and printable labels; client signs off within three business days.</p>
+        <p><strong>Assumptions:</strong> client provides API credentials and a staging store by 3 March.</p>
+        <p><strong>Fee:</strong> $4,800 fixed, 50% on signature, 50% on acceptance. Changes go through a written change request.</p>
+      </div>
+    </div>
+    <p class="mt-4 text-muted-foreground">The scope tells the client what they're buying. The statement of work adds the parts that settle arguments: the dates, the test that defines "done", what the client owes, and when money changes hands.</p>
+  </section>
+
+  <section class="mt-16" aria-labelledby="wrong-heading">
+    <h2 id="wrong-heading" class="font-serif text-3xl tracking-tight">Where people get this wrong</h2>
+    <ul class="mt-6 space-y-4 text-muted-foreground">
+      <li><span class="font-medium text-foreground">Signing a proposal's scope as if it were a statement of work.</span> The scope section of a proposal rarely has acceptance criteria or change control. Once work starts, "is this included?" has no written answer.</li>
+      <li><span class="font-medium text-foreground">Two documents that disagree.</span> A proposal says three revision rounds; the statement of work says two. Agree which document wins if they conflict, or update the earlier one so it doesn't.</li>
+      <li><span class="font-medium text-foreground">Repeating legal terms in every statement of work.</span> Under a master agreement, restating liability or IP terms in the statement of work invites conflicts between the two. Put project specifics in the statement of work and refer to the master agreement for the rest.</li>
+    </ul>
+  </section>
+
+  <RelatedGuide path="/guide/how-to-write-a-scope-of-work/" lead="Ready to write one?" />
+</GuidePage>

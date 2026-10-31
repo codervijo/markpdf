@@ -1,0 +1,166 @@
+---
+import GuidePage from "@/components/GuidePage.astro";
+import RelatedGuide from "@/components/RelatedGuide.astro";
+
+// The worked example is computed here so every figure on the page agrees.
+// All inputs are illustrative, not benchmarks.
+const rate = 150; // $/hour
+const estimate = 120; // estimated hours
+const contingency = 0.25; // risk buffer the provider chooses to add to a fixed price
+const fixedFee = estimate * rate * (1 + contingency);
+const scenarios = [
+  { name: "Goes to plan", hours: 120 },
+  { name: "Runs long", hours: 165 },
+  { name: "Finishes early", hours: 100 },
+].map((s) => {
+  const tm = s.hours * rate;
+  return { ...s, tm, fixed: fixedFee, effective: fixedFee / s.hours };
+});
+const capHours = 140;
+const cap = capHours * rate;
+const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
+
+const rows = [
+  { label: "Client pays", fixed: "One agreed price for an agreed scope", tm: "Hours worked × agreed rate, plus expenses" },
+  { label: "Who carries overrun risk", fixed: "The provider. Extra hours come out of their margin", tm: "The client. Extra hours go on the invoice" },
+  { label: "Scope changes", fixed: "Need a change request and a new price", tm: "Absorbed week to week; the bill moves with them" },
+  { label: "What has to be clear up front", fixed: "Deliverables and acceptance, in writing", tm: "Rate, billing cadence, and how hours are reported" },
+  { label: "Admin during the project", fixed: "Low: invoice on milestones", tm: "Higher: timesheets and regular budget reports" },
+  { label: "Best when", fixed: "The work is well understood and has been done before", tm: "The work is exploratory or the client expects to change direction" },
+];
+
+const faq = [
+  { q: "Which is better for the client?", a: "Fixed price gives the client budget certainty; time and materials gives them flexibility and usually a lower total when things go to plan, because there's no risk buffer in the price. Clients with a fixed budget approval and a clear brief tend to prefer fixed price. Clients who expect to learn as they go are better served by time and materials with a cap." },
+  { q: "How much contingency should a fixed price include?", a: "Enough to cover the uncertainty you can see in this project. There's no universal percentage. Base it on how often similar projects of yours ran over and by how much. If you have no history, track your next few projects' actual hours against estimates before settling on a buffer." },
+  { q: "What is a not-to-exceed cap?", a: "A ceiling on a time-and-materials engagement. The client pays for hours worked up to the cap, and the provider has to stop and get written approval before going past it. It keeps the flexibility of hourly billing while giving the client a maximum to budget against." },
+  { q: "Can I switch models mid-project?", a: "Yes, by agreement. A common pattern is a time-and-materials discovery phase followed by a fixed price for the build, once discovery has removed most of the unknowns. Write each phase into its own statement of work so the terms don't blur." },
+  { q: "Does fixed price mean unlimited revisions?", a: "No. A fixed price covers a defined scope, including a stated number of revision rounds. Anything beyond that is a change request. If the proposal doesn't say how many rounds are included, the client will reasonably assume more than you intended." },
+];
+
+const related = [
+  { title: "Statement of Work vs Scope of Work", href: "/guide/statement-of-work-vs-scope-of-work/", docType: "Guide" },
+  { title: "Consulting Proposal Template", href: "/templates/consulting-proposal/", docType: "Proposal" },
+  { title: "Day Rate Calculator", href: "/day-rate-calculator/", docType: "Tool" },
+];
+---
+
+<GuidePage
+  title="Fixed Price vs Time and Materials: Which to Use | Markpdf"
+  canonicalPath="/guide/fixed-price-vs-time-and-materials/"
+  docType="Guide"
+  h1="Fixed Price vs Time and Materials"
+  introText="Under a fixed price, the client pays one agreed amount for an agreed scope, and the provider carries the risk of the work taking longer. Under time and materials, the client pays for the hours actually worked at an agreed rate, and the client carries that risk. Fixed price suits work that is well understood; time and materials suits work where the scope will change as the project learns. Many projects use both: hourly for discovery, fixed for the build."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Guides", href: "/guides/" },
+    { name: "Fixed Price vs Time and Materials" },
+  ]}
+  faq={faq}
+  related={related}
+>
+  <section class="mt-12" aria-labelledby="tm-compare-heading">
+    <h2 id="tm-compare-heading" class="font-serif text-3xl tracking-tight">How the two models differ</h2>
+    <div class="mt-6 overflow-x-auto rounded-lg border border-border">
+      <table class="w-full text-sm">
+        <thead class="bg-muted/40 text-left">
+          <tr>
+            <th class="p-3 font-medium w-1/5"></th>
+            <th class="p-3 font-medium">Fixed price</th>
+            <th class="p-3 font-medium">Time and materials</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr class="border-t border-border align-top">
+              <th scope="row" class="p-3 text-left font-medium">{r.label}</th>
+              <td class="p-3 text-muted-foreground">{r.fixed}</td>
+              <td class="p-3 text-muted-foreground">{r.tm}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="mt-16" aria-labelledby="priced-heading">
+    <h2 id="priced-heading" class="font-serif text-3xl tracking-tight">One project, priced both ways</h2>
+    <p class="mt-4 text-muted-foreground">
+      An integration project estimated at {estimate} hours, at {usd(rate)} an hour. On time and materials, the estimate is {usd(estimate * rate)}.
+      For a fixed price, the provider adds a {Math.round(contingency * 100)}% buffer for risk and quotes {usd(fixedFee)}. All figures are illustrative.
+    </p>
+    <div class="mt-6 overflow-x-auto rounded-lg border border-border">
+      <table class="w-full text-sm">
+        <thead class="bg-muted/40 text-left">
+          <tr>
+            <th class="p-3 font-medium">What happens</th>
+            <th class="p-3 font-medium">Hours</th>
+            <th class="p-3 font-medium">Client pays (T&amp;M)</th>
+            <th class="p-3 font-medium">Client pays (fixed)</th>
+            <th class="p-3 font-medium">Provider's effective rate (fixed)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {scenarios.map((s) => (
+            <tr class="border-t border-border">
+              <td class="p-3">{s.name}</td>
+              <td class="p-3 text-muted-foreground">{s.hours}</td>
+              <td class="p-3 text-muted-foreground">{usd(s.tm)}</td>
+              <td class="p-3 text-muted-foreground">{usd(s.fixed)}</td>
+              <td class="p-3 text-muted-foreground">{usd(s.effective)}/hr</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-4 text-muted-foreground">
+      When the project goes to plan, the client pays more for fixed price: that's the price of certainty. When it runs long, fixed price
+      protects the client and the provider's effective rate drops to {usd(scenarios[1].effective)} an hour. When it finishes early, the
+      provider keeps the difference. Neither model is cheaper in general. They put the same uncertainty on different sides of the table.
+    </p>
+  </section>
+
+  <section class="mt-16" aria-labelledby="hybrid-heading">
+    <h2 id="hybrid-heading" class="font-serif text-3xl tracking-tight">Hybrid models that split the risk</h2>
+    <dl class="mt-6 space-y-5">
+      <div>
+        <dt class="font-medium">Time and materials with a cap</dt>
+        <dd class="text-sm text-muted-foreground mt-1">Bill hourly up to a not-to-exceed figure, say {capHours} hours ({usd(cap)}) in the example above. Past the cap, work stops until the client approves more in writing. The client gets a maximum; the provider isn't absorbing open-ended overruns.</dd>
+      </div>
+      <div>
+        <dt class="font-medium">Paid discovery, then a fixed build</dt>
+        <dd class="text-sm text-muted-foreground mt-1">A short time-and-materials phase produces the requirements and a firm estimate; the build is then quoted at a fixed price. The contingency can be smaller because the unknowns were found while someone was paying for them.</dd>
+      </div>
+      <div>
+        <dt class="font-medium">Fixed price per phase</dt>
+        <dd class="text-sm text-muted-foreground mt-1">Price each milestone separately and only commit to the next one when the previous is accepted. Each estimate is made with more information than the last.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="mt-16" aria-labelledby="tm-fail-heading">
+    <h2 id="tm-fail-heading" class="font-serif text-3xl tracking-tight">How each model goes wrong</h2>
+    <ul class="mt-6 space-y-4 text-muted-foreground">
+      <li><span class="font-medium text-foreground">Fixed price on a vague scope.</span> "Build the customer portal" with no page list or acceptance test. Every new idea the client has becomes an argument about whether it was included, and the provider usually loses it.</li>
+      <li><span class="font-medium text-foreground">Fixed price with no change process.</span> The scope is clear, but nothing says how changes get priced, so small requests are done for free until the margin is gone.</li>
+      <li><span class="font-medium text-foreground">Time and materials with no reporting.</span> The client sees the first invoice a month in and is surprised by the total. Send hours against budget every week, before anyone has to ask.</li>
+      <li><span class="font-medium text-foreground">Time and materials as a substitute for planning.</span> Billing hourly doesn't remove the need to agree what the project is for. Without a stated goal, the client can't judge whether the hours are well spent.</li>
+    </ul>
+  </section>
+
+  <section class="mt-16" aria-labelledby="tm-write-heading">
+    <h2 id="tm-write-heading" class="font-serif text-3xl tracking-tight">Writing the pricing model into the proposal</h2>
+    <div class="mt-6 grid md:grid-cols-2 gap-4 text-sm">
+      <div class="rounded-lg border border-border bg-card p-5 space-y-2">
+        <p class="text-[10px] uppercase tracking-widest text-muted-foreground">Fixed price</p>
+        <p>State the fee, the deliverables it covers, how many revision rounds are included, and the payment schedule tied to milestones. Add one line on change control: changes to scope are quoted separately and start after written approval.</p>
+      </div>
+      <div class="rounded-lg border border-border bg-card p-5 space-y-2">
+        <p class="text-[10px] uppercase tracking-widest text-muted-foreground">Time and materials</p>
+        <p>State the hourly or daily rate, the estimate and the cap if there is one, the billing cadence, and how hours are reported. Say what happens as the cap approaches: who gets notified, and when work pauses.</p>
+      </div>
+    </div>
+    <p class="mt-4 text-muted-foreground">Whichever you choose, the rate underneath it should cover your real costs. The <a href="/consulting-rate-calculator/" class="underline underline-offset-4">consulting rate calculator</a> works out that floor, and the signed terms belong in a statement of work.</p>
+  </section>
+
+  <RelatedGuide path="/guide/statement-of-work-vs-scope-of-work/" lead="Putting the terms in writing?" />
+</GuidePage>

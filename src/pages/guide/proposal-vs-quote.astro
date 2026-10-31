@@ -1,0 +1,120 @@
+---
+import GuidePage from "@/components/GuidePage.astro";
+import RelatedGuide from "@/components/RelatedGuide.astro";
+
+const rows = [
+  { label: "Job", quote: "Prices work the client has already defined", proposal: "Persuades the client that your way of solving their problem is the right one" },
+  { label: "Client already knows", quote: "Exactly what they want", proposal: "The problem, not necessarily the solution" },
+  { label: "Contents", quote: "Line items, quantities, prices, total, validity date, payment terms", proposal: "Problem, approach, scope, timeline, price, credentials, terms" },
+  { label: "Length", quote: "Usually a page", proposal: "A few pages, more for complex engagements" },
+  { label: "Compared on", quote: "Price, almost entirely", proposal: "Approach, fit and confidence, with price as one factor" },
+  { label: "Typical trigger", quote: "\"How much would it cost to…?\" or a request for quotation", proposal: "A discovery call, or a request for proposal" },
+];
+
+const faq = [
+  { q: "Is a quote the same as an estimate?", a: "No. An estimate is an approximate figure that can change as the work becomes clearer. A quote is a fixed price for a defined job, valid for a stated period. If you can't commit to the number yet, call it an estimate and say what would change it." },
+  { q: "Can a proposal include a quote?", a: "Yes, and it usually does: the investment section of a proposal is effectively a quote for the scope the proposal describes. The difference is everything around it." },
+  { q: "What's a request for quotation versus a request for proposal?", a: "A request for quotation (RFQ) means the buyer has specified the work and wants prices to compare. A request for proposal (RFP) means they've described a need and want suppliers to propose how to meet it. Answer an RFQ with a quote and an RFP with a proposal." },
+  { q: "How long should a quote be valid?", a: "Long enough for the client's approval process and short enough that your costs and calendar haven't changed. Whatever you choose, state the date on the quote." },
+  { q: "Is a quote legally binding?", a: "It depends on the wording and on where you and the client are; a quote is often treated as an offer that becomes binding once accepted. Have your standard terms reviewed if that matters for your work. This isn't legal advice." },
+];
+
+const related = [
+  { title: "Proposal Format", href: "/guide/proposal-format/", docType: "Guide" },
+  { title: "Fixed Price vs Time and Materials", href: "/guide/fixed-price-vs-time-and-materials/", docType: "Guide" },
+  { title: "Freelance Proposal Template", href: "/templates/freelance-proposal/", docType: "Proposal" },
+];
+---
+
+<GuidePage
+  title="Proposal vs Quote: Which One to Send | Markpdf"
+  canonicalPath="/guide/proposal-vs-quote/"
+  docType="Guide"
+  h1="Proposal vs Quote"
+  introText="A quote prices work the client has already defined: line items, a total, payment terms and how long the price holds. A proposal persuades a client who knows their problem but not yet the solution, setting out your approach, scope, timeline and price. If the client could hand the same request to three suppliers and compare totals, send a quote. If they're choosing whose solution to trust, send a proposal."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Guides", href: "/guides/" },
+    { name: "Proposal vs Quote" },
+  ]}
+  faq={faq}
+  related={related}
+>
+  <section class="mt-12" aria-labelledby="table-heading">
+    <h2 id="table-heading" class="font-serif text-3xl tracking-tight">Quote and proposal compared</h2>
+    <div class="mt-6 overflow-x-auto rounded-lg border border-border">
+      <table class="w-full text-sm">
+        <thead class="bg-muted/40 text-left">
+          <tr>
+            <th class="p-3 font-medium w-1/5"></th>
+            <th class="p-3 font-medium">Quote</th>
+            <th class="p-3 font-medium">Proposal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr class="border-t border-border align-top">
+              <th scope="row" class="p-3 text-left font-medium">{r.label}</th>
+              <td class="p-3 text-muted-foreground">{r.quote}</td>
+              <td class="p-3 text-muted-foreground">{r.proposal}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="mt-16" aria-labelledby="pick-heading">
+    <h2 id="pick-heading" class="font-serif text-3xl tracking-tight">How to tell which the client needs</h2>
+    <dl class="mt-6 space-y-5">
+      <div>
+        <dt class="font-medium">"Can you add a blog to our site? What would it cost?"</dt>
+        <dd class="text-sm text-muted-foreground mt-1">A quote. The work is defined, the client has decided they want it, and the open question is price.</dd>
+      </div>
+      <div>
+        <dt class="font-medium">"Our site isn't bringing in leads. Can you help?"</dt>
+        <dd class="text-sm text-muted-foreground mt-1">A proposal. The client has a problem and no settled solution. A quote would force you to guess the scope, and they'd compare your guess with someone else's.</dd>
+      </div>
+      <div>
+        <dt class="font-medium">A request for quotation with a detailed specification</dt>
+        <dd class="text-sm text-muted-foreground mt-1">A quote, matching their line items exactly. If you think the specification is wrong, say so in a short note alongside it, not by rewriting the request into a proposal they didn't ask for.</dd>
+      </div>
+      <div>
+        <dt class="font-medium">Repeat work for an existing client</dt>
+        <dd class="text-sm text-muted-foreground mt-1">Usually a quote. They already trust your approach; re-arguing it wastes their time.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="mt-16" aria-labelledby="both-heading">
+    <h2 id="both-heading" class="font-serif text-3xl tracking-tight">One request, answered both ways</h2>
+    <p class="mt-4 text-muted-foreground">A client asks for help moving their company's documentation to a new platform. Names and figures are illustrative.</p>
+    <div class="mt-6 grid md:grid-cols-2 gap-4 text-sm">
+      <div class="rounded-lg border border-border bg-card p-5 space-y-2">
+        <p class="text-[10px] uppercase tracking-widest text-muted-foreground">As a quote</p>
+        <p>Migrate 120 pages: $2,400 ($20/page)</p>
+        <p>Set up navigation and search: $800</p>
+        <p><strong>Total: $3,200</strong> · 50% upfront · valid 30 days</p>
+      </div>
+      <div class="rounded-lg border border-border bg-card p-5 space-y-2">
+        <p class="text-[10px] uppercase tracking-widest text-muted-foreground">As a proposal</p>
+        <p><strong>Problem:</strong> support tickets keep asking questions the docs already answer, because the docs can't be searched.</p>
+        <p><strong>Approach:</strong> audit the 120 pages, merge duplicates and retire outdated ones before migrating, then rebuild navigation around the top support questions.</p>
+        <p><strong>Investment:</strong> $4,600, covering the audit, migration of the pages that survive it, navigation and search.</p>
+      </div>
+    </div>
+    <p class="mt-4 text-muted-foreground">The quote is easy to compare and easy to undercut. The proposal costs more but answers the reason the client got in touch, and a competitor quoting $20 a page isn't offering the same thing.</p>
+  </section>
+
+  <section class="mt-16" aria-labelledby="misfire-heading">
+    <h2 id="misfire-heading" class="font-serif text-3xl tracking-tight">Common mix-ups, and the fix</h2>
+    <ul class="mt-6 space-y-4 text-muted-foreground">
+      <li><span class="font-medium text-foreground">Quoting an undefined problem.</span> The price is a guess, the scope is whatever the client assumes, and the gap surfaces as unpaid work. If you can't list the line items, you need a proposal or a paid discovery phase first.</li>
+      <li><span class="font-medium text-foreground">Sending a ten-page proposal for a small, defined job.</span> The client wanted a number. Making them read your methodology to find it slows the decision and suggests you'll be slow to work with.</li>
+      <li><span class="font-medium text-foreground">A quote with no validity date or exclusions.</span> Even a one-page quote needs to say how long the price holds and what it doesn't cover.</li>
+      <li><span class="font-medium text-foreground">Treating either as the contract.</span> Once the client says yes, the details belong in a signed agreement or statement of work.</li>
+    </ul>
+  </section>
+
+  <RelatedGuide path="/guide/statement-of-work-vs-scope-of-work/" lead="Client said yes?" />
+</GuidePage>

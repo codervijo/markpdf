@@ -1,0 +1,85 @@
+---
+import TemplatePage from "@/components/TemplatePage.astro";
+import { getEntry } from "astro:content";
+
+const entry = await getEntry("templates", "proposal-cover-letter");
+const templateMd = (entry?.body ?? "").trim();
+
+const howToSteps = [
+  { name: "Write the problem paragraph last", text: "Draft the proposal first. Then open the letter with the client's problem as they described it — the RFP's own wording if there is one." },
+  { name: "Answer it in two sentences", text: "Say what you'll do and what the client gets. If you can't fit it in two sentences, the proposal's executive summary needs work too." },
+  { name: "Give one or two proof points", text: "A similar project and its result beats a list of services. Pick the ones closest to this client's situation." },
+  { name: "Put the price and dates in the letter", text: "Decision-makers often read only the letter. The fee, the timeline and how long the offer stands should be on page one." },
+  { name: "End with one next step", text: "A call on a named day, a signature, or questions by a date. One action, not a menu." },
+];
+
+const faq = [
+  { q: "Do I need a cover letter if I'm emailing the proposal?", a: "The email can do the job: the same three paragraphs, with the proposal attached. Use a separate letter when the proposal is a formal submission (an RFP response, a tender, a document that will be forwarded internally), because the email body usually gets lost when the PDF is passed on." },
+  { q: "How long should a proposal cover letter be?", a: "One page. Anything that doesn't fit belongs in the proposal itself. If the letter needs a second page, it's repeating the executive summary." },
+  { q: "Is a cover letter the same as an executive summary?", a: "No. The executive summary is part of the proposal and summarises it for anyone who reads it. The cover letter is addressed to one person, introduces the proposal, and asks them to do something." },
+  { q: "Should the price go in the cover letter?", a: "Yes, unless the RFP tells you to keep pricing in a separate section or envelope. A reader who has to hunt for the price is a reader who decides later." },
+  { q: "Who should sign it?", a: "Whoever the client will deal with, or the most senior person who has actually spoken to them. A letter signed by someone the client has never met reads as a form letter." },
+];
+
+const related = [
+  { title: "Consulting Proposal Template", href: "/templates/consulting-proposal/", docType: "Proposal" },
+  { title: "Freelance Proposal Template", href: "/templates/freelance-proposal/", docType: "Proposal" },
+  { title: "Statement of Work vs Scope of Work", href: "/guide/statement-of-work-vs-scope-of-work/", docType: "Guide" },
+];
+---
+
+<TemplatePage
+  title="Proposal Cover Letter Template (Free, Markdown) | Markpdf"
+  description={entry.data.description}
+  canonicalPath="/templates/proposal-cover-letter/"
+  docType="Letter"
+  h1="Proposal Cover Letter Template"
+  introText="A proposal cover letter is a one-page letter that sits on top of your proposal, addressed to the person who decides. It states the client's problem, your answer, the price and timeline, and the one thing you want them to do next. Many readers stop after this page, so it has to make the case on its own."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Templates", href: "/templates/" },
+    { name: "Proposal Cover Letter Template" },
+  ]}
+  templateMd={templateMd}
+  downloadName="proposal-cover-letter.md"
+  templateHeading="Cover letter (markdown)"
+  ctaText="Markpdf sets it on your letterhead, with logo and brand colours, so it can lead the proposal PDF."
+  howToTitle="Writing the letter, paragraph by paragraph"
+  howToSteps={howToSteps}
+  faq={faq}
+  related={related}
+>
+  <section class="mt-16" aria-labelledby="example-heading">
+    <h2 id="example-heading" class="font-serif text-3xl tracking-tight">Example: answering an RFP for a data migration</h2>
+    <p class="mt-4 text-muted-foreground">The body of a filled-in letter. Names and figures are illustrative.</p>
+    <div class="mt-6 rounded-lg border border-border bg-card p-6 text-sm space-y-3">
+      <p>Dear Ms. Patel,</p>
+      <p>Your RFP asks for the customer database to move off the legacy system by 30 June without losing order history or interrupting weekend sales.</p>
+      <p>We propose a staged migration: a full copy and verification in May, then a two-hour cutover on the night of 14 June, with the old system kept read-only for 30 days as a fallback.</p>
+      <p>Last year we moved a retailer of similar size (4 million orders) with 41 minutes of downtime and a reconciled order count on day one.</p>
+      <p><strong>Investment:</strong> $38,000 fixed · <strong>Timeline:</strong> 1 May to 30 June · <strong>Valid until:</strong> 15 April</p>
+      <p>Could we take 30 minutes on Thursday 10 April to walk your team through the cutover plan?</p>
+    </div>
+  </section>
+
+  <section class="mt-16" aria-labelledby="mistakes-heading">
+    <h2 id="mistakes-heading" class="font-serif text-3xl tracking-tight">Openings that get skimmed, and better ones</h2>
+    <div class="mt-6 space-y-4 text-sm">
+      <div class="rounded-lg border border-border bg-card p-5">
+        <p class="text-muted-foreground line-through">We are pleased to submit our proposal in response to your request.</p>
+        <p class="mt-2">Your RFP asks for the customer database to move by 30 June without interrupting weekend sales.</p>
+        <p class="mt-2 text-muted-foreground">Every competing letter opens with the first line. The second shows you read the brief.</p>
+      </div>
+      <div class="rounded-lg border border-border bg-card p-5">
+        <p class="text-muted-foreground line-through">Founded in 2012, we are a full-service agency with a passion for excellence.</p>
+        <p class="mt-2">Last year we moved a retailer of similar size with 41 minutes of downtime.</p>
+        <p class="mt-2 text-muted-foreground">A company history is about you. One relevant result is about what they'll get.</p>
+      </div>
+      <div class="rounded-lg border border-border bg-card p-5">
+        <p class="text-muted-foreground line-through">Please don't hesitate to contact us with any questions.</p>
+        <p class="mt-2">Could we take 30 minutes on Thursday 10 April to walk through the cutover plan?</p>
+        <p class="mt-2 text-muted-foreground">An open invitation asks the reader to decide what happens next. A specific request makes it easy to say yes.</p>
+      </div>
+    </div>
+  </section>
+</TemplatePage>

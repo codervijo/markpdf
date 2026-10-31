@@ -1,0 +1,116 @@
+---
+import GuidePage from "@/components/GuidePage.astro";
+import RelatedGuide from "@/components/RelatedGuide.astro";
+
+const sections = [
+  { name: "Cover", what: "Project name, client name, your name, date, and how long the offer is valid.", why: "The validity date stops a six-month-old price from being accepted as if it were current." },
+  { name: "Executive summary", what: "Half a page: the client's problem, your answer, the result, the price.", why: "The person who signs often reads only this page. It has to stand alone." },
+  { name: "The problem", what: "The situation as the client described it, in their words, with the cost of leaving it alone.", why: "Proves you listened. A client who recognises their own problem trusts the solution that follows." },
+  { name: "Approach", what: "How you'll solve it, phase by phase, and why this way rather than the obvious alternative.", why: "This is where you differ from competitors. Process detail belongs here, not in the summary." },
+  { name: "Scope and deliverables", what: "What they receive, in concrete outputs, plus what's explicitly not included.", why: "Exclusions written now are agreements; exclusions raised mid-project are arguments." },
+  { name: "Timeline", what: "Milestones with dates, and what you need from the client at each one.", why: "Ties your dates to their feedback, so a slow review doesn't become your missed deadline." },
+  { name: "Investment", what: "The fee, what it covers, payment schedule, and any options.", why: "Placed after the value has been made, so the number is read against the outcome." },
+  { name: "Why us", what: "One or two relevant results or projects. Short bios for the people doing the work.", why: "Comes late on purpose: the client cares about their problem first and your credentials second." },
+  { name: "Terms and next step", what: "Key terms (revisions, change requests, ownership) and a signature block or one clear next action.", why: "A proposal without a next step is a document the client has to decide what to do with." },
+];
+
+const faq = [
+  { q: "How long should a proposal be?", a: "As long as the decision needs and no longer. For a small fixed-fee project, two to four pages. For a multi-phase engagement, longer, but the executive summary should still fit on one page. If a section isn't helping the client decide, cut it." },
+  { q: "Should the price go at the start or the end?", a: "Put the total in the executive summary, and the full breakdown in the investment section after the approach and scope. Hiding the price entirely until the last page frustrates readers who skip ahead to find it, which most do." },
+  { q: "Do I need a table of contents?", a: "Only past about eight pages. In a short proposal it's a page the client flips past on the way to the summary." },
+  { q: "Should a proposal be a PDF or a Word document?", a: "A PDF. It looks the same on every device, it can't be edited by accident, and it reads as final. Send a Word file only if the client has asked to mark it up." },
+  { q: "What if the client sent an RFP with its own format?", a: "Follow theirs exactly, section by section, even if it's worse than yours. Evaluators score responses against their own structure, and a proposal that makes them hunt for answers loses points before anyone reads the content." },
+];
+
+const related = [
+  { title: "Consulting Proposal Template", href: "/templates/consulting-proposal/", docType: "Proposal" },
+  { title: "Proposal Cover Letter Template", href: "/templates/proposal-cover-letter/", docType: "Letter" },
+  { title: "Proposal vs Quote", href: "/guide/proposal-vs-quote/", docType: "Guide" },
+];
+
+const skeleton = `# Website Rebuild Proposal
+Prepared for: Harbor Physio · By: North Studio · Valid until: 30 April
+
+## Summary
+Harbor Physio's site doesn't take bookings, so every appointment
+comes by phone. We'll rebuild it with online booking in six weeks,
+for a fixed $9,500.
+
+## The problem
+## Our approach
+## Scope
+### Included
+### Not included
+## Timeline
+## Investment
+| Phase      | Fee    |
+|------------|--------|
+| Discovery  | $1,500 |
+| Design     | $3,000 |
+| Build      | $5,000 |
+| **Total**  | **$9,500** |
+
+## Why North Studio
+## Terms and next step`;
+---
+
+<GuidePage
+  title="Proposal Format: Sections, Order and Layout | Markpdf"
+  canonicalPath="/guide/proposal-format/"
+  docType="Guide"
+  h1="Proposal Format"
+  introText="A client proposal follows a standard format: cover, executive summary, the client's problem, your approach, scope and deliverables, timeline, investment, why you, and terms with a next step. The order matters as much as the contents. It moves from the client's problem to your solution to the price, so the number is read after its value has been made. Keep the executive summary to one page, because it's often the only part the decision-maker reads."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Guides", href: "/guides/" },
+    { name: "Proposal Format" },
+  ]}
+  faq={faq}
+  related={related}
+>
+  <section class="mt-12" aria-labelledby="order-heading">
+    <h2 id="order-heading" class="font-serif text-3xl tracking-tight">The standard proposal format, in order</h2>
+    <ol class="mt-6 space-y-6">
+      {sections.map((s, i) => (
+        <li class="flex gap-4">
+          <span class="shrink-0 h-7 w-7 rounded-full bg-gradient-brand text-white text-sm flex items-center justify-center">{i + 1}</span>
+          <div>
+            <p class="font-medium">{s.name}</p>
+            <p class="text-sm text-muted-foreground mt-1">{s.what}</p>
+            <p class="text-sm mt-1"><span class="text-muted-foreground">Why it's here:</span> {s.why}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="mt-16" aria-labelledby="skeleton-heading">
+    <h2 id="skeleton-heading" class="font-serif text-3xl tracking-tight">The format filled in</h2>
+    <p class="mt-4 text-muted-foreground">The skeleton of a small website proposal, in Markdown. The summary is written out because it's the part people get wrong; the other sections are headings only. Names and figures are illustrative.</p>
+    <pre class="mt-6 rounded-lg border border-border bg-muted/40 p-5 overflow-x-auto text-[13px] leading-relaxed font-mono"><code>{skeleton}</code></pre>
+    <p class="mt-4 text-muted-foreground">Notice the summary already contains the price and the timeline. A reader who stops there knows what they're buying, when and for how much.</p>
+  </section>
+
+  <section class="mt-16" aria-labelledby="layout-heading">
+    <h2 id="layout-heading" class="font-serif text-3xl tracking-tight">Length and layout</h2>
+    <dl class="mt-6 space-y-5">
+      <div><dt class="font-medium">Headings that match the sections</dt><dd class="text-sm text-muted-foreground mt-1">One heading per section, worded plainly ("Timeline", not "Our Journey Together"). Readers jump between sections, and plain headings let them.</dd></div>
+      <div><dt class="font-medium">Pricing as a table</dt><dd class="text-sm text-muted-foreground mt-1">Break the fee down by phase or deliverable, with a bold total. A single number invites "can you do it for less?"; a breakdown invites "which part could we drop?", which is a better conversation.</dd></div>
+      <div><dt class="font-medium">Options, at most three</dt><dd class="text-sm text-muted-foreground mt-1">If you offer tiers, show them side by side in the investment section with the differences in rows. More than three and the client postpones the choice.</dd></div>
+      <div><dt class="font-medium">Your brand, applied consistently</dt><dd class="text-sm text-muted-foreground mt-1">Logo on the cover, one heading colour, one body font. The proposal is the first deliverable the client sees, and it's judged as one.</dd></div>
+    </dl>
+  </section>
+
+  <section class="mt-16" aria-labelledby="costly-heading">
+    <h2 id="costly-heading" class="font-serif text-3xl tracking-tight">Format mistakes that cost the deal</h2>
+    <ul class="mt-6 space-y-4 text-muted-foreground">
+      <li><span class="font-medium text-foreground">Opening with "About us".</span> Two pages of company history before the client's problem appears. Move it to the end and cut it to the projects that resemble this one.</li>
+      <li><span class="font-medium text-foreground">A summary that summarises the document, not the deal.</span> "This proposal outlines our approach, timeline and pricing" tells the reader nothing. State the problem, the answer, the result and the price.</li>
+      <li><span class="font-medium text-foreground">Scope without exclusions.</span> The client fills the gaps with assumptions, and you find out which ones in week four.</li>
+      <li><span class="font-medium text-foreground">No expiry date.</span> The client returns months later expecting the old price and the old start date.</li>
+      <li><span class="font-medium text-foreground">Ending on the price.</span> The last thing in the proposal should be what happens next, with a date, not a number left hanging.</li>
+    </ul>
+  </section>
+
+  <RelatedGuide path="/guide/proposal-vs-quote/" lead="Not sure the job needs a full proposal?" />
+</GuidePage>

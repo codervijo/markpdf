@@ -1,0 +1,79 @@
+---
+import TemplatePage from "@/components/TemplatePage.astro";
+import { getEntry } from "astro:content";
+
+const entry = await getEntry("templates", "consulting-report");
+const templateMd = (entry?.body ?? "").trim();
+
+const howToSteps = [
+  { name: "Restate the question you were hired to answer", text: "Make it the report title and the first line of the executive summary. Everything else in the report should support the answer to it." },
+  { name: "Turn topic labels into finding statements", text: "\"Onboarding\" is a topic. \"New customers wait 11 days for their first login\" is a finding. Each finding heading should be a sentence a reader could disagree with." },
+  { name: "Tie every recommendation to a finding", text: "The Addresses column in the recommendations table makes gaps obvious: a recommendation with no finding behind it reads as an opinion." },
+  { name: "Rank by impact and effort", text: "Clients act on the first few items. Lead with changes that are high impact and achievable, and say plainly which ones are expensive." },
+  { name: "Give the roadmap owners and measures", text: "A phase without an owner doesn't start, and one without a success measure never finishes. Use roles if names aren't settled." },
+  { name: "Write the executive summary last", text: "Once findings and recommendations are fixed, write a summary that answers the question in the first paragraph and stands on its own." },
+];
+
+const faq = [
+  { q: "How long should a consulting report be?", a: "As long as the evidence requires, with an executive summary of a page or two that stands on its own. Put detailed analysis and data in appendices so the main body stays readable for the people who make the decisions." },
+  { q: "Report or slide deck?", a: "Decks work for presenting findings in a meeting. A written report is better as the record: it carries the reasoning and evidence that slides leave out, and it still makes sense to someone who wasn't in the room. Many engagements deliver both, with the report as the reference." },
+  { q: "Should findings name individuals?", a: "Generally no. Describe roles and processes rather than people, especially when interviews were confidential. A report that blames someone gets defended instead of acted on." },
+  { q: "How do I handle findings the client won't like?", a: "State them plainly, back them with evidence, and pair each with a practical recommendation. Raise anything significant with the sponsor before the report is circulated, so they aren't surprised in front of their colleagues." },
+  { q: "What's the difference between findings and recommendations?", a: "Findings describe what is true now, with evidence. Recommendations say what to do about it. Keeping them separate lets the client accept your findings even if they choose a different course of action." },
+];
+
+const related = [
+  { title: "Consulting Proposal Template", href: "/templates/consulting-proposal/", docType: "Proposal" },
+  { title: "Pentest Report Template", href: "/templates/pentest-report/", docType: "Report" },
+  { title: "Consulting Rate Calculator", href: "/consulting-rate-calculator/", docType: "Tool" },
+];
+---
+
+<TemplatePage
+  title="Consulting Report Template (Free, Markdown) | Markpdf"
+  description={entry.data.description}
+  canonicalPath="/templates/consulting-report/"
+  docType="Report"
+  h1="Consulting Report Template"
+  introText="A consulting report is the written deliverable at the end of an engagement: it answers the question the client hired you for, shows the evidence, and sets out what to do next. It needs an executive summary that gives the answer up front, background and scope, your approach, findings backed by evidence, prioritised recommendations tied to those findings, and an implementation roadmap with owners. The template below follows that order."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Templates", href: "/templates/" },
+    { name: "Consulting Report Template" },
+  ]}
+  templateMd={templateMd}
+  downloadName="consulting-report.md"
+  templateHeading="Consulting report (markdown)"
+  ctaText="Your final deliverable should look like one. Markpdf exports the report with your logo, colours and a cover page, from the same markdown."
+  howToTitle="Building the report from your engagement notes"
+  howToSteps={howToSteps}
+  faq={faq}
+  related={related}
+>
+  <section class="mt-16" aria-labelledby="structure-heading">
+    <h2 id="structure-heading" class="font-serif text-3xl tracking-tight">Why answer-first beats chronological</h2>
+    <p class="mt-4 text-muted-foreground">It's tempting to write the report in the order the work happened: background, what we did, what we found, what we suggest. Sponsors read it in the opposite order. They want the answer and the top actions, then enough evidence to trust them, then detail if they need it.</p>
+    <p class="mt-4 text-muted-foreground">So the template puts the conclusion in the executive summary, keeps the approach section short, and pushes data into the appendix. Each finding repeats the pattern on a small scale: the statement first, then the evidence, then why it matters.</p>
+  </section>
+
+  <section class="mt-16" aria-labelledby="example-heading">
+    <h2 id="example-heading" class="font-serif text-3xl tracking-tight">Example: an operations review for a 40-person agency</h2>
+    <p class="mt-4 text-muted-foreground">Excerpts from a report on why projects keep running over budget. Names and figures are illustrative.</p>
+    <div class="mt-6 rounded-lg border border-border bg-card p-6 text-sm space-y-3">
+      <p><strong>Executive summary (opening):</strong> Projects run over budget mainly because changes requested after kickoff are absorbed without being re-quoted. In the 18 projects reviewed, unbilled change work accounted for most of the overrun. Introducing a written change request with a price, before work starts, would recover most of it within one quarter.</p>
+      <p><strong>Finding 2: Account managers approve scope changes verbally, and delivery teams aren't told the budget has changed.</strong> In interviews, five of six account managers said they agree small changes on calls to keep clients happy. None of the 18 project files recorded these changes.</p>
+      <p><strong>Recommendation 1 (high impact, low effort):</strong> Require a one-page change request, priced and signed, for any change after kickoff. Owner: Head of Delivery. Measure: share of projects finishing within 10% of budget, reviewed monthly.</p>
+    </div>
+    <p class="mt-4 text-muted-foreground">The summary answers the question in its first sentence, the finding is a claim backed by the client's own data, and the recommendation names an owner and a way to tell whether it worked.</p>
+  </section>
+
+  <section class="mt-16" aria-labelledby="fail-heading">
+    <h2 id="fail-heading" class="font-serif text-3xl tracking-tight">Why some consulting reports go unread</h2>
+    <ul class="mt-6 space-y-4 text-muted-foreground">
+      <li><span class="font-medium text-foreground">The answer is on page 23.</span> A summary that describes the engagement ("we conducted interviews and reviewed data") instead of stating the conclusion leaves the sponsor to dig for it, and most won't.</li>
+      <li><span class="font-medium text-foreground">Twenty recommendations of equal weight.</span> Without ranking, the client either does the easy ones or none. Three clear priorities get more done than a long unranked list.</li>
+      <li><span class="font-medium text-foreground">Generic advice.</span> "Improve communication between teams" could appear in any report. Recommendations should only make sense for this client and this evidence.</li>
+      <li><span class="font-medium text-foreground">No owner for the roadmap.</span> The report is accepted, filed, and nothing changes, because nobody inside the client was named to carry it.</li>
+    </ul>
+  </section>
+</TemplatePage>

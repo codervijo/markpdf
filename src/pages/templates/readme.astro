@@ -1,0 +1,102 @@
+---
+import TemplatePage from "@/components/TemplatePage.astro";
+import { getEntry } from "astro:content";
+
+const entry = await getEntry("templates", "readme");
+const templateMd = (entry?.body ?? "").trim();
+
+const howToSteps = [
+  { name: "Write the one-sentence description first", text: "Say what the project does and for whom, in terms a newcomer understands. If you can't, the project's purpose isn't settled yet." },
+  { name: "Test the quick start on a clean machine", text: "Clone into a fresh directory or container and run the commands exactly as written. Fix the README, not your environment, when something fails." },
+  { name: "List every configuration value", text: "Grep the code for environment variables and config keys. Anything that stops it starting goes in the table, marked required." },
+  { name: "Show real usage with real output", text: "Two or three commands or code samples people actually run, with what they return. Skip features nobody uses yet." },
+  { name: "Add troubleshooting from real failures", text: "Each time someone asks you for help, add the error and the fix. This section grows into the most-read part of the file." },
+  { name: "Delete what doesn't apply", text: "An empty Roadmap or a Contributing section on a private client repo is noise. Remove sections rather than leaving placeholders." },
+];
+
+const faq = [
+  { q: "What is the most important part of a README?", a: "The first screen: one sentence on what the project does, then a quick start that works when copied. Most readers decide in those few lines whether to keep reading or give up." },
+  { q: "README.md or README.txt?", a: "README.md on any platform that renders Markdown (GitHub, GitLab, Bitbucket, most internal Git hosts), because headings, code blocks and tables make it far easier to scan. Plain text only makes sense where nothing renders Markdown." },
+  { q: "How long should a README be?", a: "Long enough to get someone from clone to working and to answer the questions they'll otherwise ask you. When a section grows past a screen or two (architecture, API reference, deployment runbooks), move it to a docs folder and link to it." },
+  { q: "Should a private or client project have a README?", a: "Yes, and it matters more there. On a client handover the README is how the next developer finds out how to run, configure and deploy what you built, usually after you've moved on." },
+  { q: "Do I need badges?", a: "Only ones that answer a question a reader has: build status, latest version, licence. Rows of badges for every tool in the stack push the description and quick start off the first screen." },
+];
+
+const related = [
+  { title: "Design Doc Template", href: "/templates/design-doc/", docType: "Docs" },
+  { title: "Markdown to PDF with Pandoc", href: "/guide/pandoc-markdown-to-pdf/", docType: "Guide" },
+  { title: "Consulting Report Template", href: "/templates/consulting-report/", docType: "Report" },
+];
+---
+
+<TemplatePage
+  title="README Template (Markdown, Copy-Paste) | Markpdf"
+  description={entry.data.description}
+  canonicalPath="/templates/readme/"
+  docType="Docs"
+  h1="README Template"
+  introText="A README is the front page of a code repository: it says what the project does, how to get it running, how to configure and use it, and who to ask when it breaks. A good one gets a new developer from git clone to a working copy without asking anyone. The template below covers those sections in the order readers need them."
+  breadcrumb={[
+    { name: "Home", href: "/" },
+    { name: "Templates", href: "/templates/" },
+    { name: "README Template" },
+  ]}
+  templateMd={templateMd}
+  downloadName="README.md"
+  templateHeading="README.md (copy into your repo)"
+  ctaText="Handing the project over? Export the README from Markpdf as a branded PDF for the client's handover pack."
+  howToTitle="Filling in a README that people can actually follow"
+  howToSteps={howToSteps}
+  faq={faq}
+  related={related}
+>
+  <section class="mt-16" aria-labelledby="order-heading">
+    <h2 id="order-heading" class="font-serif text-3xl tracking-tight">Why the sections come in this order</h2>
+    <p class="mt-4 text-muted-foreground">A README has several audiences, and each one stops reading at a different point. Order the sections by how many readers need them.</p>
+    <dl class="mt-6 space-y-5">
+      <div><dt class="font-medium">Description and quick start</dt><dd class="text-sm text-muted-foreground mt-1">Everyone reads these. Someone evaluating the project needs the description; someone using it needs the quick start. Together they should fit on one screen.</dd></div>
+      <div><dt class="font-medium">Requirements and configuration</dt><dd class="text-sm text-muted-foreground mt-1">Read by anyone who gets past the quick start, usually because it failed. A configuration table with defaults answers most "it won't start" questions before they're asked.</dd></div>
+      <div><dt class="font-medium">Usage and how it works</dt><dd class="text-sm text-muted-foreground mt-1">For people who'll work with the code regularly. Keep "how it works" to the mental model, and link out to anything longer.</dd></div>
+      <div><dt class="font-medium">Deployment, troubleshooting, contributing</dt><dd class="text-sm text-muted-foreground mt-1">Reference sections, read when someone needs them. Their job is to be findable, so give them predictable headings.</dd></div>
+    </dl>
+  </section>
+
+  <section class="mt-16" aria-labelledby="example-heading">
+    <h2 id="example-heading" class="font-serif text-3xl tracking-tight">Example: the top of a client-handover README</h2>
+    <p class="mt-4 text-muted-foreground">The first sections of a README for a small internal service a contractor built and is handing over. Names are illustrative.</p>
+    <pre class="mt-6 rounded-lg border border-border bg-muted/40 p-5 overflow-x-auto text-[13px] leading-relaxed font-mono"><code>{`# order-sync
+
+Copies paid Shopify orders to the warehouse API every five minutes,
+so the warehouse can pick and ship without manual export.
+
+## Quick start
+
+    git clone git@github.com:acme/order-sync.git
+    cd order-sync
+    cp .env.example .env    # fill in the three required values below
+    npm install
+    npm run sync -- --dry-run
+
+You should see "Found N paid orders, 0 sent (dry run)".
+
+## Configuration
+
+| Variable          | Required | Default | What it does                       |
+|-------------------|----------|---------|------------------------------------|
+| SHOPIFY_TOKEN     | yes      | —       | Admin API token (read orders)      |
+| WAREHOUSE_API_KEY | yes      | —       | Key from the warehouse portal      |
+| WAREHOUSE_URL     | yes      | —       | Base URL, no trailing slash        |
+| SYNC_INTERVAL_MIN | no       | 5       | Minutes between runs               |`}</code></pre>
+    <p class="mt-4 text-muted-foreground">The description names the business outcome, not the technology. The quick start ends with a dry run and the exact line that proves it worked, so a new developer can check their setup without sending real orders anywhere.</p>
+  </section>
+
+  <section class="mt-16" aria-labelledby="fail-heading">
+    <h2 id="fail-heading" class="font-serif text-3xl tracking-tight">READMEs that fail their readers</h2>
+    <ul class="mt-6 space-y-4 text-muted-foreground">
+      <li><span class="font-medium text-foreground">The quick start only works on the author's laptop.</span> It relies on a globally installed tool, a local database or an environment variable that was never written down. Testing it in a clean container is the only reliable check.</li>
+      <li><span class="font-medium text-foreground">It describes the project the author meant to build.</span> Feature lists, roadmaps and architecture notes drift from the code. Usage examples that you run as part of your tests can't drift silently.</li>
+      <li><span class="font-medium text-foreground">The description is a list of technologies.</span> "A React + Go + Postgres app" tells a reader how it's built, not what it does or whether they need it.</li>
+      <li><span class="font-medium text-foreground">Secrets are pasted in as examples.</span> A real token in a README is a leaked token. Use obvious placeholders and an <code class="font-mono text-[0.9em]">.env.example</code> file.</li>
+    </ul>
+  </section>
+</TemplatePage>
