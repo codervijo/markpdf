@@ -38,3 +38,7 @@ to surface "last AI prompt" per project. Keep entries append-only.
 ## 2026-10-30 — v1.F ten more pages
 > "write another 10 pages using custom seo skills with thick useful pages, after finding 10 topics using low kd high sv topics from tregs"
 > → 85-keyword SE Ranking batch via treg; 10 topics picked (KD ≤36, stable volume, ICP fit, no contract-language templates); written in 3 parallel forks, integrated + audited centrally.
+
+## 2026-10-30 — v1.D–v1.F shipped
+> "commit this" / "push it"
+> → `ee31628` (v1.D) and `f7306ff` (v1.E + v1.F) pushed; CF Pages live in ~40s; 14 new URLs return 200, sitemap 9 → 23 URLs, both sitemaps force-resubmitted to GSC. Next: growth reviews 2026-11-11 (v1.C), 2026-11-27 (v1.D + earlier entries), 28d after first indexing for v1.E/v1.F pages.
