@@ -1,4 +1,5 @@
 ---
+import Analytics from "../components/Analytics.astro";
 // src/pages/index.astro
 // Standalone <head> (not via Layout) so src/__tests__/seo.test.js can read the
 // SEO baseline tags directly from this file. Body is the ported Landing island.
@@ -98,6 +99,7 @@ const themeScript = `
     </script>
     <script type="application/ld+json" set:html={faqLd} />
     <script is:inline set:html={themeScript} />
+    <Analytics />
   </head>
   <body>
     <Landing client:load />
